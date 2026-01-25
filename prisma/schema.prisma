@@ -1,0 +1,212 @@
+generator client {
+  provider        = "prisma-client"
+  previewFeatures = ["driverAdapters"]
+  output          = "../src/generated/prisma"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model expense {
+  title            String             @id @db.VarChar(255)
+  shipment_expense shipment_expense[]
+}
+
+model revenue {
+  title            String             @id @db.VarChar(255)
+  shipment_revenue shipment_revenue[]
+}
+
+model role {
+  id    Int    @id
+  title String @db.VarChar(255)
+  user  User[]
+}
+
+model shipment {
+  is_archived                     Int                  @default(0) @db.UnsignedInt
+  volumex                         Int?
+  volumey                         Int?
+  actual_time_arrival             DateTime?            @db.DateTime(6)
+  date_issued                     DateTime             @default(now()) @db.Timestamp(0)
+  estimated_time_arrival          DateTime?            @db.DateTime(6)
+  customer_id                     String?              @db.VarChar(36)
+  id                              String               @id @db.VarChar(36)
+  issuer_id                       String?              @db.VarChar(36)
+  blno                            String               @unique(map: "uk_blno") @db.VarChar(255)
+  contract_no                     String               @unique(map: "uk_contract") @db.VarChar(255)
+  entry_no                        String               @unique(map: "uk_entry") @db.VarChar(255)
+  port_id                         String?              @db.VarChar(255)
+  reference                       String               @unique(map: "uk_ref") @db.VarChar(255)
+  registry_no                     String               @unique(map: "uk_reg") @db.VarChar(255)
+  shipping_line                   String?              @db.VarChar(255)
+  status                          String?              @db.VarChar(255)
+  user_shipment_customer_idTouser User?                @relation("shipment_customer_idTouser", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_cust")
+  user_shipment_issuer_idTouser   User?                @relation("shipment_issuer_idTouser", fields: [issuer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_issuer")
+  storable                        storable?            @relation(fields: [port_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_port")
+  shipment_container              shipment_container[] @ignore
+  user_shipments                  user_shipments?
+
+  @@index([customer_id], map: "fk_shipment_cust")
+  @@index([issuer_id], map: "fk_shipment_issuer")
+  @@index([port_id], map: "fk_shipment_port")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model shipment_container {
+  shipment_id  String   @db.VarChar(36)
+  container_id String   @db.VarChar(255)
+  storable     storable @relation(fields: [container_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_container")
+  shipment     shipment @relation(fields: [shipment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_shipment")
+
+  @@index([container_id], map: "fk_sc_container")
+  @@index([shipment_id], map: "fk_sc_shipment")
+  @@ignore
+}
+
+model shipment_expense {
+  id                Int                @id
+  value             Decimal?           @db.Decimal(38, 2)
+  expense_map       String?            @db.VarChar(255)
+  expense           expense?           @relation(fields: [expense_map], references: [title], onDelete: NoAction, onUpdate: NoAction, map: "fk_se_expense")
+  shipment_expenses shipment_expenses?
+
+  @@index([expense_map], map: "fk_se_expense")
+}
+
+model shipment_expenses {
+  shipment_id      String           @db.VarChar(36)
+  expenses_id      Int              @unique(map: "UK8wvq88fmc08nn4s9nj919v1i5")
+  shipment_expense shipment_expense @relation(fields: [expenses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK1371s81dfvxehra4103hghxpa")
+}
+
+model shipment_revenue {
+  id                Int                @id
+  value             Decimal?           @db.Decimal(38, 2)
+  revenue_map       String?            @db.VarChar(255)
+  revenue           revenue?           @relation(fields: [revenue_map], references: [title], onDelete: NoAction, onUpdate: NoAction, map: "fk_sr_revenue")
+  shipment_revenues shipment_revenues?
+
+  @@index([revenue_map], map: "fk_sr_revenue")
+}
+
+model shipment_revenues {
+  shipment_id      String           @db.VarChar(36)
+  revenues_id      Int              @unique(map: "UKrd3wwc0xqhrgc2vy957ly4522")
+  shipment_revenue shipment_revenue @relation(fields: [revenues_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FKjuv86djpw7w7ls6t7r2umf9i0")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model shipment_warehouse {
+  shipment_id  String @db.VarChar(36)
+  warehouse_id String @db.VarChar(255)
+
+  @@ignore
+}
+
+model storable {
+  date_created                     DateTime             @default(now()) @db.Timestamp(0)
+  created_by                       String?              @db.VarChar(36)
+  description                      String?              @db.VarChar(255)
+  id                               String               @id @db.VarChar(255)
+  type                             String               @db.VarChar(255)
+  shipment                         shipment[]
+  shipment_container               shipment_container[] @ignore
+  user                             User?                @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_storable_user")
+  trip_trip_container_idTostorable trip[]               @relation("trip_container_idTostorable")
+  trip_trip_port_idTostorable      trip[]               @relation("trip_port_idTostorable")
+  trip_trip_warehouse_idTostorable trip[]               @relation("trip_warehouse_idTostorable")
+
+  @@index([created_by], map: "fk_storable_user")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model storable_shipments {
+  storable_id  String @db.VarChar(255)
+  shipments_id String @db.VarChar(36)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model storable_trucks {
+  storable_id String @db.VarChar(255)
+  trucks_id   String @db.VarChar(255)
+
+  @@ignore
+}
+
+model trip {
+  base_rate                            Decimal?  @db.Decimal(38, 2)
+  volumex                              Int?
+  volumey                              Int?
+  date_created                         DateTime  @default(now()) @db.Timestamp(0)
+  date_delivered                       DateTime? @db.DateTime(6)
+  id                                   String    @id @db.VarChar(36)
+  commodity                            String?   @db.VarChar(255)
+  container_id                         String?   @db.VarChar(255)
+  port_id                              String?   @db.VarChar(255)
+  truck_id                             String?   @db.VarChar(255)
+  warehouse_id                         String?   @db.VarChar(255)
+  storable_trip_container_idTostorable storable? @relation("trip_container_idTostorable", fields: [container_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip_container")
+  storable_trip_port_idTostorable      storable? @relation("trip_port_idTostorable", fields: [port_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip_port")
+  truck                                truck?    @relation(fields: [truck_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip_truck")
+  storable_trip_warehouse_idTostorable storable? @relation("trip_warehouse_idTostorable", fields: [warehouse_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_trip_warehouse")
+
+  @@index([container_id], map: "fk_trip_container")
+  @@index([port_id], map: "fk_trip_port")
+  @@index([truck_id], map: "fk_trip_truck")
+  @@index([warehouse_id], map: "fk_trip_warehouse")
+}
+
+model trip_expense {
+  id          Int      @id
+  value       Decimal? @db.Decimal(38, 2)
+  expense_map String?  @db.VarChar(255)
+}
+
+model trip_revenue {
+  id          Int      @id
+  value       Decimal? @db.Decimal(38, 2)
+  revenue_map String?  @db.VarChar(255)
+}
+
+model truck {
+  is_archived Int     @default(0) @db.UnsignedInt
+  date_added  String? @db.VarChar(255)
+  id          String  @id @db.VarChar(255)
+  operator    String? @db.VarChar(255)
+  trip        trip[]
+}
+
+model User {
+  role_id                             Int
+  date_created                        DateTime         @default(now()) @db.Timestamp(0)
+  last_logged_in                      DateTime?        @db.DateTime(6)
+  current_session                     Bytes?           @db.Binary(16)
+  id                                  String           @id @db.VarChar(36)
+  first_name                          String           @db.VarChar(255)
+  last_name                           String           @db.VarChar(255)
+  middle_name                         String?          @db.VarChar(255)
+  password                            String           @db.VarChar(255)
+  username                            String           @db.VarChar(255)
+  shipment_shipment_customer_idTouser shipment[]       @relation("shipment_customer_idTouser")
+  shipment_shipment_issuer_idTouser   shipment[]       @relation("shipment_issuer_idTouser")
+  storable                            storable[]
+  role                                role             @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role")
+  user_shipments                      user_shipments[]
+
+  @@index([role_id], map: "fk_user_role")
+  @@map("user")
+}
+
+model user_shipments {
+  shipments_id String   @unique(map: "uk_user_shipments") @db.VarChar(36)
+  user_id      String   @db.VarChar(36)
+  shipment     shipment @relation(fields: [shipments_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_us_shipment")
+  user         User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_us_user")
+
+  @@index([user_id], map: "fk_us_user")
+}
