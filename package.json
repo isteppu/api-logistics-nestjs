@@ -31,7 +31,7 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/platform-fastify": "^11.1.12",
-    "@prisma/client": "link:./src/generated/prisma/client",
+    "@prisma/client": "^7.3.0",
     "@tidbcloud/prisma-adapter": "^6.17.0",
     "@tidbcloud/serverless": "^0.2.0",
     "bcrypt": "^6.0.0",
