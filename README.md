@@ -43,7 +43,7 @@ A high-performance backend service for shipment tracking and logistics managemen
 
 ### 🏃 Scripts
 
-    ```
+
         npm run start:dev - Start application in watch mode
 
         npm run build - Build the project for production
@@ -53,13 +53,13 @@ A high-performance backend service for shipment tracking and logistics managemen
         npm run lint - Fix code style issues with ESLint
 
         npm run format - Format code using Prettier
-    ```
+
 
 ### 🧪 Testing
 
 This project uses Jest for testing.
 
-    ```
+
     Unit Tests: npm run test
 
     Watch Mode: npm run test:watch
@@ -67,18 +67,17 @@ This project uses Jest for testing.
     E2E Tests: npm run test:e2e
 
     Coverage: npm run test:cov
-    ```
+
 
 ### 📐 Project Structure
 
-    ```
     src/ 
     ├── generated/ # Prisma generated client 
     ├── modules/ # Domain logic (Shipments, Users, etc.) 
     ├── common/ # Guards, Decorators, and Interceptors 
     ├── main.ts # Entry point (Fastify Adapter) 
     └── app.module.ts # Root module
-    ```
+
 
 ### 🔒 License
 
