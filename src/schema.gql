@@ -1,0 +1,79 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Role {
+  id: Int!
+  title: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+  middle_name: String
+  role: Role!
+  last_logged_in: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserResponse {
+  items: [User!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
+type Shipment {
+  id: ID!
+  blno: String!
+  contract_no: String!
+  entry_no: String!
+  reference: String!
+  registry_no: String!
+  status: String
+  volumex: Int
+  volumey: Int
+  estimated_time_arrival: DateTime
+  customer: User
+  issuer: User
+}
+
+type ShipmentResponse {
+  items: [Shipment!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
+type Query {
+  user(skip: Int! = 0, take: Int! = 10): UserResponse!
+  shipments(skip: Int! = 0, take: Int! = 10): ShipmentResponse!
+  shipment(id: Int!): Shipment!
+}
+
+type Mutation {
+  createShipment(createShipmentInput: CreateShipmentInput!): Shipment!
+  removeShipment(id: Int!): Shipment!
+}
+
+input CreateShipmentInput {
+  id: String!
+  blno: String!
+  contract_no: String!
+  entry_no: String!
+  reference: String!
+  registry_no: String!
+  port_id: String!
+  shipping_line: String!
+  estimated_time_arrival: DateTime!
+  customer_username: String!
+  issuer_username: String!
+  volumex: Int
+  volumey: Int
+  actual_time_arrival: DateTime
+}

@@ -1,4 +1,4 @@
-import { CreateShipmentInput } from "./create-shipment.input.js";
+import { CreateShipmentInput } from "../dto/create-shipment.input.js";
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
 @InputType()

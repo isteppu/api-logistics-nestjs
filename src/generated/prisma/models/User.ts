@@ -284,6 +284,7 @@ export type UserOrderByWithRelationInput = {
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  username?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -295,13 +296,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   last_name?: Prisma.StringFilter<"User"> | string
   middle_name?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringFilter<"User"> | string
-  username?: Prisma.StringFilter<"User"> | string
   shipment_shipment_customer_idTouser?: Prisma.ShipmentListRelationFilter
   shipment_shipment_issuer_idTouser?: Prisma.ShipmentListRelationFilter
   storable?: Prisma.StorableListRelationFilter
   role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.roleWhereInput>
   user_shipments?: Prisma.User_shipmentsListRelationFilter
-}, "id">
+}, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
   role_id?: Prisma.SortOrder

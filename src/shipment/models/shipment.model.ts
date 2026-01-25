@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
+import { Field, ObjectType, ID, Int, InputType } from '@nestjs/graphql';
 import { User } from '../../user/models/user.model.js';
 
 @ObjectType()
@@ -39,4 +39,16 @@ export class Shipment {
 
   @Field(() => User, { nullable: true })
   issuer?: User;
+}
+
+@ObjectType()
+export class ShipmentResponse {
+  @Field(() => [Shipment])
+  items: Shipment[];
+
+  @Field(() => Int)
+  totalCount: number;
+
+  @Field(() => Boolean)
+  hasMore: boolean;
 }

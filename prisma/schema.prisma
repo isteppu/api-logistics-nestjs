@@ -191,7 +191,7 @@ model User {
   last_name                           String           @db.VarChar(255)
   middle_name                         String?          @db.VarChar(255)
   password                            String           @db.VarChar(255)
-  username                            String           @db.VarChar(255)
+  username                            String           @unique @db.VarChar(255)
   shipment_shipment_customer_idTouser shipment[]       @relation("shipment_customer_idTouser")
   shipment_shipment_issuer_idTouser   shipment[]       @relation("shipment_issuer_idTouser")
   storable                            storable[]

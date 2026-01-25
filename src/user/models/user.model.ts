@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
 import { Role } from './role.model.js';
 
 @ObjectType()
@@ -15,6 +15,9 @@ export class User {
   @Field()
   last_name: string;
 
+  @Field()
+  password: string;
+
   @Field({ nullable: true })
   middle_name?: string;
 
@@ -23,4 +26,16 @@ export class User {
 
   @Field({ nullable: true })
   last_logged_in?: Date;
+}
+
+@ObjectType()
+export class UserResponse {
+  @Field(() => [User])
+  items: User[];
+
+  @Field(() => Int)
+  totalCount: number;
+
+  @Field(() => Boolean)
+  hasMore: boolean;
 }
