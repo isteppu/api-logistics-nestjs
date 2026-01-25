@@ -17,7 +17,7 @@ async function bootstrap() {
   await app.register(fastifyCookie, {
     secret: process.env.SECRET || ""
   })
-  await app.listen(process.env.PORT ?? 8080);
+  await app.listen(process.env.PORT ?? 8080, '0.0.0.0');
   console.log(`App is running on: ${await app.getUrl()}`)
 }
 bootstrap();
