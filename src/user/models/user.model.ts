@@ -6,17 +6,17 @@ export class User {
   @Field(() => ID)
   id: string;
 
-  @Field()
-  username: string;
+  @Field({ nullable: true })
+  username?: string;
 
-  @Field()
-  first_name: string;
+  @Field({ nullable: true })
+  first_name?: string;
 
-  @Field()
-  last_name: string;
+  @Field({ nullable: true })
+  last_name?: string;
 
-  @Field()
-  password: string;
+  @Field({ nullable: true })
+  password?: string;
 
   @Field({ nullable: true })
   middle_name?: string;

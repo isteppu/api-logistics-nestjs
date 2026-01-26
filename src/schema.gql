@@ -9,10 +9,10 @@ type Role {
 
 type User {
   id: ID!
-  username: String!
-  first_name: String!
-  last_name: String!
-  password: String!
+  username: String
+  first_name: String
+  last_name: String
+  password: String
   middle_name: String
   role: Role!
   last_logged_in: DateTime
