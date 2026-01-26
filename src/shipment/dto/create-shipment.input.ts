@@ -1,13 +1,9 @@
 import { Field, ID, Int, InputType } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
 import { IsString, IsNotEmpty, IsOptional, IsNumber, IsDate } from 'class-validator';
 
 @InputType()
 export class CreateShipmentInput {
-  @Field()
-  @IsString()
-  @IsNotEmpty()
-  id: string;
-
   @Field()
   @IsString()
   @IsNotEmpty()
@@ -44,7 +40,9 @@ export class CreateShipmentInput {
   shipping_line: string;
 
   @Field()
-  estimated_time_arrival: Date; // GraphQL handles the Date parsing
+  @IsDate()
+  @Type(() => Date)
+  estimated_time_arrival: Date;
 
   @Field()
   @IsString()

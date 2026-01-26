@@ -62,7 +62,6 @@ type Mutation {
 }
 
 input CreateShipmentInput {
-  id: String!
   blno: String!
   contract_no: String!
   entry_no: String!

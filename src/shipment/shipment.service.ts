@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateShipmentInput } from './dto/create-shipment.input.js';
 import { UpdateShipmentInput } from './dto/update-shipment.input.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ShipmentService {
@@ -29,7 +30,7 @@ export class ShipmentService {
 
     return this.prisma.shipment.create({
       data: {
-        id: data.id,
+        id: randomUUID(),
         blno: data.blno,
         contract_no: data.contract_no,
         entry_no: data.entry_no,

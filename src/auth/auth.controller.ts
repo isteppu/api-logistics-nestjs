@@ -33,6 +33,8 @@ export class AuthController {
             maxAge: 86400, // 1 day
         });
 
+        res.status(200);
+
         return {
             message: 'Login successful',
             user: { username: user.username, role: user.role_id, first_name: user.first_name, last_name: user.last_name },
