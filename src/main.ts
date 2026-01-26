@@ -8,18 +8,19 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
   
-  // This is the "Engine" for validation
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,       // Strips away any properties not in the DTO
-    forbidNonWhitelisted: true, // Throws error if unexpected properties are sent
-    transform: true,      // Automatically converts types (e.g., string to number)
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
   }));
 
   app.enableCors({
-    origin: 'http://localhost:9000', // Specify allowed origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed methods
-    allowedHeaders: 'Content-Type, Accept, Authorization', // Specify allowed headers
-    credentials: true, // Use this if you are using cookies/sessions/JWT
+    // origin: [
+    //   'http://localhost:9000',
+    //   'https://your-frontend-domain.com', 
+    // ],
+    origin: true,
+    credentials: true
   });
 
   await app.register(fastifyCookie, {

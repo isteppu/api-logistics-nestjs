@@ -10,7 +10,7 @@ export class ShipmentResolver {
   constructor(private readonly shipmentService: ShipmentService) { }
 
   @Mutation(() => Shipment)
-  createShipment(@Args('createShipmentInput') createShipmentInput: CreateShipmentInput) {
+  createShipment(@Args('input') createShipmentInput: CreateShipmentInput) {
     return this.shipmentService.create(createShipmentInput);
   }
 

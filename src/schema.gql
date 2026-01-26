@@ -57,7 +57,7 @@ type Query {
 }
 
 type Mutation {
-  createShipment(createShipmentInput: CreateShipmentInput!): Shipment!
+  createShipment(input: CreateShipmentInput!): Shipment!
   removeShipment(id: Int!): Shipment!
 }
 
