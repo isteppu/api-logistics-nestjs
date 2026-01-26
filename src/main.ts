@@ -15,6 +15,13 @@ async function bootstrap() {
     transform: true,      // Automatically converts types (e.g., string to number)
   }));
 
+  app.enableCors({
+    origin: 'http://localhost:9000', // Specify allowed origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Specify allowed methods
+    allowedHeaders: 'Content-Type, Accept, Authorization', // Specify allowed headers
+    credentials: true, // Use this if you are using cookies/sessions/JWT
+  });
+
   await app.register(fastifyCookie, {
     secret: process.env.SECRET || ""
   })
