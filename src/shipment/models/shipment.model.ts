@@ -6,20 +6,20 @@ export class Shipment {
   @Field(() => ID)
   id: string;
 
-  @Field()
-  blno: string;
+  @Field({ nullable: true })
+  blno?: string;
 
-  @Field()
-  contract_no: string;
+  @Field({ nullable: true })
+  contract_no?: string;
 
-  @Field()
-  entry_no: string;
+  @Field({ nullable: true })
+  entry_no?: string;
 
-  @Field()
-  reference: string;
+  @Field({ nullable: true })
+  reference?: string;
 
-  @Field()
-  registry_no: string;
+  @Field({ nullable: true })
+  registry_no?: string;
 
   @Field({ nullable: true })
   status?: string;

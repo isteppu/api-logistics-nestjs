@@ -31,11 +31,11 @@ type UserResponse {
 
 type Shipment {
   id: ID!
-  blno: String!
-  contract_no: String!
-  entry_no: String!
-  reference: String!
-  registry_no: String!
+  blno: String
+  contract_no: String
+  entry_no: String
+  reference: String
+  registry_no: String
   status: String
   volumex: Int
   volumey: Int

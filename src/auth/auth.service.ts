@@ -35,7 +35,7 @@ export class AuthService {
         password: hashedPassword,
         first_name: data.first_name,
         last_name: data.last_name,
-        role_id: 1, 
+        role_id: data.role_id, 
       },
     });
   }

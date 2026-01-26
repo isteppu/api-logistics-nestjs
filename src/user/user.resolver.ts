@@ -7,7 +7,7 @@ import { UserService } from './user.service.js';
 export class UserResolver {
     constructor(private readonly userService: UserService) { }
     @Query(() => UserResponse, { name: 'user' })
-    async getShipments(@Args() { skip, take }: PaginationArgs) {
+    async getUsers(@Args() { skip, take }: PaginationArgs) {
         return this.userService.findAll(skip, take);
     }
 }
