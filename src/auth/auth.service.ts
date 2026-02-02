@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import type { User } from '../user/models/user.model.js';
 import * as bcrypt from 'bcrypt';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, randomBytes } from 'node:crypto';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -21,9 +20,22 @@ export class AuthService {
     return null;
   }
 
-  async login (user: User) {
-    const payload = { sub: user.id, role: user.role };
-    return await this.jwtService.signAsync(payload)
+  async login(user: any) {
+    const payload = { sub: user.id, username: user.username, role: user.role_id };
+    const token = await this.jwtService.signAsync(payload);
+
+
+    const sessionBuffer = randomBytes(16);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        last_logged_in: new Date(),
+        current_session: sessionBuffer,
+      },
+    });
+
+    return token;
   }
 
   async register(data: any) {

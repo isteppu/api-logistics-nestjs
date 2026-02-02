@@ -13,9 +13,9 @@ type User {
   username: String
   first_name: String
   last_name: String
-  password: String
   middle_name: String
   role: Role!
+  current_session: String
   last_logged_in: DateTime
 }
 
@@ -32,15 +32,18 @@ type UserResponse {
 
 type Shipment {
   id: ID!
-  blno: String
-  contract_no: String
-  entry_no: String
-  reference: String
-  registry_no: String
+  blno: String!
+  contract_no: String!
+  entry_no: String!
+  reference: String!
+  registry_no: String!
+  port_id: String
+  shipping_line: String
   status: String
   volumex: Int
   volumey: Int
   estimated_time_arrival: DateTime
+  actual_time_arrival: DateTime
   customer: User
   issuer: User
 }
@@ -65,6 +68,7 @@ type Query {
 
 type Mutation {
   createShipment(input: CreateShipmentInput!): Shipment!
+  updateShipment(input: UpdateShipmentInput!): Shipment!
   removeShipment(id: Int!): Shipment!
   createExpense(createExpenseInput: CreateExpenseInput!): Expense!
   updateExpense(updateExpenseInput: UpdateExpenseInput!): Expense!
@@ -85,6 +89,25 @@ input CreateShipmentInput {
   volumex: Int
   volumey: Int
   actual_time_arrival: DateTime
+  status: String
+}
+
+input UpdateShipmentInput {
+  blno: String
+  contract_no: String
+  entry_no: String
+  reference: String
+  registry_no: String
+  port_id: String
+  shipping_line: String
+  estimated_time_arrival: DateTime
+  customer_username: String
+  issuer_username: String
+  volumex: Int
+  volumey: Int
+  actual_time_arrival: DateTime
+  status: String
+  id: String!
 }
 
 input CreateExpenseInput {

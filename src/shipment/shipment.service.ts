@@ -78,10 +78,40 @@ export class ShipmentService {
     return `This action returns a #${id} shipment`;
   }
 
-  update(id: number, updateShipmentInput: UpdateShipmentInput) {
-    return `This action updates a #${id} shipment`;
+  async update(id: string, data: UpdateShipmentInput) {
+    const updatePayload: any = { ...data };
+    delete updatePayload.id; 
+
+    if (data.customer_username) {
+      const customer = await this.prisma.user.findUnique({
+        where: { username: data.customer_username },
+      });
+      if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
+      updatePayload.customer_id = customer.id;
+      delete updatePayload.customer_username;
+    }
+
+    if (data.issuer_username) {
+      const issuer = await this.prisma.user.findUnique({
+        where: { username: data.issuer_username },
+      });
+      if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
+      updatePayload.issuer_id = issuer.id;
+      delete updatePayload.issuer_username;
+    }
+
+    return this.prisma.shipment.update({
+      where: { id },
+      data: updatePayload,
+      include: {
+        user_shipment_customer_idTouser: true,
+        user_shipment_issuer_idTouser: true,
+        storable: true,
+      }
+    });
   }
 
+  
   remove(id: number) {
     return `This action removes a #${id} shipment`;
   }

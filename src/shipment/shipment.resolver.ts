@@ -14,6 +14,11 @@ export class ShipmentResolver {
     return this.shipmentService.create(createShipmentInput);
   }
 
+  @Mutation(() => Shipment)
+  async updateShipment(@Args('input') input: UpdateShipmentInput) {
+    return this.shipmentService.update(input.id, input);
+  }
+
   @Query(() => ShipmentResponse, { name: 'shipments' })
   async getShipments(@Args() { skip, take }: PaginationArgs) {
     return this.shipmentService.findAll(skip, take);

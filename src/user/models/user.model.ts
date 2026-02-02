@@ -19,13 +19,13 @@ export class User {
   last_name?: string;
 
   @Field({ nullable: true })
-  password?: string;
-
-  @Field({ nullable: true })
   middle_name?: string;
 
   @Field(() => Role)
   role: Role;
+
+  @Field({ nullable: true })
+  current_session?: string;
 
   @Field({ nullable: true })
   last_logged_in?: Date;
