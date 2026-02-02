@@ -7,6 +7,9 @@ export class User {
   id: string;
 
   @Field({ nullable: true })
+  role_id?: string;
+
+  @Field({ nullable: true })
   username?: string;
 
   @Field({ nullable: true })

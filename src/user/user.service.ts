@@ -10,6 +10,7 @@ export class UserService {
             this.prisma.user.findMany({
                 skip,
                 take,
+                include: { role: true },
                 orderBy: { date_created: 'desc' }
             }),
             this.prisma.user.count(),

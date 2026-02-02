@@ -9,6 +9,7 @@ type Role {
 
 type User {
   id: ID!
+  role_id: String
   username: String
   first_name: String
   last_name: String
@@ -50,15 +51,24 @@ type ShipmentResponse {
   hasMore: Boolean!
 }
 
+type Expense {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   user(skip: Int! = 0, take: Int! = 10): UserResponse!
   shipments(skip: Int! = 0, take: Int! = 10): ShipmentResponse!
   shipment(id: Int!): Shipment!
+  expense(id: Int!): Expense!
 }
 
 type Mutation {
   createShipment(input: CreateShipmentInput!): Shipment!
   removeShipment(id: Int!): Shipment!
+  createExpense(createExpenseInput: CreateExpenseInput!): Expense!
+  updateExpense(updateExpenseInput: UpdateExpenseInput!): Expense!
+  removeExpense(id: Int!): Expense!
 }
 
 input CreateShipmentInput {
@@ -75,4 +85,15 @@ input CreateShipmentInput {
   volumex: Int
   volumey: Int
   actual_time_arrival: DateTime
+}
+
+input CreateExpenseInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateExpenseInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

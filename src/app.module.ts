@@ -10,6 +10,7 @@ import { ShipmentModule } from './shipment/shipment.module.js';
 import { UserService } from './user/user.service.js';
 import { UserResolver } from './user/user.resolver.js';
 import { UserModule } from './user/user.module.js';
+import { ExpenseModule } from './expense/expense.module.js';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { UserModule } from './user/user.module.js';
       resolvers: { DateTime: GraphQLISODateTime }
     }),
     AuthModule, 
-    PrismaModule, ShipmentModule, UserModule
+    PrismaModule, ShipmentModule, UserModule, ExpenseModule
   ],
   controllers: [AppController],
   providers: [AppService, UserService, UserResolver],
