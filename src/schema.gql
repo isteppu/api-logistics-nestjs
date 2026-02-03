@@ -59,11 +59,41 @@ type Expense {
   exampleField: Int!
 }
 
+type Storable {
+  id: ID!
+  type: String!
+  description: String
+  date_created: DateTime!
+}
+
+type Truck {
+  id: ID!
+  operator: String
+  is_archived: Int!
+  date_added: String
+}
+
+type Trip {
+  id: ID!
+  commodity: String
+  base_rate: Float
+  truck: Truck
+  port: Storable
+  container: Storable
+}
+
+type TripPaginationResponse {
+  items: [Trip!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
 type Query {
   user(skip: Int! = 0, take: Int! = 10): UserResponse!
   shipments(skip: Int! = 0, take: Int! = 10): ShipmentResponse!
   shipment(id: Int!): Shipment!
   expense(id: Int!): Expense!
+  trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
 }
 
 type Mutation {
@@ -73,6 +103,8 @@ type Mutation {
   createExpense(createExpenseInput: CreateExpenseInput!): Expense!
   updateExpense(updateExpenseInput: UpdateExpenseInput!): Expense!
   removeExpense(id: Int!): Expense!
+  createTrip(input: CreateTripInput!): Trip!
+  updateTrip(input: UpdateTripInput!): Trip!
 }
 
 input CreateShipmentInput {
@@ -119,4 +151,32 @@ input UpdateExpenseInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input CreateTripInput {
+  id: String!
+  commodity: String
+  base_rate: Float
+  volumex: Int
+  volumey: Int
+  date_created: DateTime!
+  date_delivered: DateTime
+  container_id: String
+  port_id: String
+  warehouse_id: String
+  truck_id: String
+}
+
+input UpdateTripInput {
+  id: String!
+  commodity: String
+  base_rate: Float
+  volumex: Int
+  volumey: Int
+  date_created: DateTime
+  date_delivered: DateTime
+  container_id: String
+  port_id: String
+  warehouse_id: String
+  truck_id: String
 }
