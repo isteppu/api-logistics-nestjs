@@ -1,7 +1,19 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsString, IsNotEmpty, IsIn } from 'class-validator';
 
 @InputType()
 export class CreateStorableInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  id: string; // The specific ID/Code for the unit
+
+  @Field()
+  @IsString()
+  @IsIn(['PORT', 'WAREHOUSE', 'CONTAINER'])
+  type: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  description?: string;
 }

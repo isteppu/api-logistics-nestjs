@@ -13,4 +13,7 @@ export class Storable {
 
   @Field()
   date_created: Date;
+
+  @Field({ nullable: true })
+  created_by?: string;
 }

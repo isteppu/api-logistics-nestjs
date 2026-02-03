@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateStorableInput } from './dto/create-storable.input.js';
-import { UpdateStorableInput } from './dto/update-storable.input.js';
 
 @Injectable()
 export class StorableService {
-  create(createStorableInput: CreateStorableInput) {
-    return 'This action adds a new storable';
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: CreateStorableInput, userId: string) {
+    return this.prisma.storable.create({
+      data: {
+        ...data,
+        created_by: userId,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all storable`;
+  // This is for her dropdown!
+  async findAllByType(type: string) {
+    return this.prisma.storable.findMany({
+      where: { type },
+      orderBy: { id: 'asc' },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} storable`;
-  }
-
-  update(id: number, updateStorableInput: UpdateStorableInput) {
-    return `This action updates a #${id} storable`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} storable`;
+  async findOne(id: string) {
+    return this.prisma.storable.findUnique({ where: { id } });
   }
 }

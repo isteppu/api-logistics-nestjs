@@ -64,6 +64,7 @@ type Storable {
   type: String!
   description: String
   date_created: DateTime!
+  created_by: String
 }
 
 type Truck {
@@ -94,6 +95,7 @@ type Query {
   shipment(id: Int!): Shipment!
   expense(id: Int!): Expense!
   trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
+  storablesByType(type: String!): [Storable!]!
 }
 
 type Mutation {
@@ -105,6 +107,7 @@ type Mutation {
   removeExpense(id: Int!): Expense!
   createTrip(input: CreateTripInput!): Trip!
   updateTrip(input: UpdateTripInput!): Trip!
+  createStorable(input: CreateStorableInput!): Storable!
 }
 
 input CreateShipmentInput {
@@ -179,4 +182,10 @@ input UpdateTripInput {
   port_id: String
   warehouse_id: String
   truck_id: String
+}
+
+input CreateStorableInput {
+  id: String!
+  type: String!
+  description: String
 }
