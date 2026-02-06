@@ -1,4 +1,4 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class Storable {
@@ -16,4 +16,16 @@ export class Storable {
 
   @Field({ nullable: true })
   created_by?: string;
+}
+
+@ObjectType()
+export class StorablePagination {
+  @Field(() => [Storable])
+  items: Storable[];
+
+  @Field(() => Int)
+  totalCount: number;
+
+  @Field()
+  hasMore: boolean;
 }

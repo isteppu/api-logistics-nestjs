@@ -67,6 +67,12 @@ type Storable {
   created_by: String
 }
 
+type StorablePagination {
+  items: [Storable!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
 type Truck {
   id: ID!
   operator: String
@@ -96,6 +102,7 @@ type Query {
   expense(id: Int!): Expense!
   trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
   storablesByType(type: String!): [Storable!]!
+  storables(skip: Int! = 0, take: Int! = 10, type: String): StorablePagination!
 }
 
 type Mutation {

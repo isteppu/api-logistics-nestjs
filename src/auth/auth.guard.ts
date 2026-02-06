@@ -1,25 +1,26 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql'; // 1. Import this
 import { JwtService } from '@nestjs/jwt';
-import { FastifyRequest } from 'fastify';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<FastifyRequest>();
-    
-    const token = request.cookies['auth_token'];
+    const ctx = GqlExecutionContext.create(context);
+    const gqlReq = ctx.getContext().req;
+
+    const token = gqlReq.cookies?.auth_token;
 
     if (!token) {
-      throw new UnauthorizedException('Access Denied: No token provided');
+      throw new UnauthorizedException('No token found in cookies');
     }
 
     try {
       const payload = await this.jwtService.verifyAsync(token);
-      request['user'] = payload;
+      gqlReq.user = payload;
     } catch {
-      throw new UnauthorizedException('Access Denied: Invalid token');
+      throw new UnauthorizedException('Invalid token');
     }
     return true;
   }
