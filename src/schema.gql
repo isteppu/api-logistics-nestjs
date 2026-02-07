@@ -80,6 +80,12 @@ type Truck {
   date_added: String
 }
 
+type TruckPagination {
+  items: [Truck!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
 type Trip {
   id: ID!
   commodity: String
@@ -103,6 +109,7 @@ type Query {
   trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
   storablesByType(type: String!): [Storable!]!
   storables(skip: Int! = 0, take: Int! = 10, type: String): StorablePagination!
+  trucks(skip: Int! = 0, take: Int! = 10, showArchived: Boolean! = false): TruckPagination!
 }
 
 type Mutation {
@@ -115,6 +122,8 @@ type Mutation {
   createTrip(input: CreateTripInput!): Trip!
   updateTrip(input: UpdateTripInput!): Trip!
   createStorable(input: CreateStorableInput!): Storable!
+  createTruck(input: CreateTruckInput!): Truck!
+  updateTruck(input: UpdateTruckInput!): Truck!
 }
 
 input CreateShipmentInput {
@@ -195,4 +204,16 @@ input CreateStorableInput {
   id: String!
   type: String!
   description: String
+}
+
+input CreateTruckInput {
+  id: String!
+  operator: String
+  date_added: String
+}
+
+input UpdateTruckInput {
+  id: String!
+  operator: String
+  is_archived: Int
 }

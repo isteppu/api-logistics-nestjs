@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTruckInput } from './dto/create-truck.input.js';
-import { UpdateTruckInput } from './dto/update-truck.input.js';
+import { PrismaService } from '../prisma/prisma.service.js';
+import { CreateTruckInput, UpdateTruckInput } from './dto/truck.input.js';
 
 @Injectable()
 export class TruckService {
-  create(createTruckInput: CreateTruckInput) {
-    return 'This action adds a new truck';
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: CreateTruckInput) {
+    return this.prisma.truck.create({ data });
   }
 
-  findAll() {
-    return `This action returns all truck`;
+  async update(id: string, data: UpdateTruckInput) {
+    const { id: _, ...updateData } = data;
+    return this.prisma.truck.update({
+      where: { id },
+      data: updateData,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} truck`;
-  }
+  async findAll(skip: number, take: number, showArchived = false) {
+    const where = showArchived ? {} : { is_archived: 0 };
 
-  update(id: number, updateTruckInput: UpdateTruckInput) {
-    return `This action updates a #${id} truck`;
-  }
+    const items = await this.prisma.truck.findMany({
+      where,
+      skip,
+      take,
+      orderBy: { id: 'asc' },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} truck`;
+    const totalCount = await this.prisma.truck.count({ where });
+
+    return {
+      items,
+      totalCount,
+      hasMore: skip + take < totalCount,
+    };
   }
 }

@@ -3,7 +3,7 @@ import { Field, ObjectType, ID, Int } from '@nestjs/graphql';
 @ObjectType()
 export class Truck {
   @Field(() => ID)
-  id: string;
+  id: string; 
 
   @Field({ nullable: true })
   operator?: string;
@@ -13,4 +13,16 @@ export class Truck {
 
   @Field({ nullable: true })
   date_added?: string;
+}
+
+@ObjectType()
+export class TruckPagination {
+  @Field(() => [Truck])
+  items: Truck[];
+
+  @Field(() => Int)
+  totalCount: number;
+
+  @Field()
+  hasMore: boolean;
 }
