@@ -46,12 +46,20 @@ type Shipment {
   actual_time_arrival: DateTime
   customer: User
   issuer: User
+  financeSummary: [ShipmentFinanceRow!]!
 }
 
 type ShipmentResponse {
   items: [Shipment!]!
   totalCount: Int!
   hasMore: Boolean!
+}
+
+type ShipmentFinanceRow {
+  title: String!
+  billing: Float!
+  cost: Float!
+  net: Float!
 }
 
 type Expense {
