@@ -249,21 +249,19 @@ export type shipment_revenueScalarWhereWithAggregatesInput = {
 }
 
 export type shipment_revenueCreateInput = {
-  id: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue?: Prisma.revenueCreateNestedOneWithoutShipment_revenueInput
   shipment_revenues?: Prisma.shipment_revenuesCreateNestedOneWithoutShipment_revenueInput
 }
 
 export type shipment_revenueUncheckedCreateInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: string | null
   shipment_revenues?: Prisma.shipment_revenuesUncheckedCreateNestedOneWithoutShipment_revenueInput
 }
 
 export type shipment_revenueUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue?: Prisma.revenueUpdateOneWithoutShipment_revenueNestedInput
   shipment_revenues?: Prisma.shipment_revenuesUpdateOneWithoutShipment_revenueNestedInput
@@ -277,13 +275,12 @@ export type shipment_revenueUncheckedUpdateInput = {
 }
 
 export type shipment_revenueCreateManyInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: string | null
 }
 
 export type shipment_revenueUpdateManyMutationInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
@@ -399,13 +396,12 @@ export type shipment_revenueUpdateOneRequiredWithoutShipment_revenuesNestedInput
 }
 
 export type shipment_revenueCreateWithoutRevenueInput = {
-  id: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipment_revenues?: Prisma.shipment_revenuesCreateNestedOneWithoutShipment_revenueInput
 }
 
 export type shipment_revenueUncheckedCreateWithoutRevenueInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipment_revenues?: Prisma.shipment_revenuesUncheckedCreateNestedOneWithoutShipment_revenueInput
 }
@@ -446,13 +442,12 @@ export type shipment_revenueScalarWhereInput = {
 }
 
 export type shipment_revenueCreateWithoutShipment_revenuesInput = {
-  id: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue?: Prisma.revenueCreateNestedOneWithoutShipment_revenueInput
 }
 
 export type shipment_revenueUncheckedCreateWithoutShipment_revenuesInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: string | null
 }
@@ -474,7 +469,6 @@ export type shipment_revenueUpdateToOneWithWhereWithoutShipment_revenuesInput = 
 }
 
 export type shipment_revenueUpdateWithoutShipment_revenuesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue?: Prisma.revenueUpdateOneWithoutShipment_revenueNestedInput
 }
@@ -486,12 +480,11 @@ export type shipment_revenueUncheckedUpdateWithoutShipment_revenuesInput = {
 }
 
 export type shipment_revenueCreateManyRevenueInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type shipment_revenueUpdateWithoutRevenueInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   shipment_revenues?: Prisma.shipment_revenuesUpdateOneWithoutShipment_revenueNestedInput
 }
@@ -1133,7 +1126,7 @@ export type shipment_revenueCreateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * The data needed to create a shipment_revenue.
    */
-  data: Prisma.XOR<Prisma.shipment_revenueCreateInput, Prisma.shipment_revenueUncheckedCreateInput>
+  data?: Prisma.XOR<Prisma.shipment_revenueCreateInput, Prisma.shipment_revenueUncheckedCreateInput>
 }
 
 /**

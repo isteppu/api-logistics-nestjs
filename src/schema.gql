@@ -123,6 +123,8 @@ type Mutation {
   updateTrip(input: UpdateTripInput!): Trip!
   createStorable(input: CreateStorableInput!): Storable!
   createTruck(input: CreateTruckInput!): Truck!
+  archiveTruck(id: String!): Truck!
+  restoreTruck(id: String!): Truck!
   updateTruck(input: UpdateTruckInput!): Truck!
 }
 

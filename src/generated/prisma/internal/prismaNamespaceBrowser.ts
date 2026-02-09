@@ -55,10 +55,12 @@ export const ModelName = {
   revenue: 'revenue',
   role: 'role',
   shipment: 'shipment',
+  shipment_container: 'shipment_container',
   shipment_expense: 'shipment_expense',
   shipment_expenses: 'shipment_expenses',
   shipment_revenue: 'shipment_revenue',
   shipment_revenues: 'shipment_revenues',
+  shipment_warehouse: 'shipment_warehouse',
   storable: 'storable',
   trip: 'trip',
   trip_expense: 'trip_expense',
@@ -129,6 +131,14 @@ export const ShipmentScalarFieldEnum = {
 export type ShipmentScalarFieldEnum = (typeof ShipmentScalarFieldEnum)[keyof typeof ShipmentScalarFieldEnum]
 
 
+export const Shipment_containerScalarFieldEnum = {
+  shipment_id: 'shipment_id',
+  container_id: 'container_id'
+} as const
+
+export type Shipment_containerScalarFieldEnum = (typeof Shipment_containerScalarFieldEnum)[keyof typeof Shipment_containerScalarFieldEnum]
+
+
 export const Shipment_expenseScalarFieldEnum = {
   id: 'id',
   value: 'value',
@@ -161,6 +171,14 @@ export const Shipment_revenuesScalarFieldEnum = {
 } as const
 
 export type Shipment_revenuesScalarFieldEnum = (typeof Shipment_revenuesScalarFieldEnum)[keyof typeof Shipment_revenuesScalarFieldEnum]
+
+
+export const Shipment_warehouseScalarFieldEnum = {
+  shipment_id: 'shipment_id',
+  warehouse_id: 'warehouse_id'
+} as const
+
+export type Shipment_warehouseScalarFieldEnum = (typeof Shipment_warehouseScalarFieldEnum)[keyof typeof Shipment_warehouseScalarFieldEnum]
 
 
 export const StorableScalarFieldEnum = {
@@ -297,6 +315,14 @@ export const shipmentOrderByRelevanceFieldEnum = {
 export type shipmentOrderByRelevanceFieldEnum = (typeof shipmentOrderByRelevanceFieldEnum)[keyof typeof shipmentOrderByRelevanceFieldEnum]
 
 
+export const shipment_containerOrderByRelevanceFieldEnum = {
+  shipment_id: 'shipment_id',
+  container_id: 'container_id'
+} as const
+
+export type shipment_containerOrderByRelevanceFieldEnum = (typeof shipment_containerOrderByRelevanceFieldEnum)[keyof typeof shipment_containerOrderByRelevanceFieldEnum]
+
+
 export const shipment_expenseOrderByRelevanceFieldEnum = {
   expense_map: 'expense_map'
 } as const
@@ -323,6 +349,14 @@ export const shipment_revenuesOrderByRelevanceFieldEnum = {
 } as const
 
 export type shipment_revenuesOrderByRelevanceFieldEnum = (typeof shipment_revenuesOrderByRelevanceFieldEnum)[keyof typeof shipment_revenuesOrderByRelevanceFieldEnum]
+
+
+export const shipment_warehouseOrderByRelevanceFieldEnum = {
+  shipment_id: 'shipment_id',
+  warehouse_id: 'warehouse_id'
+} as const
+
+export type shipment_warehouseOrderByRelevanceFieldEnum = (typeof shipment_warehouseOrderByRelevanceFieldEnum)[keyof typeof shipment_warehouseOrderByRelevanceFieldEnum]
 
 
 export const storableOrderByRelevanceFieldEnum = {

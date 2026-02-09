@@ -61,13 +61,13 @@ model shipment_container {
   storable     storable @relation(fields: [container_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_container")
   shipment     shipment @relation(fields: [shipment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_shipment")
 
+  @@id([shipment_id, container_id])
   @@index([container_id], map: "fk_sc_container")
   @@index([shipment_id], map: "fk_sc_shipment")
-  @@ignore
 }
 
 model shipment_expense {
-  id                Int                @id
+  id                Int                @id @default(autoincrement())
   value             Decimal?           @db.Decimal(38, 2)
   expense_map       String?            @db.VarChar(255)
   expense           expense?           @relation(fields: [expense_map], references: [title], onDelete: NoAction, onUpdate: NoAction, map: "fk_se_expense")
@@ -83,7 +83,7 @@ model shipment_expenses {
 }
 
 model shipment_revenue {
-  id                Int                @id
+  id                Int                @id @default(autoincrement())
   value             Decimal?           @db.Decimal(38, 2)
   revenue_map       String?            @db.VarChar(255)
   revenue           revenue?           @relation(fields: [revenue_map], references: [title], onDelete: NoAction, onUpdate: NoAction, map: "fk_sr_revenue")
@@ -103,7 +103,7 @@ model shipment_warehouse {
   shipment_id  String @db.VarChar(36)
   warehouse_id String @db.VarChar(255)
 
-  @@ignore
+  @@id([shipment_id, warehouse_id])
 }
 
 model storable {

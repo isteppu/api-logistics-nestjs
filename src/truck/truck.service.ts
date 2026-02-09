@@ -4,7 +4,7 @@ import { CreateTruckInput, UpdateTruckInput } from './dto/truck.input.js';
 
 @Injectable()
 export class TruckService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: CreateTruckInput) {
     return this.prisma.truck.create({ data });
@@ -15,6 +15,20 @@ export class TruckService {
     return this.prisma.truck.update({
       where: { id },
       data: updateData,
+    });
+  }
+
+  async archive(id: string) {
+    return this.prisma.truck.update({
+      where: { id },
+      data: { is_archived: 1 }, // 1 = Archived, 0 = Active
+    });
+  }
+
+  async restore(id: string) {
+    return this.prisma.truck.update({
+      where: { id },
+      data: { is_archived: 0 },
     });
   }
 

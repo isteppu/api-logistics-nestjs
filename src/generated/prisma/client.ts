@@ -60,6 +60,11 @@ export type role = Prisma.roleModel
  */
 export type shipment = Prisma.shipmentModel
 /**
+ * Model shipment_container
+ * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+ */
+export type shipment_container = Prisma.shipment_containerModel
+/**
  * Model shipment_expense
  * 
  */
@@ -79,6 +84,11 @@ export type shipment_revenue = Prisma.shipment_revenueModel
  * 
  */
 export type shipment_revenues = Prisma.shipment_revenuesModel
+/**
+ * Model shipment_warehouse
+ * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+ */
+export type shipment_warehouse = Prisma.shipment_warehouseModel
 /**
  * Model storable
  * 

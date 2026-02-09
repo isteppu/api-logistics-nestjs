@@ -5,7 +5,7 @@ import { CreateTruckInput, UpdateTruckInput } from './dto/truck.input.js';
 
 @Resolver(() => Truck)
 export class TruckResolver {
-  constructor(private readonly truckService: TruckService) {}
+  constructor(private readonly truckService: TruckService) { }
 
   @Query(() => TruckPagination)
   async trucks(
@@ -19,6 +19,16 @@ export class TruckResolver {
   @Mutation(() => Truck)
   async createTruck(@Args('input') input: CreateTruckInput) {
     return this.truckService.create(input);
+  }
+
+  @Mutation(() => Truck)
+  async archiveTruck(@Args('id') id: string) {
+    return this.truckService.archive(id);
+  }
+
+  @Mutation(() => Truck)
+  async restoreTruck(@Args('id') id: string) {
+    return this.truckService.restore(id);
   }
 
   @Mutation(() => Truck)

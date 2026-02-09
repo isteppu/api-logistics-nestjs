@@ -388,10 +388,12 @@ export const ModelName = {
   revenue: 'revenue',
   role: 'role',
   shipment: 'shipment',
+  shipment_container: 'shipment_container',
   shipment_expense: 'shipment_expense',
   shipment_expenses: 'shipment_expenses',
   shipment_revenue: 'shipment_revenue',
   shipment_revenues: 'shipment_revenues',
+  shipment_warehouse: 'shipment_warehouse',
   storable: 'storable',
   trip: 'trip',
   trip_expense: 'trip_expense',
@@ -414,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "expense" | "revenue" | "role" | "shipment" | "shipment_expense" | "shipment_expenses" | "shipment_revenue" | "shipment_revenues" | "storable" | "trip" | "trip_expense" | "trip_revenue" | "truck" | "user" | "user_shipments"
+    modelProps: "expense" | "revenue" | "role" | "shipment" | "shipment_container" | "shipment_expense" | "shipment_expenses" | "shipment_revenue" | "shipment_revenues" | "shipment_warehouse" | "storable" | "trip" | "trip_expense" | "trip_revenue" | "truck" | "user" | "user_shipments"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -682,6 +684,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    shipment_container: {
+      payload: Prisma.$shipment_containerPayload<ExtArgs>
+      fields: Prisma.shipment_containerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.shipment_containerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.shipment_containerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>
+        }
+        findFirst: {
+          args: Prisma.shipment_containerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.shipment_containerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>
+        }
+        findMany: {
+          args: Prisma.shipment_containerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>[]
+        }
+        create: {
+          args: Prisma.shipment_containerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>
+        }
+        createMany: {
+          args: Prisma.shipment_containerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.shipment_containerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>
+        }
+        update: {
+          args: Prisma.shipment_containerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>
+        }
+        deleteMany: {
+          args: Prisma.shipment_containerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.shipment_containerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.shipment_containerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_containerPayload>
+        }
+        aggregate: {
+          args: Prisma.Shipment_containerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShipment_container>
+        }
+        groupBy: {
+          args: Prisma.shipment_containerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Shipment_containerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.shipment_containerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Shipment_containerCountAggregateOutputType> | number
+        }
+      }
+    }
     shipment_expense: {
       payload: Prisma.$shipment_expensePayload<ExtArgs>
       fields: Prisma.shipment_expenseFieldRefs
@@ -943,6 +1011,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.shipment_revenuesCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Shipment_revenuesCountAggregateOutputType> | number
+        }
+      }
+    }
+    shipment_warehouse: {
+      payload: Prisma.$shipment_warehousePayload<ExtArgs>
+      fields: Prisma.shipment_warehouseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.shipment_warehouseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.shipment_warehouseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>
+        }
+        findFirst: {
+          args: Prisma.shipment_warehouseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.shipment_warehouseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>
+        }
+        findMany: {
+          args: Prisma.shipment_warehouseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>[]
+        }
+        create: {
+          args: Prisma.shipment_warehouseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>
+        }
+        createMany: {
+          args: Prisma.shipment_warehouseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.shipment_warehouseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>
+        }
+        update: {
+          args: Prisma.shipment_warehouseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>
+        }
+        deleteMany: {
+          args: Prisma.shipment_warehouseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.shipment_warehouseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.shipment_warehouseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$shipment_warehousePayload>
+        }
+        aggregate: {
+          args: Prisma.Shipment_warehouseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShipment_warehouse>
+        }
+        groupBy: {
+          args: Prisma.shipment_warehouseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Shipment_warehouseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.shipment_warehouseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Shipment_warehouseCountAggregateOutputType> | number
         }
       }
     }
@@ -1492,6 +1626,14 @@ export const ShipmentScalarFieldEnum = {
 export type ShipmentScalarFieldEnum = (typeof ShipmentScalarFieldEnum)[keyof typeof ShipmentScalarFieldEnum]
 
 
+export const Shipment_containerScalarFieldEnum = {
+  shipment_id: 'shipment_id',
+  container_id: 'container_id'
+} as const
+
+export type Shipment_containerScalarFieldEnum = (typeof Shipment_containerScalarFieldEnum)[keyof typeof Shipment_containerScalarFieldEnum]
+
+
 export const Shipment_expenseScalarFieldEnum = {
   id: 'id',
   value: 'value',
@@ -1524,6 +1666,14 @@ export const Shipment_revenuesScalarFieldEnum = {
 } as const
 
 export type Shipment_revenuesScalarFieldEnum = (typeof Shipment_revenuesScalarFieldEnum)[keyof typeof Shipment_revenuesScalarFieldEnum]
+
+
+export const Shipment_warehouseScalarFieldEnum = {
+  shipment_id: 'shipment_id',
+  warehouse_id: 'warehouse_id'
+} as const
+
+export type Shipment_warehouseScalarFieldEnum = (typeof Shipment_warehouseScalarFieldEnum)[keyof typeof Shipment_warehouseScalarFieldEnum]
 
 
 export const StorableScalarFieldEnum = {
@@ -1660,6 +1810,14 @@ export const shipmentOrderByRelevanceFieldEnum = {
 export type shipmentOrderByRelevanceFieldEnum = (typeof shipmentOrderByRelevanceFieldEnum)[keyof typeof shipmentOrderByRelevanceFieldEnum]
 
 
+export const shipment_containerOrderByRelevanceFieldEnum = {
+  shipment_id: 'shipment_id',
+  container_id: 'container_id'
+} as const
+
+export type shipment_containerOrderByRelevanceFieldEnum = (typeof shipment_containerOrderByRelevanceFieldEnum)[keyof typeof shipment_containerOrderByRelevanceFieldEnum]
+
+
 export const shipment_expenseOrderByRelevanceFieldEnum = {
   expense_map: 'expense_map'
 } as const
@@ -1686,6 +1844,14 @@ export const shipment_revenuesOrderByRelevanceFieldEnum = {
 } as const
 
 export type shipment_revenuesOrderByRelevanceFieldEnum = (typeof shipment_revenuesOrderByRelevanceFieldEnum)[keyof typeof shipment_revenuesOrderByRelevanceFieldEnum]
+
+
+export const shipment_warehouseOrderByRelevanceFieldEnum = {
+  shipment_id: 'shipment_id',
+  warehouse_id: 'warehouse_id'
+} as const
+
+export type shipment_warehouseOrderByRelevanceFieldEnum = (typeof shipment_warehouseOrderByRelevanceFieldEnum)[keyof typeof shipment_warehouseOrderByRelevanceFieldEnum]
 
 
 export const storableOrderByRelevanceFieldEnum = {
@@ -1899,10 +2065,12 @@ export type GlobalOmitConfig = {
   revenue?: Prisma.revenueOmit
   role?: Prisma.roleOmit
   shipment?: Prisma.shipmentOmit
+  shipment_container?: Prisma.shipment_containerOmit
   shipment_expense?: Prisma.shipment_expenseOmit
   shipment_expenses?: Prisma.shipment_expensesOmit
   shipment_revenue?: Prisma.shipment_revenueOmit
   shipment_revenues?: Prisma.shipment_revenuesOmit
+  shipment_warehouse?: Prisma.shipment_warehouseOmit
   storable?: Prisma.storableOmit
   trip?: Prisma.tripOmit
   trip_expense?: Prisma.trip_expenseOmit

@@ -1,9 +1,11 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { ShipmentService } from './shipment.service.js';
 import { Shipment, ShipmentResponse } from './models/shipment.model.js';
 import { CreateShipmentInput } from './dto/create-shipment.input.js';
 import { UpdateShipmentInput } from './dto/update-shipment.input.js';
 import { PaginationArgs } from './dto/shipment-pagination.args.js';
+import { SyncShipmentFinanceInput } from './dto/sync-shipment-finance.input.js';
+import { ShipmentFinanceRow } from './models/shipment-finance-row.model.js';
 
 @Resolver(() => Shipment)
 export class ShipmentResolver {
