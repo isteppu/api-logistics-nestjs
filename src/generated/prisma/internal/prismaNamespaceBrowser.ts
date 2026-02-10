@@ -142,7 +142,8 @@ export type Shipment_containerScalarFieldEnum = (typeof Shipment_containerScalar
 export const Shipment_expenseScalarFieldEnum = {
   id: 'id',
   value: 'value',
-  expense_map: 'expense_map'
+  expense_map: 'expense_map',
+  type: 'type'
 } as const
 
 export type Shipment_expenseScalarFieldEnum = (typeof Shipment_expenseScalarFieldEnum)[keyof typeof Shipment_expenseScalarFieldEnum]
@@ -159,7 +160,8 @@ export type Shipment_expensesScalarFieldEnum = (typeof Shipment_expensesScalarFi
 export const Shipment_revenueScalarFieldEnum = {
   id: 'id',
   value: 'value',
-  revenue_map: 'revenue_map'
+  revenue_map: 'revenue_map',
+  type: 'type'
 } as const
 
 export type Shipment_revenueScalarFieldEnum = (typeof Shipment_revenueScalarFieldEnum)[keyof typeof Shipment_revenueScalarFieldEnum]
@@ -324,7 +326,8 @@ export type shipment_containerOrderByRelevanceFieldEnum = (typeof shipment_conta
 
 
 export const shipment_expenseOrderByRelevanceFieldEnum = {
-  expense_map: 'expense_map'
+  expense_map: 'expense_map',
+  type: 'type'
 } as const
 
 export type shipment_expenseOrderByRelevanceFieldEnum = (typeof shipment_expenseOrderByRelevanceFieldEnum)[keyof typeof shipment_expenseOrderByRelevanceFieldEnum]
@@ -338,7 +341,8 @@ export type shipment_expensesOrderByRelevanceFieldEnum = (typeof shipment_expens
 
 
 export const shipment_revenueOrderByRelevanceFieldEnum = {
-  revenue_map: 'revenue_map'
+  revenue_map: 'revenue_map',
+  type: 'type'
 } as const
 
 export type shipment_revenueOrderByRelevanceFieldEnum = (typeof shipment_revenueOrderByRelevanceFieldEnum)[keyof typeof shipment_revenueOrderByRelevanceFieldEnum]

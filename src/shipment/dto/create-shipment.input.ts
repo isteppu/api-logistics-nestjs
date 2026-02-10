@@ -1,6 +1,7 @@
 import { Field, ID, Int, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsDate } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumber, IsDate, IsArray, ValidateNested } from 'class-validator';
+import { FinanceRowInput } from './sync-shipment-finance.input.js';
 
 @InputType()
 export class CreateShipmentInput {
@@ -70,4 +71,11 @@ export class CreateShipmentInput {
   @IsOptional()
   @IsString()
   status?: string;
+
+  @Field(() => [FinanceRowInput], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true }) 
+  @Type(() => FinanceRowInput)    
+  finances?: FinanceRowInput[];
 }

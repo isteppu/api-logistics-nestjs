@@ -70,6 +70,7 @@ model shipment_expense {
   id                Int                @id @default(autoincrement())
   value             Decimal?           @db.Decimal(38, 2)
   expense_map       String?            @db.VarChar(255)
+  type              String?            @db.VarChar(255)
   expense           expense?           @relation(fields: [expense_map], references: [title], onDelete: NoAction, onUpdate: NoAction, map: "fk_se_expense")
   shipment_expenses shipment_expenses?
 
@@ -86,6 +87,7 @@ model shipment_revenue {
   id                Int                @id @default(autoincrement())
   value             Decimal?           @db.Decimal(38, 2)
   revenue_map       String?            @db.VarChar(255)
+  type              String?            @db.VarChar(255)
   revenue           revenue?           @relation(fields: [revenue_map], references: [title], onDelete: NoAction, onUpdate: NoAction, map: "fk_sr_revenue")
   shipment_revenues shipment_revenues?
 

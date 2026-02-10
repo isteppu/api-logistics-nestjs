@@ -1,5 +1,6 @@
 import { Field, ObjectType, ID, Int, InputType } from '@nestjs/graphql';
 import { User } from '../../user/models/user.model.js';
+import { ShipmentFinanceRow } from './shipment-finance-row.model.js';
 
 @ObjectType()
 export class Shipment {
@@ -18,6 +19,7 @@ export class Shipment {
   @Field({ nullable: true }) actual_time_arrival?: Date;
   @Field(() => User, { nullable: true }) customer?: User;
   @Field(() => User, { nullable: true }) issuer?: User;
+  @Field(() => [ShipmentFinanceRow], { nullable: 'items' }) financeSummary?: ShipmentFinanceRow[];
 }
 
 @ObjectType()

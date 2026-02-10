@@ -30,6 +30,12 @@ type UserResponse {
   hasMore: Boolean!
 }
 
+type ShipmentFinanceRow {
+  title: String!
+  type: String!
+  value: Float!
+}
+
 type Shipment {
   id: ID!
   blno: String!
@@ -46,20 +52,13 @@ type Shipment {
   actual_time_arrival: DateTime
   customer: User
   issuer: User
-  financeSummary: [ShipmentFinanceRow!]!
+  financeSummary: [ShipmentFinanceRow]!
 }
 
 type ShipmentResponse {
   items: [Shipment!]!
   totalCount: Int!
   hasMore: Boolean!
-}
-
-type ShipmentFinanceRow {
-  title: String!
-  billing: Float!
-  cost: Float!
-  net: Float!
 }
 
 type Expense {
@@ -112,7 +111,7 @@ type TripPaginationResponse {
 type Query {
   user(skip: Int! = 0, take: Int! = 10): UserResponse!
   shipments(skip: Int! = 0, take: Int! = 10): ShipmentResponse!
-  shipment(id: Int!): Shipment!
+  shipment(id: String!): Shipment!
   expense(id: Int!): Expense!
   trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
   storablesByType(type: String!): [Storable!]!
@@ -124,6 +123,7 @@ type Mutation {
   createShipment(input: CreateShipmentInput!): Shipment!
   updateShipment(input: UpdateShipmentInput!): Shipment!
   removeShipment(id: Int!): Shipment!
+  syncShipmentFinance(input: SyncShipmentFinanceInput!): Boolean!
   createExpense(createExpenseInput: CreateExpenseInput!): Expense!
   updateExpense(updateExpenseInput: UpdateExpenseInput!): Expense!
   removeExpense(id: Int!): Expense!
@@ -151,6 +151,13 @@ input CreateShipmentInput {
   volumey: Int
   actual_time_arrival: DateTime
   status: String
+  finances: [FinanceRowInput!]
+}
+
+input FinanceRowInput {
+  title: String!
+  type: String!
+  value: Float!
 }
 
 input UpdateShipmentInput {
@@ -168,7 +175,13 @@ input UpdateShipmentInput {
   volumey: Int
   actual_time_arrival: DateTime
   status: String
+  finances: [FinanceRowInput!]
   id: String!
+}
+
+input SyncShipmentFinanceInput {
+  shipment_id: String!
+  rows: [FinanceRowInput!]!
 }
 
 input CreateExpenseInput {

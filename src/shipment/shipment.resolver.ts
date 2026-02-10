@@ -33,7 +33,7 @@ export class ShipmentResolver {
   }
 
   @Query(() => Shipment, { name: 'shipment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.shipmentService.findOne(id);
   }
 
@@ -41,9 +41,16 @@ export class ShipmentResolver {
   removeShipment(@Args('id', { type: () => Int }) id: number) {
     return this.shipmentService.remove(id);
   }
+
+  @Mutation(() => Boolean)
+  async syncShipmentFinance(
+    @Args('input') input: SyncShipmentFinanceInput,
+  ) {
+    return this.financeService.syncFinance(input);
+  }
+
   @ResolveField(() => [ShipmentFinanceRow])
   async financeSummary(@Parent() shipment: any) {
-    // Collect separate DB records and group them by title for the UI "Row"
     const [revenues, expenses] = await Promise.all([
       this.prisma.shipment_revenues.findMany({
         where: { shipment_id: shipment.id },
@@ -55,20 +62,36 @@ export class ShipmentResolver {
       })
     ]);
 
-    const summaryMap: Record<string, any> = {};
+    // If both are empty, return an empty array immediately 
+    // to avoid returning null to a non-nullable field.
+    if (revenues.length === 0 && expenses.length === 0) {
+      return [];
+    }
+
+    const allRows: ShipmentFinanceRow[] = [];
 
     revenues.forEach(r => {
-      const title = r.shipment_revenue.revenue_map || 'General';
-      if (!summaryMap[title]) summaryMap[title] = { title, billing: 0, cost: 0 };
-      summaryMap[title].billing = r.shipment_revenue.value;
+      if (r.shipment_revenue) {
+        allRows.push({
+          // Fallback to "Revenue" if revenue_map is null
+          title: r.shipment_revenue.revenue_map || 'Revenue',
+          type: r.shipment_revenue.type || 'amount',
+          value: Number(r.shipment_revenue.value || 0)
+        });
+      }
     });
 
     expenses.forEach(e => {
-      const title = e.shipment_expense.expense_map || 'General';
-      if (!summaryMap[title]) summaryMap[title] = { title, billing: 0, cost: 0 };
-      summaryMap[title].cost = e.shipment_expense.value;
+      if (e.shipment_expense) {
+        allRows.push({
+          // Fallback to "Expense" if expense_map is null
+          title: e.shipment_expense.expense_map || 'Expense',
+          type: e.shipment_expense.type || 'amount',
+          value: Number(e.shipment_expense.value || 0)
+        });
+      }
     });
 
-    return Object.values(summaryMap);
+    return allRows;
   }
 }

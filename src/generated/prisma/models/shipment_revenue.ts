@@ -40,18 +40,21 @@ export type Shipment_revenueMinAggregateOutputType = {
   id: number | null
   value: runtime.Decimal | null
   revenue_map: string | null
+  type: string | null
 }
 
 export type Shipment_revenueMaxAggregateOutputType = {
   id: number | null
   value: runtime.Decimal | null
   revenue_map: string | null
+  type: string | null
 }
 
 export type Shipment_revenueCountAggregateOutputType = {
   id: number
   value: number
   revenue_map: number
+  type: number
   _all: number
 }
 
@@ -70,18 +73,21 @@ export type Shipment_revenueMinAggregateInputType = {
   id?: true
   value?: true
   revenue_map?: true
+  type?: true
 }
 
 export type Shipment_revenueMaxAggregateInputType = {
   id?: true
   value?: true
   revenue_map?: true
+  type?: true
 }
 
 export type Shipment_revenueCountAggregateInputType = {
   id?: true
   value?: true
   revenue_map?: true
+  type?: true
   _all?: true
 }
 
@@ -175,6 +181,7 @@ export type Shipment_revenueGroupByOutputType = {
   id: number
   value: runtime.Decimal | null
   revenue_map: string | null
+  type: string | null
   _count: Shipment_revenueCountAggregateOutputType | null
   _avg: Shipment_revenueAvgAggregateOutputType | null
   _sum: Shipment_revenueSumAggregateOutputType | null
@@ -204,6 +211,7 @@ export type shipment_revenueWhereInput = {
   id?: Prisma.IntFilter<"shipment_revenue"> | number
   value?: Prisma.DecimalNullableFilter<"shipment_revenue"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.StringNullableFilter<"shipment_revenue"> | string | null
+  type?: Prisma.StringNullableFilter<"shipment_revenue"> | string | null
   revenue?: Prisma.XOR<Prisma.RevenueNullableScalarRelationFilter, Prisma.revenueWhereInput> | null
   shipment_revenues?: Prisma.XOR<Prisma.Shipment_revenuesNullableScalarRelationFilter, Prisma.shipment_revenuesWhereInput> | null
 }
@@ -212,6 +220,7 @@ export type shipment_revenueOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   revenue_map?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
   revenue?: Prisma.revenueOrderByWithRelationInput
   shipment_revenues?: Prisma.shipment_revenuesOrderByWithRelationInput
   _relevance?: Prisma.shipment_revenueOrderByRelevanceInput
@@ -224,6 +233,7 @@ export type shipment_revenueWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.shipment_revenueWhereInput | Prisma.shipment_revenueWhereInput[]
   value?: Prisma.DecimalNullableFilter<"shipment_revenue"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.StringNullableFilter<"shipment_revenue"> | string | null
+  type?: Prisma.StringNullableFilter<"shipment_revenue"> | string | null
   revenue?: Prisma.XOR<Prisma.RevenueNullableScalarRelationFilter, Prisma.revenueWhereInput> | null
   shipment_revenues?: Prisma.XOR<Prisma.Shipment_revenuesNullableScalarRelationFilter, Prisma.shipment_revenuesWhereInput> | null
 }, "id">
@@ -232,6 +242,7 @@ export type shipment_revenueOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   revenue_map?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipment_revenueCountOrderByAggregateInput
   _avg?: Prisma.shipment_revenueAvgOrderByAggregateInput
   _max?: Prisma.shipment_revenueMaxOrderByAggregateInput
@@ -246,10 +257,12 @@ export type shipment_revenueScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"shipment_revenue"> | number
   value?: Prisma.DecimalNullableWithAggregatesFilter<"shipment_revenue"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.StringNullableWithAggregatesFilter<"shipment_revenue"> | string | null
+  type?: Prisma.StringNullableWithAggregatesFilter<"shipment_revenue"> | string | null
 }
 
 export type shipment_revenueCreateInput = {
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   revenue?: Prisma.revenueCreateNestedOneWithoutShipment_revenueInput
   shipment_revenues?: Prisma.shipment_revenuesCreateNestedOneWithoutShipment_revenueInput
 }
@@ -258,11 +271,13 @@ export type shipment_revenueUncheckedCreateInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: string | null
+  type?: string | null
   shipment_revenues?: Prisma.shipment_revenuesUncheckedCreateNestedOneWithoutShipment_revenueInput
 }
 
 export type shipment_revenueUpdateInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   revenue?: Prisma.revenueUpdateOneWithoutShipment_revenueNestedInput
   shipment_revenues?: Prisma.shipment_revenuesUpdateOneWithoutShipment_revenueNestedInput
 }
@@ -271,6 +286,7 @@ export type shipment_revenueUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_revenues?: Prisma.shipment_revenuesUncheckedUpdateOneWithoutShipment_revenueNestedInput
 }
 
@@ -278,16 +294,19 @@ export type shipment_revenueCreateManyInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: string | null
+  type?: string | null
 }
 
 export type shipment_revenueUpdateManyMutationInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_revenueUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Shipment_revenueListRelationFilter = {
@@ -310,6 +329,7 @@ export type shipment_revenueCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   revenue_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type shipment_revenueAvgOrderByAggregateInput = {
@@ -321,12 +341,14 @@ export type shipment_revenueMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   revenue_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type shipment_revenueMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   revenue_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type shipment_revenueSumOrderByAggregateInput = {
@@ -397,12 +419,14 @@ export type shipment_revenueUpdateOneRequiredWithoutShipment_revenuesNestedInput
 
 export type shipment_revenueCreateWithoutRevenueInput = {
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   shipment_revenues?: Prisma.shipment_revenuesCreateNestedOneWithoutShipment_revenueInput
 }
 
 export type shipment_revenueUncheckedCreateWithoutRevenueInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   shipment_revenues?: Prisma.shipment_revenuesUncheckedCreateNestedOneWithoutShipment_revenueInput
 }
 
@@ -439,10 +463,12 @@ export type shipment_revenueScalarWhereInput = {
   id?: Prisma.IntFilter<"shipment_revenue"> | number
   value?: Prisma.DecimalNullableFilter<"shipment_revenue"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.StringNullableFilter<"shipment_revenue"> | string | null
+  type?: Prisma.StringNullableFilter<"shipment_revenue"> | string | null
 }
 
 export type shipment_revenueCreateWithoutShipment_revenuesInput = {
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   revenue?: Prisma.revenueCreateNestedOneWithoutShipment_revenueInput
 }
 
@@ -450,6 +476,7 @@ export type shipment_revenueUncheckedCreateWithoutShipment_revenuesInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: string | null
+  type?: string | null
 }
 
 export type shipment_revenueCreateOrConnectWithoutShipment_revenuesInput = {
@@ -470,6 +497,7 @@ export type shipment_revenueUpdateToOneWithWhereWithoutShipment_revenuesInput = 
 
 export type shipment_revenueUpdateWithoutShipment_revenuesInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   revenue?: Prisma.revenueUpdateOneWithoutShipment_revenueNestedInput
 }
 
@@ -477,27 +505,32 @@ export type shipment_revenueUncheckedUpdateWithoutShipment_revenuesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   revenue_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_revenueCreateManyRevenueInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
 }
 
 export type shipment_revenueUpdateWithoutRevenueInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_revenues?: Prisma.shipment_revenuesUpdateOneWithoutShipment_revenueNestedInput
 }
 
 export type shipment_revenueUncheckedUpdateWithoutRevenueInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_revenues?: Prisma.shipment_revenuesUncheckedUpdateOneWithoutShipment_revenueNestedInput
 }
 
 export type shipment_revenueUncheckedUpdateManyWithoutRevenueInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -506,6 +539,7 @@ export type shipment_revenueSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   value?: boolean
   revenue_map?: boolean
+  type?: boolean
   revenue?: boolean | Prisma.shipment_revenue$revenueArgs<ExtArgs>
   shipment_revenues?: boolean | Prisma.shipment_revenue$shipment_revenuesArgs<ExtArgs>
 }, ExtArgs["result"]["shipment_revenue"]>
@@ -516,9 +550,10 @@ export type shipment_revenueSelectScalar = {
   id?: boolean
   value?: boolean
   revenue_map?: boolean
+  type?: boolean
 }
 
-export type shipment_revenueOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "revenue_map", ExtArgs["result"]["shipment_revenue"]>
+export type shipment_revenueOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "revenue_map" | "type", ExtArgs["result"]["shipment_revenue"]>
 export type shipment_revenueInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   revenue?: boolean | Prisma.shipment_revenue$revenueArgs<ExtArgs>
   shipment_revenues?: boolean | Prisma.shipment_revenue$shipment_revenuesArgs<ExtArgs>
@@ -534,6 +569,7 @@ export type $shipment_revenuePayload<ExtArgs extends runtime.Types.Extensions.In
     id: number
     value: runtime.Decimal | null
     revenue_map: string | null
+    type: string | null
   }, ExtArgs["result"]["shipment_revenue"]>
   composites: {}
 }
@@ -908,6 +944,7 @@ export interface shipment_revenueFieldRefs {
   readonly id: Prisma.FieldRef<"shipment_revenue", 'Int'>
   readonly value: Prisma.FieldRef<"shipment_revenue", 'Decimal'>
   readonly revenue_map: Prisma.FieldRef<"shipment_revenue", 'String'>
+  readonly type: Prisma.FieldRef<"shipment_revenue", 'String'>
 }
     
 

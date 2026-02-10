@@ -40,18 +40,21 @@ export type Shipment_expenseMinAggregateOutputType = {
   id: number | null
   value: runtime.Decimal | null
   expense_map: string | null
+  type: string | null
 }
 
 export type Shipment_expenseMaxAggregateOutputType = {
   id: number | null
   value: runtime.Decimal | null
   expense_map: string | null
+  type: string | null
 }
 
 export type Shipment_expenseCountAggregateOutputType = {
   id: number
   value: number
   expense_map: number
+  type: number
   _all: number
 }
 
@@ -70,18 +73,21 @@ export type Shipment_expenseMinAggregateInputType = {
   id?: true
   value?: true
   expense_map?: true
+  type?: true
 }
 
 export type Shipment_expenseMaxAggregateInputType = {
   id?: true
   value?: true
   expense_map?: true
+  type?: true
 }
 
 export type Shipment_expenseCountAggregateInputType = {
   id?: true
   value?: true
   expense_map?: true
+  type?: true
   _all?: true
 }
 
@@ -175,6 +181,7 @@ export type Shipment_expenseGroupByOutputType = {
   id: number
   value: runtime.Decimal | null
   expense_map: string | null
+  type: string | null
   _count: Shipment_expenseCountAggregateOutputType | null
   _avg: Shipment_expenseAvgAggregateOutputType | null
   _sum: Shipment_expenseSumAggregateOutputType | null
@@ -204,6 +211,7 @@ export type shipment_expenseWhereInput = {
   id?: Prisma.IntFilter<"shipment_expense"> | number
   value?: Prisma.DecimalNullableFilter<"shipment_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableFilter<"shipment_expense"> | string | null
+  type?: Prisma.StringNullableFilter<"shipment_expense"> | string | null
   expense?: Prisma.XOR<Prisma.ExpenseNullableScalarRelationFilter, Prisma.expenseWhereInput> | null
   shipment_expenses?: Prisma.XOR<Prisma.Shipment_expensesNullableScalarRelationFilter, Prisma.shipment_expensesWhereInput> | null
 }
@@ -212,6 +220,7 @@ export type shipment_expenseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   expense_map?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
   expense?: Prisma.expenseOrderByWithRelationInput
   shipment_expenses?: Prisma.shipment_expensesOrderByWithRelationInput
   _relevance?: Prisma.shipment_expenseOrderByRelevanceInput
@@ -224,6 +233,7 @@ export type shipment_expenseWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.shipment_expenseWhereInput | Prisma.shipment_expenseWhereInput[]
   value?: Prisma.DecimalNullableFilter<"shipment_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableFilter<"shipment_expense"> | string | null
+  type?: Prisma.StringNullableFilter<"shipment_expense"> | string | null
   expense?: Prisma.XOR<Prisma.ExpenseNullableScalarRelationFilter, Prisma.expenseWhereInput> | null
   shipment_expenses?: Prisma.XOR<Prisma.Shipment_expensesNullableScalarRelationFilter, Prisma.shipment_expensesWhereInput> | null
 }, "id">
@@ -232,6 +242,7 @@ export type shipment_expenseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   expense_map?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipment_expenseCountOrderByAggregateInput
   _avg?: Prisma.shipment_expenseAvgOrderByAggregateInput
   _max?: Prisma.shipment_expenseMaxOrderByAggregateInput
@@ -246,10 +257,12 @@ export type shipment_expenseScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"shipment_expense"> | number
   value?: Prisma.DecimalNullableWithAggregatesFilter<"shipment_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableWithAggregatesFilter<"shipment_expense"> | string | null
+  type?: Prisma.StringNullableWithAggregatesFilter<"shipment_expense"> | string | null
 }
 
 export type shipment_expenseCreateInput = {
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   expense?: Prisma.expenseCreateNestedOneWithoutShipment_expenseInput
   shipment_expenses?: Prisma.shipment_expensesCreateNestedOneWithoutShipment_expenseInput
 }
@@ -258,11 +271,13 @@ export type shipment_expenseUncheckedCreateInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: string | null
+  type?: string | null
   shipment_expenses?: Prisma.shipment_expensesUncheckedCreateNestedOneWithoutShipment_expenseInput
 }
 
 export type shipment_expenseUpdateInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expense?: Prisma.expenseUpdateOneWithoutShipment_expenseNestedInput
   shipment_expenses?: Prisma.shipment_expensesUpdateOneWithoutShipment_expenseNestedInput
 }
@@ -271,6 +286,7 @@ export type shipment_expenseUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_expenses?: Prisma.shipment_expensesUncheckedUpdateOneWithoutShipment_expenseNestedInput
 }
 
@@ -278,16 +294,19 @@ export type shipment_expenseCreateManyInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: string | null
+  type?: string | null
 }
 
 export type shipment_expenseUpdateManyMutationInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_expenseUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Shipment_expenseListRelationFilter = {
@@ -310,6 +329,7 @@ export type shipment_expenseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   expense_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type shipment_expenseAvgOrderByAggregateInput = {
@@ -321,12 +341,14 @@ export type shipment_expenseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   expense_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type shipment_expenseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   expense_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type shipment_expenseSumOrderByAggregateInput = {
@@ -405,12 +427,14 @@ export type shipment_expenseUpdateOneRequiredWithoutShipment_expensesNestedInput
 
 export type shipment_expenseCreateWithoutExpenseInput = {
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   shipment_expenses?: Prisma.shipment_expensesCreateNestedOneWithoutShipment_expenseInput
 }
 
 export type shipment_expenseUncheckedCreateWithoutExpenseInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   shipment_expenses?: Prisma.shipment_expensesUncheckedCreateNestedOneWithoutShipment_expenseInput
 }
 
@@ -447,10 +471,12 @@ export type shipment_expenseScalarWhereInput = {
   id?: Prisma.IntFilter<"shipment_expense"> | number
   value?: Prisma.DecimalNullableFilter<"shipment_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableFilter<"shipment_expense"> | string | null
+  type?: Prisma.StringNullableFilter<"shipment_expense"> | string | null
 }
 
 export type shipment_expenseCreateWithoutShipment_expensesInput = {
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
   expense?: Prisma.expenseCreateNestedOneWithoutShipment_expenseInput
 }
 
@@ -458,6 +484,7 @@ export type shipment_expenseUncheckedCreateWithoutShipment_expensesInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: string | null
+  type?: string | null
 }
 
 export type shipment_expenseCreateOrConnectWithoutShipment_expensesInput = {
@@ -478,6 +505,7 @@ export type shipment_expenseUpdateToOneWithWhereWithoutShipment_expensesInput = 
 
 export type shipment_expenseUpdateWithoutShipment_expensesInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expense?: Prisma.expenseUpdateOneWithoutShipment_expenseNestedInput
 }
 
@@ -485,27 +513,32 @@ export type shipment_expenseUncheckedUpdateWithoutShipment_expensesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_expenseCreateManyExpenseInput = {
   id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: string | null
 }
 
 export type shipment_expenseUpdateWithoutExpenseInput = {
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_expenses?: Prisma.shipment_expensesUpdateOneWithoutShipment_expenseNestedInput
 }
 
 export type shipment_expenseUncheckedUpdateWithoutExpenseInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shipment_expenses?: Prisma.shipment_expensesUncheckedUpdateOneWithoutShipment_expenseNestedInput
 }
 
 export type shipment_expenseUncheckedUpdateManyWithoutExpenseInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -514,6 +547,7 @@ export type shipment_expenseSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   value?: boolean
   expense_map?: boolean
+  type?: boolean
   expense?: boolean | Prisma.shipment_expense$expenseArgs<ExtArgs>
   shipment_expenses?: boolean | Prisma.shipment_expense$shipment_expensesArgs<ExtArgs>
 }, ExtArgs["result"]["shipment_expense"]>
@@ -524,9 +558,10 @@ export type shipment_expenseSelectScalar = {
   id?: boolean
   value?: boolean
   expense_map?: boolean
+  type?: boolean
 }
 
-export type shipment_expenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "expense_map", ExtArgs["result"]["shipment_expense"]>
+export type shipment_expenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "expense_map" | "type", ExtArgs["result"]["shipment_expense"]>
 export type shipment_expenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expense?: boolean | Prisma.shipment_expense$expenseArgs<ExtArgs>
   shipment_expenses?: boolean | Prisma.shipment_expense$shipment_expensesArgs<ExtArgs>
@@ -542,6 +577,7 @@ export type $shipment_expensePayload<ExtArgs extends runtime.Types.Extensions.In
     id: number
     value: runtime.Decimal | null
     expense_map: string | null
+    type: string | null
   }, ExtArgs["result"]["shipment_expense"]>
   composites: {}
 }
@@ -916,6 +952,7 @@ export interface shipment_expenseFieldRefs {
   readonly id: Prisma.FieldRef<"shipment_expense", 'Int'>
   readonly value: Prisma.FieldRef<"shipment_expense", 'Decimal'>
   readonly expense_map: Prisma.FieldRef<"shipment_expense", 'String'>
+  readonly type: Prisma.FieldRef<"shipment_expense", 'String'>
 }
     
 

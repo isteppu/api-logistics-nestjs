@@ -11,7 +11,8 @@ export class ShipmentService {
   async create(data: CreateShipmentInput) {
     let customerId: string | undefined;
     let issuerId: string | undefined;
-
+  
+    // 1. Resolve User IDs
     if (data.customer_username) {
       const customer = await this.prisma.user.findUnique({
         where: { username: data.customer_username },
@@ -19,7 +20,7 @@ export class ShipmentService {
       if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
       customerId = customer.id;
     }
-
+  
     if (data.issuer_username) {
       const issuer = await this.prisma.user.findUnique({
         where: { username: data.issuer_username },
@@ -27,29 +28,78 @@ export class ShipmentService {
       if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
       issuerId = issuer.id;
     }
-
-    return this.prisma.shipment.create({
-      data: {
-        id: randomUUID(),
-        blno: data.blno,
-        contract_no: data.contract_no,
-        entry_no: data.entry_no,
-        reference: data.reference,
-        registry_no: data.registry_no,
-        status: 'PENDING',
-        volumex: data.volumex,
-        volumey: data.volumey,
-        customer_id: customerId,
-        issuer_id: issuerId,
-        estimated_time_arrival: data.estimated_time_arrival,
-        is_archived: 0,
-        actual_time_arrival: null,
-        date_issued: new Date(),
-      },
-      include: {
-        user_shipment_customer_idTouser: true,
-        user_shipment_issuer_idTouser: true,
+  
+    // 2. Start Transaction
+    return this.prisma.$transaction(async (tx) => {
+      // A. Create the Shipment
+      const shipment = await tx.shipment.create({
+        data: {
+          id: randomUUID(),
+          blno: data.blno,
+          contract_no: data.contract_no,
+          entry_no: data.entry_no,
+          reference: data.reference,
+          registry_no: data.registry_no,
+          status: 'PENDING',
+          volumex: data.volumex,
+          volumey: data.volumey,
+          customer_id: customerId,
+          issuer_id: issuerId,
+          estimated_time_arrival: data.estimated_time_arrival,
+          is_archived: 0,
+          actual_time_arrival: null,
+          date_issued: new Date(),
+        },
+        include: {
+          user_shipment_customer_idTouser: true,
+          user_shipment_issuer_idTouser: true,
+        }
+      });
+  
+      // B. Handle Finances (Billing, Cost, and VAT percentages)
+      if (data.finances && data.finances.length > 0) {
+        for (const row of data.finances) {
+          const isRevenue = row.title.toLowerCase().includes('billing');
+  
+          if (isRevenue) {
+            // Check/Create Category Map
+            await tx.revenue.upsert({
+              where: { title: row.title },
+              update: {},
+              create: { title: row.title },
+            });
+  
+            // Create Revenue Detail
+            const rev = await tx.shipment_revenue.create({
+              data: { value: row.value, revenue_map: row.title, type: row.type }
+            });
+  
+            // Link to Shipment
+            await tx.shipment_revenues.create({
+              data: { shipment_id: shipment.id, revenues_id: rev.id }
+            });
+          } else {
+            // Check/Create Category Map
+            await tx.expense.upsert({
+              where: { title: row.title },
+              update: {},
+              create: { title: row.title },
+            });
+  
+            // Create Expense Detail
+            const exp = await tx.shipment_expense.create({
+              data: { value: row.value, expense_map: row.title, type: row.type }
+            });
+  
+            // Link to Shipment
+            await tx.shipment_expenses.create({
+              data: { shipment_id: shipment.id, expenses_id: exp.id }
+            });
+          }
+        }
       }
+  
+      return shipment;
     });
   }
 
@@ -74,8 +124,19 @@ export class ShipmentService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} shipment`;
+  async findOne(id: string) {
+    const [items] = await this.prisma.shipment.findMany({
+        where: { id },
+        orderBy: { date_issued: 'desc' },
+        include: {
+          user_shipment_customer_idTouser: true,
+          user_shipment_issuer_idTouser: true,
+        }
+      })
+
+    return {
+      items
+    };
   }
 
   async update(id: string, data: UpdateShipmentInput) {
