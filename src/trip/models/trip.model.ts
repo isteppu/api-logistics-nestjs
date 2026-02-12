@@ -17,6 +17,9 @@ export class Trip {
 
   @Field(() => Storable, { nullable: true })
   container?: any;
+
+  @Field(() => Storable, { nullable: true })
+  warehouse?: any;
 }
 
 @ObjectType()

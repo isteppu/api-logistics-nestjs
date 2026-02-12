@@ -100,6 +100,7 @@ type Trip {
   truck: Truck
   port: Storable
   container: Storable
+  warehouse: Storable
   financeSummary: [ShipmentFinanceRow!]!
 }
 
@@ -200,6 +201,10 @@ input CreateTripInput {
   container_id: String!
   truck_id: String!
   warehouse_id: String
+  base_rate: Float
+  volumex: Float
+  volumey: Float
+  port_id: String
   commodity: String
   finances: [TripFinanceRowInput!]
 }
@@ -214,6 +219,10 @@ input UpdateTripInput {
   container_id: String
   truck_id: String
   warehouse_id: String
+  base_rate: Float
+  volumex: Float
+  volumey: Float
+  port_id: String
   commodity: String
   finances: [TripFinanceRowInput!]
   id: String!

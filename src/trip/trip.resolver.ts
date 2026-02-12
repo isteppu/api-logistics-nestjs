@@ -39,6 +39,11 @@ export class TripResolver {
     return trip.storable_trip_container_idTostorable;
   }
 
+  @ResolveField(() => Storable, { nullable: true })
+  warehouse(@Parent() trip: any) {
+    return trip.storable_trip_warehouse_idTostorable;
+  }
+
   @ResolveField(() => [ShipmentFinanceRow])
   async financeSummary(@Parent() trip: any) {
     const [revenues, expenses] = await Promise.all([

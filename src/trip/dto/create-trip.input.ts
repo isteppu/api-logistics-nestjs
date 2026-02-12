@@ -1,25 +1,46 @@
 import { InputType, Field, Float } from '@nestjs/graphql';
-import { IsString, IsOptional, IsNumber, IsDate, IsIn, ValidateNested, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsIn, ValidateNested, IsArray, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 
 @InputType()
 export class CreateTripInput {
   @Field()
-  @IsString() // <--- Add this
+  @IsString()
   container_id: string;
 
   @Field()
-  @IsString() // <--- Add this
+  @IsString()
   truck_id: string;
 
   @Field({ nullable: true })
   @IsOptional()
-  @IsString() // <--- Add this
+  @IsString()
   warehouse_id?: string;
 
   @Field({ nullable: true })
   @IsOptional()
-  @IsString() // <--- Add this
+  @IsInt()
+  base_rate?: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsInt()
+  volumex?: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsInt()
+  volumey?: number;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  port_id?: string;
+
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
   commodity?: string;
 
   @Field(() => [TripFinanceRowInput], { nullable: true })
@@ -33,15 +54,15 @@ export class CreateTripInput {
 @InputType()
 export class TripFinanceRowInput {
   @Field()
-  @IsString() // Add this
+  @IsString() 
   title: string;
 
   @Field()
-  @IsString() // Add this
-  @IsIn(['amount', 'percentage']) // Optional: keeps data clean
+  @IsString()
+  @IsIn(['amount', 'percentage']) 
   type: string;
 
   @Field(() => Float)
-  @IsNumber() // Add this
+  @IsNumber()
   value: number;
 }
