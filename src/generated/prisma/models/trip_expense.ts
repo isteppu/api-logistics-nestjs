@@ -40,18 +40,24 @@ export type Trip_expenseMinAggregateOutputType = {
   id: number | null
   value: runtime.Decimal | null
   expense_map: string | null
+  type: string | null
+  trip_id: string | null
 }
 
 export type Trip_expenseMaxAggregateOutputType = {
   id: number | null
   value: runtime.Decimal | null
   expense_map: string | null
+  type: string | null
+  trip_id: string | null
 }
 
 export type Trip_expenseCountAggregateOutputType = {
   id: number
   value: number
   expense_map: number
+  type: number
+  trip_id: number
   _all: number
 }
 
@@ -70,18 +76,24 @@ export type Trip_expenseMinAggregateInputType = {
   id?: true
   value?: true
   expense_map?: true
+  type?: true
+  trip_id?: true
 }
 
 export type Trip_expenseMaxAggregateInputType = {
   id?: true
   value?: true
   expense_map?: true
+  type?: true
+  trip_id?: true
 }
 
 export type Trip_expenseCountAggregateInputType = {
   id?: true
   value?: true
   expense_map?: true
+  type?: true
+  trip_id?: true
   _all?: true
 }
 
@@ -175,6 +187,8 @@ export type Trip_expenseGroupByOutputType = {
   id: number
   value: runtime.Decimal | null
   expense_map: string | null
+  type: string | null
+  trip_id: string
   _count: Trip_expenseCountAggregateOutputType | null
   _avg: Trip_expenseAvgAggregateOutputType | null
   _sum: Trip_expenseSumAggregateOutputType | null
@@ -204,12 +218,16 @@ export type trip_expenseWhereInput = {
   id?: Prisma.IntFilter<"trip_expense"> | number
   value?: Prisma.DecimalNullableFilter<"trip_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableFilter<"trip_expense"> | string | null
+  type?: Prisma.StringNullableFilter<"trip_expense"> | string | null
+  trip_id?: Prisma.StringFilter<"trip_expense"> | string
 }
 
 export type trip_expenseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   expense_map?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
+  trip_id?: Prisma.SortOrder
   _relevance?: Prisma.trip_expenseOrderByRelevanceInput
 }
 
@@ -220,12 +238,16 @@ export type trip_expenseWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.trip_expenseWhereInput | Prisma.trip_expenseWhereInput[]
   value?: Prisma.DecimalNullableFilter<"trip_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableFilter<"trip_expense"> | string | null
+  type?: Prisma.StringNullableFilter<"trip_expense"> | string | null
+  trip_id?: Prisma.StringFilter<"trip_expense"> | string
 }, "id">
 
 export type trip_expenseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   expense_map?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
+  trip_id?: Prisma.SortOrder
   _count?: Prisma.trip_expenseCountOrderByAggregateInput
   _avg?: Prisma.trip_expenseAvgOrderByAggregateInput
   _max?: Prisma.trip_expenseMaxOrderByAggregateInput
@@ -240,48 +262,61 @@ export type trip_expenseScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"trip_expense"> | number
   value?: Prisma.DecimalNullableWithAggregatesFilter<"trip_expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.StringNullableWithAggregatesFilter<"trip_expense"> | string | null
+  type?: Prisma.StringNullableWithAggregatesFilter<"trip_expense"> | string | null
+  trip_id?: Prisma.StringWithAggregatesFilter<"trip_expense"> | string
 }
 
 export type trip_expenseCreateInput = {
-  id: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: string | null
+  type?: string | null
+  trip_id: string
 }
 
 export type trip_expenseUncheckedCreateInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: string | null
+  type?: string | null
+  trip_id: string
 }
 
 export type trip_expenseUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trip_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type trip_expenseUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trip_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type trip_expenseCreateManyInput = {
-  id: number
+  id?: number
   value?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: string | null
+  type?: string | null
+  trip_id: string
 }
 
 export type trip_expenseUpdateManyMutationInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trip_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type trip_expenseUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   expense_map?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trip_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type trip_expenseOrderByRelevanceInput = {
@@ -294,6 +329,8 @@ export type trip_expenseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   expense_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  trip_id?: Prisma.SortOrder
 }
 
 export type trip_expenseAvgOrderByAggregateInput = {
@@ -305,12 +342,16 @@ export type trip_expenseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   expense_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  trip_id?: Prisma.SortOrder
 }
 
 export type trip_expenseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   value?: Prisma.SortOrder
   expense_map?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  trip_id?: Prisma.SortOrder
 }
 
 export type trip_expenseSumOrderByAggregateInput = {
@@ -324,6 +365,8 @@ export type trip_expenseSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   value?: boolean
   expense_map?: boolean
+  type?: boolean
+  trip_id?: boolean
 }, ExtArgs["result"]["trip_expense"]>
 
 
@@ -332,9 +375,11 @@ export type trip_expenseSelectScalar = {
   id?: boolean
   value?: boolean
   expense_map?: boolean
+  type?: boolean
+  trip_id?: boolean
 }
 
-export type trip_expenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "expense_map", ExtArgs["result"]["trip_expense"]>
+export type trip_expenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "value" | "expense_map" | "type" | "trip_id", ExtArgs["result"]["trip_expense"]>
 
 export type $trip_expensePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "trip_expense"
@@ -343,6 +388,8 @@ export type $trip_expensePayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: number
     value: runtime.Decimal | null
     expense_map: string | null
+    type: string | null
+    trip_id: string
   }, ExtArgs["result"]["trip_expense"]>
   composites: {}
 }
@@ -715,6 +762,8 @@ export interface trip_expenseFieldRefs {
   readonly id: Prisma.FieldRef<"trip_expense", 'Int'>
   readonly value: Prisma.FieldRef<"trip_expense", 'Decimal'>
   readonly expense_map: Prisma.FieldRef<"trip_expense", 'String'>
+  readonly type: Prisma.FieldRef<"trip_expense", 'String'>
+  readonly trip_id: Prisma.FieldRef<"trip_expense", 'String'>
 }
     
 

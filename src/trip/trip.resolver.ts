@@ -4,10 +4,12 @@ import { TripService } from './trip.service.js';
 import { CreateTripInput } from './dto/create-trip.input.js';
 import { UpdateTripInput } from './dto/update-trip.input.js';
 import { Storable } from '../storable/models/storable.model.js';
+import { ShipmentFinanceRow } from '../shipment/models/shipment-finance-row.model.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 
 @Resolver(() => Trip)
 export class TripResolver {
-  constructor(private readonly tripService: TripService) {}
+  constructor(private readonly tripService: TripService, private prisma: PrismaService) { }
 
   @Query(() => TripPaginationResponse)
   async trips(
@@ -35,5 +37,28 @@ export class TripResolver {
   @ResolveField(() => Storable, { nullable: true })
   container(@Parent() trip: any) {
     return trip.storable_trip_container_idTostorable;
+  }
+
+  @ResolveField(() => [ShipmentFinanceRow])
+  async financeSummary(@Parent() trip: any) {
+    const [revenues, expenses] = await Promise.all([
+      this.prisma.trip_revenue.findMany({ where: { trip_id: trip.id } }),
+      this.prisma.trip_expense.findMany({ where: { trip_id: trip.id } })
+    ]);
+
+    const allRows = [
+      ...revenues.map(r => ({
+        title: r.revenue_map || 'Revenue',
+        type: r.type || 'amount',
+        value: Number(r.value)
+      })),
+      ...expenses.map(e => ({
+        title: e.expense_map || 'Expense',
+        type: e.type || 'amount',
+        value: Number(e.value)
+      }))
+    ];
+
+    return allRows;
   }
 }

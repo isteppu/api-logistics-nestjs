@@ -214,7 +214,9 @@ export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof Trip
 export const Trip_expenseScalarFieldEnum = {
   id: 'id',
   value: 'value',
-  expense_map: 'expense_map'
+  expense_map: 'expense_map',
+  type: 'type',
+  trip_id: 'trip_id'
 } as const
 
 export type Trip_expenseScalarFieldEnum = (typeof Trip_expenseScalarFieldEnum)[keyof typeof Trip_expenseScalarFieldEnum]
@@ -223,7 +225,9 @@ export type Trip_expenseScalarFieldEnum = (typeof Trip_expenseScalarFieldEnum)[k
 export const Trip_revenueScalarFieldEnum = {
   id: 'id',
   value: 'value',
-  revenue_map: 'revenue_map'
+  revenue_map: 'revenue_map',
+  type: 'type',
+  trip_id: 'trip_id'
 } as const
 
 export type Trip_revenueScalarFieldEnum = (typeof Trip_revenueScalarFieldEnum)[keyof typeof Trip_revenueScalarFieldEnum]
@@ -386,14 +390,18 @@ export type tripOrderByRelevanceFieldEnum = (typeof tripOrderByRelevanceFieldEnu
 
 
 export const trip_expenseOrderByRelevanceFieldEnum = {
-  expense_map: 'expense_map'
+  expense_map: 'expense_map',
+  type: 'type',
+  trip_id: 'trip_id'
 } as const
 
 export type trip_expenseOrderByRelevanceFieldEnum = (typeof trip_expenseOrderByRelevanceFieldEnum)[keyof typeof trip_expenseOrderByRelevanceFieldEnum]
 
 
 export const trip_revenueOrderByRelevanceFieldEnum = {
-  revenue_map: 'revenue_map'
+  revenue_map: 'revenue_map',
+  type: 'type',
+  trip_id: 'trip_id'
 } as const
 
 export type trip_revenueOrderByRelevanceFieldEnum = (typeof trip_revenueOrderByRelevanceFieldEnum)[keyof typeof trip_revenueOrderByRelevanceFieldEnum]

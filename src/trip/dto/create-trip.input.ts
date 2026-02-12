@@ -1,22 +1,47 @@
-import { InputType, Field, Int, Float } from '@nestjs/graphql';
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsDate } from 'class-validator';
+import { InputType, Field, Float } from '@nestjs/graphql';
+import { IsString, IsOptional, IsNumber, IsDate, IsIn, ValidateNested, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 
 @InputType()
 export class CreateTripInput {
-  @Field() @IsString() @IsNotEmpty() id: string;
-  @Field({ nullable: true }) @IsOptional() @IsString() commodity?: string;
-  
-  @Field(() => Float, { nullable: true }) @IsOptional() @IsNumber() base_rate?: number;
-  @Field(() => Int, { nullable: true }) @IsOptional() @IsNumber() volumex?: number;
-  @Field(() => Int, { nullable: true }) @IsOptional() @IsNumber() volumey?: number;
+  @Field()
+  @IsString() // <--- Add this
+  container_id: string;
 
-  @Field() @IsDate() @Type(() => Date) date_created: Date;
-  @Field({ nullable: true }) @IsOptional() @IsDate() @Type(() => Date) date_delivered?: Date;
+  @Field()
+  @IsString() // <--- Add this
+  truck_id: string;
 
-  // Foreign Keys (Storable IDs & Truck ID)
-  @Field({ nullable: true }) @IsOptional() @IsString() container_id?: string;
-  @Field({ nullable: true }) @IsOptional() @IsString() port_id?: string;
-  @Field({ nullable: true }) @IsOptional() @IsString() warehouse_id?: string;
-  @Field({ nullable: true }) @IsOptional() @IsString() truck_id?: string;
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString() // <--- Add this
+  warehouse_id?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString() // <--- Add this
+  commodity?: string;
+
+  @Field(() => [TripFinanceRowInput], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TripFinanceRowInput)
+  finances?: TripFinanceRowInput[];
+}
+
+@InputType()
+export class TripFinanceRowInput {
+  @Field()
+  @IsString() // Add this
+  title: string;
+
+  @Field()
+  @IsString() // Add this
+  @IsIn(['amount', 'percentage']) // Optional: keeps data clean
+  type: string;
+
+  @Field(() => Float)
+  @IsNumber() // Add this
+  value: number;
 }

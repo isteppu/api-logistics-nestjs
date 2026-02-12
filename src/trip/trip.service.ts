@@ -5,12 +5,56 @@ import { UpdateTripInput } from './dto/update-trip.input.js';
 
 @Injectable()
 export class TripService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: CreateTripInput) {
-    return this.prisma.trip.create({
-      data,
-      include: { truck: true, storable_trip_port_idTostorable: true }
+    const { finances, ...tripData } = data;
+
+    return this.prisma.$transaction(async (tx) => {
+
+      await tx.truck.upsert({
+        where: { id: data.truck_id },
+        update: {},
+        create: {
+          id: data.truck_id,
+          operator: 'Unknown',
+          is_archived: 0
+        },
+      });
+
+      const trip = await tx.trip.create({
+        data: {
+          id: crypto.randomUUID(),
+          ...tripData,
+        },
+      });
+
+      if (finances && finances.length > 0) {
+        for (const row of finances) {
+          const isRevenue = ['base rate', 'tariff rate'].includes(row.title.toLowerCase());
+
+          if (isRevenue) {
+            await tx.trip_revenue.create({
+              data: {
+                trip_id: trip.id,
+                value: row.value,
+                revenue_map: row.title,
+                type: row.type
+              }
+            });
+          } else {
+            await tx.trip_expense.create({
+              data: {
+                trip_id: trip.id,
+                value: row.value,
+                expense_map: row.title,
+                type: row.type
+              }
+            });
+          }
+        }
+      }
+      return trip;
     });
   }
 

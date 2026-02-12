@@ -164,15 +164,19 @@ model trip {
 }
 
 model trip_expense {
-  id          Int      @id
+  id          Int      @id @default(autoincrement())
   value       Decimal? @db.Decimal(38, 2)
   expense_map String?  @db.VarChar(255)
+  type        String?  @db.VarChar(50)
+  trip_id     String   @db.VarChar(36)
 }
 
 model trip_revenue {
-  id          Int      @id
+  id          Int      @id @default(autoincrement())
   value       Decimal? @db.Decimal(38, 2)
   revenue_map String?  @db.VarChar(255)
+  type        String?  @db.VarChar(50)
+  trip_id     String   @db.VarChar(36)
 }
 
 model truck {

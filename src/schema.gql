@@ -100,6 +100,7 @@ type Trip {
   truck: Truck
   port: Storable
   container: Storable
+  financeSummary: [ShipmentFinanceRow!]!
 }
 
 type TripPaginationResponse {
@@ -196,31 +197,26 @@ input UpdateExpenseInput {
 }
 
 input CreateTripInput {
-  id: String!
-  commodity: String
-  base_rate: Float
-  volumex: Int
-  volumey: Int
-  date_created: DateTime!
-  date_delivered: DateTime
-  container_id: String
-  port_id: String
+  container_id: String!
+  truck_id: String!
   warehouse_id: String
-  truck_id: String
+  commodity: String
+  finances: [TripFinanceRowInput!]
+}
+
+input TripFinanceRowInput {
+  title: String!
+  type: String!
+  value: Float!
 }
 
 input UpdateTripInput {
-  id: String!
-  commodity: String
-  base_rate: Float
-  volumex: Int
-  volumey: Int
-  date_created: DateTime
-  date_delivered: DateTime
   container_id: String
-  port_id: String
-  warehouse_id: String
   truck_id: String
+  warehouse_id: String
+  commodity: String
+  finances: [TripFinanceRowInput!]
+  id: String!
 }
 
 input CreateStorableInput {
