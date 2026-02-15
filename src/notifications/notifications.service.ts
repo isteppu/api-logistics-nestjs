@@ -10,29 +10,30 @@ export class NotificationService {
     ) { }
 
     async blastNotification(message: string, type: string, refId: string, senderId: string) {
-        return this.prisma.$transaction(async (tx) => {
-            const note = await tx.notification.create({
-                data: { message, type, reference_id: refId }
-            });
+        return 1;
+        // return this.prisma.$transaction(async (tx) => {
+        //     const note = await tx.notification.create({
+        //         data: { message, type, reference_id: refId }
+        //     });
 
-            const targetUsers = await tx.user.findMany();
+        //     const targetUsers = await tx.user.findMany();
 
-            const userNotes = targetUsers.map(u => ({
-                user_id: u.id,
-                notification_id: note.id,
-                is_read: false
-            }));
+        //     const userNotes = targetUsers.map(u => ({
+        //         user_id: u.id,
+        //         notification_id: note.id,
+        //         is_read: false
+        //     }));
 
-            await tx.user_notification.createMany({ data: userNotes });
+        //     await tx.user_notification.createMany({ data: userNotes });
 
-            this.gateway.server.emit('refreshNotifications', {
-                newNotification: message,
-                type: type,
-                targetUserIds: targetUsers.map(u => u.id)
-            });
+        //     this.gateway.server.emit('refreshNotifications', {
+        //         newNotification: message,
+        //         type: type,
+        //         targetUserIds: targetUsers.map(u => u.id)
+        //     });
 
-            return note;
-        });
+        //     return note;
+        // });
     }
 
     async getMyNotifications(userId: string) {
