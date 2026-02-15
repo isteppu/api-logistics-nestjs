@@ -14,6 +14,10 @@ import { ExpenseModule } from './expense/expense.module.js';
 import { TripModule } from './trip/trip.module.js';
 import { StorableModule } from './storable/storable.module.js';
 import { TruckModule } from './truck/truck.module.js';
+import { DashboardModule } from './dashboard/dashboard.module.js';
+import { NotificationsController } from './notifications/notifications.controller.js';
+import { NotificationService } from './notifications/notifications.service.js';
+import { NotificationsModule } from './notifications/notifications.module.js';
 
 @Module({
   imports: [
@@ -24,9 +28,9 @@ import { TruckModule } from './truck/truck.module.js';
       resolvers: { DateTime: GraphQLISODateTime }
     }),
     AuthModule, 
-    PrismaModule, ShipmentModule, UserModule, ExpenseModule, TripModule, StorableModule, TruckModule
+    PrismaModule, ShipmentModule, UserModule, ExpenseModule, TripModule, StorableModule, TruckModule, DashboardModule, NotificationsModule
   ],
-  controllers: [AppController],
-  providers: [AppService, UserService, UserResolver],
+  controllers: [AppController, NotificationsController],
+  providers: [AppService, UserService, UserResolver, NotificationService],
 })
 export class AppModule {}

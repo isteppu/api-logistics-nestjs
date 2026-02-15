@@ -2,7 +2,7 @@ generator client {
   provider        = "prisma-client"
   previewFeatures = ["driverAdapters"]
   output          = "../src/generated/prisma"
-  engineType = "library"
+  engineType      = "library"
 }
 
 datasource db {
@@ -189,20 +189,21 @@ model truck {
 
 model User {
   role_id                             Int
-  date_created                        DateTime         @default(now()) @db.Timestamp(0)
-  last_logged_in                      DateTime?        @db.DateTime(6)
-  current_session                     Bytes?           @db.Binary(16)
-  id                                  String           @id @db.VarChar(36)
-  first_name                          String           @db.VarChar(255)
-  last_name                           String           @db.VarChar(255)
-  middle_name                         String?          @db.VarChar(255)
-  password                            String           @db.VarChar(255)
-  username                            String           @unique @db.VarChar(255)
-  shipment_shipment_customer_idTouser shipment[]       @relation("shipment_customer_idTouser")
-  shipment_shipment_issuer_idTouser   shipment[]       @relation("shipment_issuer_idTouser")
+  date_created                        DateTime            @default(now()) @db.Timestamp(0)
+  last_logged_in                      DateTime?           @db.DateTime(6)
+  current_session                     Bytes?              @db.Binary(16)
+  id                                  String              @id @db.VarChar(36)
+  first_name                          String              @db.VarChar(255)
+  last_name                           String              @db.VarChar(255)
+  middle_name                         String?             @db.VarChar(255)
+  password                            String              @db.VarChar(255)
+  username                            String              @unique @db.VarChar(255)
+  shipment_shipment_customer_idTouser shipment[]          @relation("shipment_customer_idTouser")
+  shipment_shipment_issuer_idTouser   shipment[]          @relation("shipment_issuer_idTouser")
   storable                            storable[]
-  role                                role             @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role")
+  role                                role                @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role")
   user_shipments                      user_shipments[]
+  notifications                       user_notification[]
 
   @@index([role_id], map: "fk_user_role")
   @@map("user")
@@ -215,4 +216,25 @@ model user_shipments {
   user         User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_us_user")
 
   @@index([user_id], map: "fk_us_user")
+}
+
+model notification {
+  id           Int                 @id @default(autoincrement())
+  message      String              @db.VarChar(255)
+  type         String              @db.VarChar(50) // e.g., "SHIPMENT", "TRIP"
+  reference_id String?             @db.VarChar(36)
+  created_at   DateTime            @default(now())
+  user_status  user_notification[]
+}
+
+model user_notification {
+  user_id         String    @db.VarChar(36)
+  notification_id Int
+  is_read         Boolean   @default(false)
+  read_at         DateTime?
+
+  user         User         @relation(fields: [user_id], references: [id])
+  notification notification @relation(fields: [notification_id], references: [id])
+
+  @@id([user_id, notification_id])
 }

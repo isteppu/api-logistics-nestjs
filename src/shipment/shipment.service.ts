@@ -1,17 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateShipmentInput } from './dto/create-shipment.input.js';
 import { UpdateShipmentInput } from './dto/update-shipment.input.js';
+import { NotificationService } from '../notifications/notifications.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ShipmentService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService, private notificationService: NotificationService) { }
 
   async create(data: CreateShipmentInput) {
     let customerId: string | undefined;
     let issuerId: string | undefined;
-  
+
     // 1. Resolve User IDs
     if (data.customer_username) {
       const customer = await this.prisma.user.findUnique({
@@ -20,7 +21,7 @@ export class ShipmentService {
       if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
       customerId = customer.id;
     }
-  
+
     if (data.issuer_username) {
       const issuer = await this.prisma.user.findUnique({
         where: { username: data.issuer_username },
@@ -28,7 +29,7 @@ export class ShipmentService {
       if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
       issuerId = issuer.id;
     }
-  
+
     // 2. Start Transaction
     return this.prisma.$transaction(async (tx) => {
       // A. Create the Shipment
@@ -55,50 +56,54 @@ export class ShipmentService {
           user_shipment_issuer_idTouser: true,
         }
       });
-  
-      // B. Handle Finances (Billing, Cost, and VAT percentages)
+
       if (data.finances && data.finances.length > 0) {
         for (const row of data.finances) {
           const isRevenue = row.title.toLowerCase().includes('billing');
-  
+
           if (isRevenue) {
-            // Check/Create Category Map
             await tx.revenue.upsert({
               where: { title: row.title },
               update: {},
               create: { title: row.title },
             });
-  
-            // Create Revenue Detail
+
             const rev = await tx.shipment_revenue.create({
               data: { value: row.value, revenue_map: row.title, type: row.type }
             });
-  
-            // Link to Shipment
+
             await tx.shipment_revenues.create({
               data: { shipment_id: shipment.id, revenues_id: rev.id }
             });
           } else {
-            // Check/Create Category Map
             await tx.expense.upsert({
               where: { title: row.title },
               update: {},
               create: { title: row.title },
             });
-  
-            // Create Expense Detail
+
             const exp = await tx.shipment_expense.create({
               data: { value: row.value, expense_map: row.title, type: row.type }
             });
-  
-            // Link to Shipment
+
             await tx.shipment_expenses.create({
               data: { shipment_id: shipment.id, expenses_id: exp.id }
             });
           }
         }
       }
-  
+
+
+      await this.notificationService.blastNotification(
+        `New Shipment: ${shipment.blno} was added by ${data.issuer_username}`,
+        'SHIPMENT_CREATED',
+        shipment.id,
+        shipment.issuer_id || ''
+      ).catch(err => {
+        console.error('Background Notification Error:', err);
+      });
+
+
       return shipment;
     });
   }
@@ -126,13 +131,13 @@ export class ShipmentService {
 
   async findOne(id: string) {
     const [items] = await this.prisma.shipment.findMany({
-        where: { id },
-        orderBy: { date_issued: 'desc' },
-        include: {
-          user_shipment_customer_idTouser: true,
-          user_shipment_issuer_idTouser: true,
-        }
-      })
+      where: { id },
+      orderBy: { date_issued: 'desc' },
+      include: {
+        user_shipment_customer_idTouser: true,
+        user_shipment_issuer_idTouser: true,
+      }
+    })
 
     return {
       items
@@ -141,7 +146,7 @@ export class ShipmentService {
 
   async update(id: string, data: UpdateShipmentInput) {
     const updatePayload: any = { ...data };
-    delete updatePayload.id; 
+    delete updatePayload.id;
 
     if (data.customer_username) {
       const customer = await this.prisma.user.findUnique({
@@ -172,7 +177,7 @@ export class ShipmentService {
     });
   }
 
-  
+
   remove(id: number) {
     return `This action removes a #${id} shipment`;
   }

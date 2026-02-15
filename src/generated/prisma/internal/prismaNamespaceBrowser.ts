@@ -67,7 +67,9 @@ export const ModelName = {
   trip_revenue: 'trip_revenue',
   truck: 'truck',
   User: 'User',
-  user_shipments: 'user_shipments'
+  user_shipments: 'user_shipments',
+  notification: 'notification',
+  user_notification: 'user_notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -267,6 +269,27 @@ export const User_shipmentsScalarFieldEnum = {
 export type User_shipmentsScalarFieldEnum = (typeof User_shipmentsScalarFieldEnum)[keyof typeof User_shipmentsScalarFieldEnum]
 
 
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  type: 'type',
+  reference_id: 'reference_id',
+  created_at: 'created_at'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const User_notificationScalarFieldEnum = {
+  user_id: 'user_id',
+  notification_id: 'notification_id',
+  is_read: 'is_read',
+  read_at: 'read_at'
+} as const
+
+export type User_notificationScalarFieldEnum = (typeof User_notificationScalarFieldEnum)[keyof typeof User_notificationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -434,4 +457,20 @@ export const user_shipmentsOrderByRelevanceFieldEnum = {
 } as const
 
 export type user_shipmentsOrderByRelevanceFieldEnum = (typeof user_shipmentsOrderByRelevanceFieldEnum)[keyof typeof user_shipmentsOrderByRelevanceFieldEnum]
+
+
+export const notificationOrderByRelevanceFieldEnum = {
+  message: 'message',
+  type: 'type',
+  reference_id: 'reference_id'
+} as const
+
+export type notificationOrderByRelevanceFieldEnum = (typeof notificationOrderByRelevanceFieldEnum)[keyof typeof notificationOrderByRelevanceFieldEnum]
+
+
+export const user_notificationOrderByRelevanceFieldEnum = {
+  user_id: 'user_id'
+} as const
+
+export type user_notificationOrderByRelevanceFieldEnum = (typeof user_notificationOrderByRelevanceFieldEnum)[keyof typeof user_notificationOrderByRelevanceFieldEnum]
 

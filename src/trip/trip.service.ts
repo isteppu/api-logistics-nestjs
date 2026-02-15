@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateTripInput } from './dto/create-trip.input.js';
 import { UpdateTripInput } from './dto/update-trip.input.js';
+import { NotificationService } from '../notifications/notifications.service.js';
 
 @Injectable()
 export class TripService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService, private notificationService: NotificationService) { }
 
   async create(data: CreateTripInput) {
     const { finances, ...tripData } = data;
@@ -54,12 +55,28 @@ export class TripService {
           }
         }
       }
+
+      await this.notificationService.blastNotification(
+        `New Trip ID: ${trip.id}, ${trip.commodity} to ${trip.warehouse_id}`,
+        'TRIP_CREATED',
+        trip.id,
+        ''
+      );
+
       return trip;
     });
   }
 
   async update(id: string, data: UpdateTripInput) {
     const { id: _, ...updateData } = data;
+
+    await this.notificationService.blastNotification(
+      `UPDATE Trip ID: ${data.id}, ${data.commodity} to ${data.warehouse_id}`,
+      'TRIP_UPDATED',
+      data.id,
+      ''
+    );
+
     return this.prisma.trip.update({
       where: { id },
       data: updateData,
