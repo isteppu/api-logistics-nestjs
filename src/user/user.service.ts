@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service.js';
 export class UserService {
     constructor(private prisma: PrismaService) { }
     async findAll(skip: number, take: number) {
-        const [items, totalCount] = await this.prisma.$transaction([
+        const [items, totalCount] = await Promise.all([
             this.prisma.user.findMany({
                 skip,
                 take,

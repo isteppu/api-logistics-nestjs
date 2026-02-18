@@ -85,7 +85,7 @@ export class TripService {
   }
 
   async findAllPaginated(skip: number, take: number) {
-    const [items, totalCount] = await this.prisma.$transaction([
+    const [items, totalCount] = await Promise.all([
       this.prisma.trip.findMany({
         skip,
         take,

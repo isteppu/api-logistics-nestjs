@@ -1,78 +1,71 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service.js';
-import { NotificationGateway } from './notifications.gateway.js';
+import axios from 'axios';
 
 @Injectable()
 export class NotificationService {
-    constructor(
-        private prisma: PrismaService,
-        private gateway: NotificationGateway
-    ) { }
+  private readonly botToken = process.env.TELEGRAM_BOT_TOKEN;
+  private readonly chatId = process.env.TELEGRAM_CHAT_ID;
 
-    async blastNotification(message: string, type: string, refId: string, senderId: string, shipment?: boolean, issuer_id?: string, customer_id?: string) {
-        return 1;
-        // return this.prisma.$transaction(async (tx) => {
-        //     const note = await tx.notification.create({
-        //         data: { message, type, reference_id: refId }
-        //     });
+  /**
+   * Sends a new shipment notification with an inline "Mark as Read" button.
+   */
+  async sendShipmentAlert(shipment: any) {
+    const text = this.formatShipmentMessage(shipment, []);
+    return this.sendToTelegram(text, shipment.id);
+  }
 
-        //     const targetUsers = await tx.user.findMany();
-
-        //     const userNotes = targetUsers.map(u => ({
-        //         user_id: u.id,
-        //         notification_id: note.id,
-        //         is_read: false
-        //     }));
-
-        //     await tx.user_notification.createMany({ data: userNotes });
-
-        //     this.gateway.server.emit('refreshNotifications', {
-        //         newNotification: message,
-        //         type: type,
-        //         targetUserIds: targetUsers.map(u => u.id)
-        //     });
-
-        //     return note;
-        // });
+  /**
+   * Formats the HTML message. 
+   * 'readers' is an array of names who already clicked the button.
+   */
+  formatShipmentMessage(shipment: any, readers: string[]) {
+    let text = `📦 <b>NEW Shipment!</b>\n`;
+    text += `<b>ID:</b> <code>${shipment.id}</code>\n`;
+    text += `<b>BL No:</b> ${shipment.blno}\n`;
+    text += `<b>Port:</b> ${shipment.port || 'N/A'}\n\n`;
+    
+    text += `<b>Acknowledge Status:</b>\n`;
+    if (readers.length === 0) {
+      text += `<i>No one has read this yet.</i>`;
+    } else {
+      text += readers.map(name => `✅ Read by ${name}`).join('\n');
     }
 
-    async getMyNotifications(userId: string) {
-        const userNotes = await this.prisma.user_notification.findMany({
-            where: { user_id: userId },
-            include: {
-                notification: true,
-            },
-            orderBy: {
-                notification: { created_at: 'desc' },
-            },
-            take: 20,
-        });
+    return text;
+  }
 
-        return userNotes.map((un) => ({
-            id: un.notification.id,
-            message: un.notification.message,
-            type: un.notification.type,
-            reference_id: un.notification.reference_id,
-            is_read: un.is_read,
-            date: un.notification.created_at,
-            user_id: userId
-        }));
+  async sendToTelegram(text: string, refId: string) {
+    const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+    return axios.post(url, {
+      chat_id: this.chatId,
+      text: text,
+      parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "👁️ Mark as Read", callback_data: `read_shipment_${refId}` }],
+          [{ text: "🔗 Open Dashboard", url: `https://your-app.com/shipment?search=${refId}` }]
+        ]
+      }
+    });
+  }
 
-    }
+  async blastNotification(text: string, type: string, id: string, userid?:string) {
+    return 1;
+  }
 
-    async markAsRead(userId: string, notificationId: number) {
-        return this.prisma.user_notification.update({
-            where: {
-                user_id_notification_id: {
-                    user_id: userId,
-                    notification_id: notificationId,
-                },
-            },
-            data: {
-                is_read: true,
-                read_at: new Date()
-            },
-        });
-    }
-
+  async editTelegramMessage(messageId: number, text: string, refId: string) {
+    const url = `https://api.telegram.org/bot${this.botToken}/editMessageText`;
+    return axios.post(url, {
+      chat_id: this.chatId,
+      message_id: messageId,
+      text: text,
+      parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "👁️ Mark as Read", callback_data: `read_shipment_${refId}` }],
+          [{ text: "🔗 Open Dashboard", url: `https://your-app.com/shipment?search=${refId}` }]
+        ]
+      }
+    });
+  }
 }
