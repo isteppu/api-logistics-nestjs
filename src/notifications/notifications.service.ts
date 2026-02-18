@@ -9,7 +9,7 @@ export class NotificationService {
         private gateway: NotificationGateway
     ) { }
 
-    async blastNotification(message: string, type: string, refId: string, senderId: string) {
+    async blastNotification(message: string, type: string, refId: string, senderId: string, shipment?: boolean, issuer_id?: string, customer_id?: string) {
         return 1;
         // return this.prisma.$transaction(async (tx) => {
         //     const note = await tx.notification.create({

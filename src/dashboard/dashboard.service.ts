@@ -21,9 +21,9 @@ export class DashboardService {
         ]);
 
         return {
-            'Total Pending': totalPending,
-            'Total Transit': totalTransit,
-            'Total Delivered': totalDelivered,
+            'TotalPending': totalPending,
+            'TotalTransit': totalTransit,
+            'TotalDelivered': totalDelivered,
         };
     }
 }
