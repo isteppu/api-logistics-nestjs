@@ -1,28 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
+import { NotificationItems } from './models/notification-item.model.js';
 
 @Injectable()
 export class NotificationService {
   private readonly botToken = process.env.TELEGRAM_BOT_TOKEN;
   private readonly chatId = process.env.TELEGRAM_CHAT_ID;
 
-  /**
-   * Sends a new shipment notification with an inline "Mark as Read" button.
-   */
-  async sendShipmentAlert(shipment: any) {
-    const text = this.formatShipmentMessage(shipment, []);
-    return this.sendToTelegram(text, shipment.id);
+  async sendAlert(type: NotificationItems) {
+    const text = this.formatMessage(type, []);
+    return this.sendToTelegram(text, type.id);
   }
 
-  /**
-   * Formats the HTML message. 
-   * 'readers' is an array of names who already clicked the button.
-   */
-  formatShipmentMessage(shipment: any, readers: string[]) {
-    let text = `📦 <b>NEW Shipment!</b>\n`;
-    text += `<b>ID:</b> <code>${shipment.id}</code>\n`;
-    text += `<b>BL No:</b> ${shipment.blno}\n`;
-    text += `<b>Port:</b> ${shipment.port || 'N/A'}\n\n`;
+  formatMessage(type: NotificationItems, readers: string[]) {
+    let text = `📦 <b>NEW ${type.name}!</b>\n`;
+    text += `<b>ID:</b> <code>${type.id}</code>\n`;
+    text += `<b>Details:</b> ${type.details}\n`;
     
     text += `<b>Acknowledge Status:</b>\n`;
     if (readers.length === 0) {
@@ -42,8 +35,8 @@ export class NotificationService {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [
-          [{ text: "👁️ Mark as Read", callback_data: `read_shipment_${refId}` }],
-          [{ text: "🔗 Open Dashboard", url: `https://your-app.com/shipment?search=${refId}` }]
+          [{ text: "👁️ Mark as Read", callback_data: `read__${refId}` }],
+          [{ text: "🔗 Open Dashboard", url: `https://your-app.com/?search=${refId}` }]
         ]
       }
     });
@@ -62,8 +55,8 @@ export class NotificationService {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [
-          [{ text: "👁️ Mark as Read", callback_data: `read_shipment_${refId}` }],
-          [{ text: "🔗 Open Dashboard", url: `https://your-app.com/shipment?search=${refId}` }]
+          [{ text: "👁️ Mark as Read", callback_data: `read__${refId}` }],
+          [{ text: "🔗 Open Dashboard", url: `https://your-app.com/?search=${refId}` }]
         ]
       }
     });

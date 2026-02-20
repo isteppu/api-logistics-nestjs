@@ -1,12 +1,15 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { IsString, IsNotEmpty } from 'class-validator';
 
-@ObjectType()
-export class NotificationItem {
-  @Field(() => ID) id: number;
-  @Field() message: string;
-  @Field() type: string;
-  @Field({ nullable: true }) reference_id?: string;
-  @Field() is_read: boolean;
-  @Field() created_at: Date;
-  @Field() user_id: string;
+export class NotificationItems {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  details: string;
 }

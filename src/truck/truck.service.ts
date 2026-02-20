@@ -39,7 +39,7 @@ export class TruckService {
       where,
       skip,
       take,
-      orderBy: { id: 'asc' },
+      orderBy: { date_added: 'desc' },
     });
 
     const totalCount = await this.prisma.truck.count({ where });

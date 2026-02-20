@@ -7,23 +7,24 @@ import {
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({
-  cors: {
-    origin: '*', 
-  },
+  cors: { origin: '*' }, // Allow Vue frontend to connect
 })
-export class NotificationGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class NotificationsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
   handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+    console.log(`User connected to dashboard: ${client.id}`);
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    console.log(`User disconnected: ${client.id}`);
   }
 
-  broadcastNotification(eventName: string, data: any) {
-    this.server.emit(eventName, data);
+  /**
+   * Called by the Controller when Telegram activity happens
+   */
+  sendSyncEvent(payload: { shipmentId: string; user: string; type: string }) {
+    this.server.emit('telegram_sync', payload);
   }
 }
