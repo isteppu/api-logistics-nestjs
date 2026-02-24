@@ -1,15 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { NotificationItems } from './models/notification-item.model.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 
 @Injectable()
 export class NotificationService {
+  constructor(private readonly prisma: PrismaService) {}
   private readonly botToken = process.env.TELEGRAM_BOT_TOKEN;
   private readonly chatId = process.env.TELEGRAM_CHAT_ID;
 
-  async sendAlert(type: NotificationItems) {
-    const text = this.formatMessage(type, []);
+  async sendAlert(type: NotificationItems, usernames: string[]) {
+    const adminUsernames = await this.getAdminUsernames();
+    const readers = [...adminUsernames.map(admin => admin.username), ...usernames];
+    const text = this.formatMessage(type, readers);
     return this.sendToTelegram(text, type.id);
+  }
+
+  async getAdminUsernames() {
+    const admins = await this.prisma.user.findMany({
+      where: {
+        role: {
+          title: {
+            in: ['ADMIN', 'SUPER_ADMIN'],
+          },
+        },
+      },
+      select: {
+        username: true,
+      }
+    });
+  
+    return admins;
   }
 
   formatMessage(type: NotificationItems, readers: string[]) {
@@ -35,7 +56,7 @@ export class NotificationService {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [
-          [{ text: "👁️ Mark as Read", callback_data: `read__${refId}` }],
+          [{ text: "👁️ Mark as Read", callback_data: `read_${refId}` }],
           [{ text: "🔗 Open Dashboard", url: `https://your-app.com/?search=${refId}` }]
         ]
       }
@@ -55,7 +76,7 @@ export class NotificationService {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [
-          [{ text: "👁️ Mark as Read", callback_data: `read__${refId}` }],
+          [{ text: "👁️ Mark as Read", callback_data: `read_${refId}` }],
           [{ text: "🔗 Open Dashboard", url: `https://your-app.com/?search=${refId}` }]
         ]
       }

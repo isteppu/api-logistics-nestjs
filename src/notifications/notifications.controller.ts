@@ -14,8 +14,8 @@ export class NotificationsController {
       const userWhoClicked = callback.from.first_name;
       const callbackData = callback.data;
 
-      if (callbackData.startsWith('read_shipment_')) {
-        const shipmentId = callbackData.replace('read_shipment_', '');
+      if (callbackData.startsWith('read_')) {
+        const refId = callbackData.replace('read_', '');
         const currentText = message.text;
 
         if (currentText.includes(`Read by ${userWhoClicked}`)) {
@@ -26,23 +26,23 @@ export class NotificationsController {
           ? `✅ Read by ${userWhoClicked}`
           : `${currentText.split('Acknowledge Status:')[1].trim()}\n✅ Read by ${userWhoClicked}`;
 
-        const newFullText = `📦 <b>Notif Update!</b>\n` + 
-                            `<b>ID:</b> <code>${shipmentId}</code>\n` +
+        const log = `📦 <b>Notif Update!</b>\n` + 
+                            `<b>ID:</b> <code>${refId}</code>\n` +
                             `... (re-format from parts) ...\n\n` +
                             `<b>Acknowledge Status:</b>\n${updatedStatus}`;
 
-        console.log(newFullText);
+        console.log(log);
 
         const finalMessage = currentText.replace('<i>No one has read this yet.</i>', '') + `\n✅ Read by ${userWhoClicked}`;
 
         await this.notificationService.editTelegramMessage(
           message.message_id,
           finalMessage,
-          shipmentId
+          refId
         );
 
         this.notificationsGateway.sendSyncEvent({
-            shipmentId: shipmentId,
+            name: refId,
             user: userWhoClicked,
             type: 'ACKNOWLEDGED'
           });

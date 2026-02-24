@@ -93,20 +93,34 @@ export class ShipmentService {
         }
       }
 
+      const [ ...adminUsernames ] = await Promise.all([
+        this.prisma.user.findMany({
+          where: { role_id: 1 },
+        })
+      ])
 
-      await this.notificationService.blastNotification(
-        `New Shipment: ${shipment.blno} was added by ${data.issuer_username}`,
-        'SHIPMENT_CREATED',
-        shipment.id,
-        shipment.issuer_id || ''
-      ).catch(err => {
-        console.error('Background Notification Error:', err);
-      });
+      const notificationDetails = `New Shipment: ${shipment.blno} was added by ${data.issuer_username}`
+      const notifMessage = {
+        name: "SHIPMENT",
+        id: shipment.id,
+        details: notificationDetails
+      }
 
+      const notifRecipients = [
+        data.customer_username,
+        data.issuer_username,
+      ]
+
+      await this.notificationService.sendAlert(
+        notifMessage,
+        notifRecipients
+      )
 
       return shipment;
     });
   }
+
+ 
 
   async findAll(skip: number, take: number) {
     const [items, totalCount] = await Promise.all([

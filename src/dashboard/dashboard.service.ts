@@ -6,7 +6,7 @@ export class DashboardService {
     constructor(private prisma: PrismaService) { }
 
     async getStats() {
-        const [totalPending, totalTransit, totalDelivered] = await Promise.all([
+        const [totalPending, totalTransit, totalDelivered, totalTrucks] = await Promise.all([
             this.prisma.shipment.count({
                 where: { status: 'PENDING' },
             }),
@@ -18,12 +18,17 @@ export class DashboardService {
             this.prisma.trip.count({
                 where: { NOT: { date_delivered: null } },
             }),
+
+            this.prisma.truck.count({
+                where: { NOT: { is_archived: 1 } },
+            })
         ]);
 
         return {
             'TotalPending': totalPending,
             'TotalTransit': totalTransit,
             'TotalDelivered': totalDelivered,
+            'TotalTrucks': totalTrucks
         };
     }
 }

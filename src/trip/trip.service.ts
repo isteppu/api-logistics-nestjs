@@ -56,12 +56,24 @@ export class TripService {
         }
       }
 
-      await this.notificationService.blastNotification(
-        `New Trip ID: ${trip.id}, ${trip.commodity} to ${trip.warehouse_id}`,
-        'TRIP_CREATED',
-        trip.id,
-        ''
-      );
+      
+      const operatorName = await tx.truck.findUnique({
+        where: { id: trip.truck_id ?? '' },
+        select: { operator: true }
+      })
+
+      const notificationDetails = `New Trip: ${trip.id} was added using truck ${trip.truck_id}, operator: ${operatorName?.operator ?? 'Unknown'}`
+      const notifMessage = {
+        name: "TRIP",
+        id: trip.id,
+        details: notificationDetails
+      }
+
+      await this.notificationService.sendAlert(
+        notifMessage,
+        []
+      )
+
 
       return trip;
     });
@@ -70,12 +82,18 @@ export class TripService {
   async update(id: string, data: UpdateTripInput) {
     const { id: _, ...updateData } = data;
 
-    await this.notificationService.blastNotification(
-      `UPDATE Trip ID: ${data.id}, ${data.commodity} to ${data.warehouse_id}`,
-      'TRIP_UPDATED',
-      data.id,
-      ''
-    );
+    const notificationDetails = `Update Trip: ${id} has new updates!`
+    const notifMessage = {
+      name: "TRIP",
+      id: id,
+      details: notificationDetails
+    }
+
+    await this.notificationService.sendAlert(
+      notifMessage,
+      []
+    )
+
 
     return this.prisma.trip.update({
       where: { id },

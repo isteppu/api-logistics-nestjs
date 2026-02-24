@@ -24,7 +24,7 @@ export class NotificationsGateway implements OnGatewayConnection, OnGatewayDisco
   /**
    * Called by the Controller when Telegram activity happens
    */
-  sendSyncEvent(payload: { shipmentId: string; user: string; type: string }) {
+  sendSyncEvent(payload: { name: string; user: string; type: string }) {
     this.server.emit('telegram_sync', payload);
   }
 }
