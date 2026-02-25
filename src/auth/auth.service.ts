@@ -51,4 +51,29 @@ export class AuthService {
       },
     });
   }
+
+  async updateUserInfo(id: string, data: any) {
+    const updateData: any = { ...data };
+
+    if (data.password) {
+      updateData.password = await bcrypt.hash(data.password, 10);
+    }
+
+    if (data.role_id || data.password) {
+      updateData.current_session = randomBytes(16);
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data: updateData,
+      select: {
+        id: true,
+        username: true,
+        first_name: true,
+        last_name: true,
+        role_id: true,
+        last_logged_in: true,
+      },
+    });
+  }
 }

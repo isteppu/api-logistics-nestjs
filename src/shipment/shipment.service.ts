@@ -7,7 +7,10 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ShipmentService {
-  constructor(private prisma: PrismaService, private notificationService: NotificationService) { }
+  constructor(
+    private prisma: PrismaService,
+    private notificationService: NotificationService,
+  ) { }
 
   async create(data: CreateShipmentInput) {
     let customerId: string | undefined;
@@ -18,7 +21,10 @@ export class ShipmentService {
       const customer = await this.prisma.user.findUnique({
         where: { username: data.customer_username },
       });
-      if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
+      if (!customer)
+        throw new BadRequestException(
+          `Customer '${data.customer_username}' not found`,
+        );
       customerId = customer.id;
     }
 
@@ -26,7 +32,10 @@ export class ShipmentService {
       const issuer = await this.prisma.user.findUnique({
         where: { username: data.issuer_username },
       });
-      if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
+      if (!issuer)
+        throw new BadRequestException(
+          `Issuer '${data.issuer_username}' not found`,
+        );
       issuerId = issuer.id;
     }
 
@@ -54,7 +63,7 @@ export class ShipmentService {
         include: {
           user_shipment_customer_idTouser: true,
           user_shipment_issuer_idTouser: true,
-        }
+        },
       });
 
       if (data.finances && data.finances.length > 0) {
@@ -69,11 +78,15 @@ export class ShipmentService {
             });
 
             const rev = await tx.shipment_revenue.create({
-              data: { value: row.value, revenue_map: row.title, type: row.type }
+              data: {
+                value: row.value,
+                revenue_map: row.title,
+                type: row.type,
+              },
             });
 
             await tx.shipment_revenues.create({
-              data: { shipment_id: shipment.id, revenues_id: rev.id }
+              data: { shipment_id: shipment.id, revenues_id: rev.id },
             });
           } else {
             await tx.expense.upsert({
@@ -83,47 +96,43 @@ export class ShipmentService {
             });
 
             const exp = await tx.shipment_expense.create({
-              data: { value: row.value, expense_map: row.title, type: row.type }
+              data: {
+                value: row.value,
+                expense_map: row.title,
+                type: row.type,
+              },
             });
 
             await tx.shipment_expenses.create({
-              data: { shipment_id: shipment.id, expenses_id: exp.id }
+              data: { shipment_id: shipment.id, expenses_id: exp.id },
             });
           }
         }
       }
 
-      const [ ...adminUsernames ] = await Promise.all([
+      const [...adminUsernames] = await Promise.all([
         this.prisma.user.findMany({
           where: { role_id: 1 },
-        })
-      ])
+        }),
+      ]);
 
-      const notificationDetails = `New Shipment: ${shipment.blno} was added by ${data.issuer_username}`
+      const notificationDetails = `New Shipment: ${shipment.blno} was added by ${data.issuer_username}`;
       const notifMessage = {
-        name: "SHIPMENT",
+        name: 'SHIPMENT',
         id: shipment.id,
-        details: notificationDetails
-      }
+        details: notificationDetails,
+      };
 
-      const notifRecipients = [
-        data.customer_username,
-        data.issuer_username,
-      ]
+      const notifRecipients = [data.customer_username, data.issuer_username];
 
-      await this.notificationService.sendAlert(
-        notifMessage,
-        notifRecipients
-      )
+      await this.notificationService.sendAlert(notifMessage, notifRecipients);
 
       return shipment;
     });
   }
 
- 
-
   async findAll(skip: number, take: number) {
-    const [items, totalCount] = await Promise.all([
+    const [rawItems, totalCount] = await Promise.all([
       this.prisma.shipment.findMany({
         skip,
         take,
@@ -131,10 +140,16 @@ export class ShipmentService {
         include: {
           user_shipment_customer_idTouser: true,
           user_shipment_issuer_idTouser: true,
-        }
+        },
       }),
       this.prisma.shipment.count(),
     ]);
+
+    const items = rawItems.map((item) => ({
+      ...item,
+      customer: item.user_shipment_customer_idTouser,
+      issuer: item.user_shipment_issuer_idTouser,
+    }));
 
     return {
       items,
@@ -143,18 +158,58 @@ export class ShipmentService {
     };
   }
 
-  async findOne(id: string) {
-    const [items] = await this.prisma.shipment.findMany({
-      where: { id },
-      orderBy: { date_issued: 'desc' },
-      include: {
-        user_shipment_customer_idTouser: true,
-        user_shipment_issuer_idTouser: true,
-      }
-    })
+  async search(query: string) {
+    const condition = [
+      { id: { contains: query } },
+      { blno: { contains: query } },
+      { reference: { contains: query } },
+      { contract_no: { contains: query } },
+      { registry_no: { contains: query } },
+      { entry_no: { contains: query } },
+      { port_id: { contains: query } },
+      { shipping_line: { contains: query } },
+      { status: { contains: query } },
+      { contract_no: { contains: query } },
+      {
+        user_shipment_customer_idTouser: {
+          username: { contains: query },
+        },
+      },
+      {
+        user_shipment_issuer_idTouser: {
+          username: { contains: query },
+        },
+      },
+    ];
+    const [items, totalCount] = await Promise.all([
+      this.prisma.shipment.findMany({
+        where: {
+          OR: condition,
+        },
+        orderBy: { date_issued: 'desc' },
+        include: {
+          user_shipment_customer_idTouser: true,
+          user_shipment_issuer_idTouser: true,
+        },
+      }),
+
+      this.prisma.shipment.count({
+        where: {
+          OR: condition,
+        },
+      }),
+    ]);
+
+    const itemMap = items.map((item) => ({
+      ...item,
+      customer: item.user_shipment_customer_idTouser,
+      issuer: item.user_shipment_issuer_idTouser,
+    }));
 
     return {
-      items
+      items: itemMap,
+      totalCount,
+      hasMore: false,
     };
   }
 
@@ -166,7 +221,10 @@ export class ShipmentService {
       const customer = await this.prisma.user.findUnique({
         where: { username: data.customer_username },
       });
-      if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
+      if (!customer)
+        throw new BadRequestException(
+          `Customer '${data.customer_username}' not found`,
+        );
       updatePayload.customer_id = customer.id;
       delete updatePayload.customer_username;
     }
@@ -175,7 +233,10 @@ export class ShipmentService {
       const issuer = await this.prisma.user.findUnique({
         where: { username: data.issuer_username },
       });
-      if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
+      if (!issuer)
+        throw new BadRequestException(
+          `Issuer '${data.issuer_username}' not found`,
+        );
       updatePayload.issuer_id = issuer.id;
       delete updatePayload.issuer_username;
     }
@@ -187,10 +248,9 @@ export class ShipmentService {
         user_shipment_customer_idTouser: true,
         user_shipment_issuer_idTouser: true,
         storable: true,
-      }
+      },
     });
   }
-
 
   remove(id: number) {
     return `This action removes a #${id} shipment`;

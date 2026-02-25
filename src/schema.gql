@@ -56,7 +56,7 @@ type Shipment {
 }
 
 type ShipmentResponse {
-  items: [Shipment!]!
+  items: [Shipment!]
   totalCount: Int!
   hasMore: Boolean!
 }
@@ -113,7 +113,7 @@ type TripPaginationResponse {
 type Query {
   user(skip: Int! = 0, take: Int! = 10): UserResponse!
   shipments(skip: Int! = 0, take: Int! = 10): ShipmentResponse!
-  shipment(id: String!): Shipment!
+  shipment(input: String!): ShipmentResponse!
   expense(id: Int!): Expense!
   trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
   storablesByType(type: String!): [Storable!]!

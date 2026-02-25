@@ -32,9 +32,9 @@ export class ShipmentResolver {
     return this.shipmentService.findAll(skip, take);
   }
 
-  @Query(() => Shipment, { name: 'shipment' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.shipmentService.findOne(id);
+  @Query(() => ShipmentResponse, { name: 'shipment' })
+  search(@Args('input', { type: () => String }) query: string) {
+    return this.shipmentService.search(query);
   }
 
   @Mutation(() => Shipment)

@@ -10,4 +10,9 @@ export class DashboardController {
   async getStats() {
     return this.dashboardService.getStats();
   }
+
+  @Get('analytics')
+  async getAnalytics() {
+    return this.dashboardService.getMonthlyAnalytics();
+  }
 }

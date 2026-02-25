@@ -24,7 +24,7 @@ export class Shipment {
 
 @ObjectType()
 export class ShipmentResponse {
-  @Field(() => [Shipment])
+  @Field(() => [Shipment], { nullable: true })
   items: Shipment[];
 
   @Field(() => Int)
@@ -33,3 +33,4 @@ export class ShipmentResponse {
   @Field(() => Boolean)
   hasMore: boolean;
 }
+

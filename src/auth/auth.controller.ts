@@ -1,7 +1,8 @@
-import { Controller, Post, Body, Res, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Res, UnauthorizedException, HttpStatus, Patch, Param, ParseUUIDPipe } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { RegisterDto, LoginDto } from './dto/auth.dto.js';
 import type { FastifyReply } from 'fastify';
+import { UpdateUserDto } from './dto/auth-update.dto.js';
 
 @Controller('auth')
 export class AuthController {
@@ -39,6 +40,23 @@ export class AuthController {
             message: 'Login successful',
             user: { username: user.username, role: user.role_id, first_name: user.first_name, last_name: user.last_name },
         };
+    }
+
+    @Patch('update/:id')
+    async update(
+        @Param('id', new ParseUUIDPipe()) id: string, 
+        @Body() updateData: UpdateUserDto
+    ) {
+        try {
+            const updatedUser = await this.authService.updateUserInfo(id, updateData);
+            
+            return {
+                message: 'User information updated successfully',
+                user: updatedUser,
+            };
+        } catch (error) {
+            throw new UnauthorizedException('Could not update user information');
+        }
     }
 
 }
