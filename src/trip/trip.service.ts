@@ -11,8 +11,7 @@ export class TripService {
   async create(data: CreateTripInput) {
     const { finances, ...tripData } = data;
 
-    return this.prisma.$transaction(async (tx) => {
-
+    const trip = await this.prisma.$transaction(async (tx) => {
       await tx.truck.upsert({
         where: { id: data.truck_id },
         update: {},
@@ -23,7 +22,7 @@ export class TripService {
         },
       });
 
-      const trip = await tx.trip.create({
+      const newTrip = await tx.trip.create({
         data: {
           id: crypto.randomUUID(),
           ...tripData,
@@ -31,52 +30,53 @@ export class TripService {
       });
 
       if (finances && finances.length > 0) {
-        for (const row of finances) {
-          const isRevenue = ['base rate', 'tariff rate'].includes(row.title.toLowerCase());
+        const revenueRows = finances
+          .filter(f => ['tariff rate'].includes(f.title.toLowerCase()))
+          .map(r => ({
+            trip_id: newTrip.id,
+            value: r.value,
+            revenue_map: r.title,
+            type: r.type
+          }));
 
-          if (isRevenue) {
-            await tx.trip_revenue.create({
-              data: {
-                trip_id: trip.id,
-                value: row.value,
-                revenue_map: row.title,
-                type: row.type
-              }
-            });
-          } else {
-            await tx.trip_expense.create({
-              data: {
-                trip_id: trip.id,
-                value: row.value,
-                expense_map: row.title,
-                type: row.type
-              }
-            });
-          }
-        }
+        const expenseRows = finances
+          .filter(f => !['tariff rate'].includes(f.title.toLowerCase()))
+          .map(e => ({
+            trip_id: newTrip.id,
+            value: e.value,
+            expense_map: e.title,
+            type: e.type
+          }));
+
+        if (revenueRows.length > 0) await tx.trip_revenue.createMany({ data: revenueRows });
+        if (expenseRows.length > 0) await tx.trip_expense.createMany({ data: expenseRows });
       }
 
-      
-      const operatorName = await tx.truck.findUnique({
-        where: { id: trip.truck_id ?? '' },
-        select: { operator: true }
-      })
-
-      const notificationDetails = `New Trip: ${trip.id} was added using truck ${trip.truck_id}, operator: ${operatorName?.operator ?? 'Unknown'}`
-      const notifMessage = {
-        name: "TRIP",
-        id: trip.id,
-        details: notificationDetails
-      }
-
-      await this.notificationService.sendAlert(
-        notifMessage,
-        []
-      )
-
-
-      return trip;
+      return newTrip;
+    }, {
+      timeout: 10000
     });
+
+    setImmediate(async () => {
+      try {
+        const truck = await this.prisma.truck.findUnique({
+          where: { id: trip.truck_id ?? '' },
+          select: { operator: true }
+        });
+
+        const notificationDetails = `New Trip: ${trip.id} was added using truck ${trip.truck_id}, operator: ${truck?.operator ?? 'Unknown'}`;
+
+        await this.notificationService.sendAlert({
+          name: "TRIP",
+          id: trip.id,
+          details: notificationDetails
+        }, []);
+      } catch (err) {
+        console.error("Background notification failed:", err);
+      }
+    });
+
+    return trip;
   }
 
   async update(id: string, data: UpdateTripInput) {
