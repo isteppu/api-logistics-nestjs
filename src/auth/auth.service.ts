@@ -6,18 +6,18 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) { }
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.prisma.user.findFirst({
       where: { username },
     });
 
-    if (user?.role_id === 5){
+    if (user?.role_id === 5) {
       return -1
     }
 
-    if (user && await bcrypt.compare(pass, user.password)) { 
+    if (user && await bcrypt.compare(pass, user.password)) {
       const { password, ...result } = user;
       return result;
     }
@@ -46,12 +46,21 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(data.password, 10);
     return this.prisma.user.create({
       data: {
-        id: randomUUID(), 
+        id: randomUUID(),
         username: data.username,
         password: hashedPassword,
         first_name: data.first_name,
         last_name: data.last_name,
-        role_id: data.role_id, 
+        role_id: data.role_id,
+      },
+    });
+  }
+
+  async archiveUser(id: string) {
+    return await this.prisma.user.update({
+      where: { id: id },
+      data: {
+        role_id: 5
       },
     });
   }

@@ -62,4 +62,20 @@ export class AuthController {
         }
     }
 
+    @Patch('archive/:id')
+    async archive(
+        @Param('id', new ParseUUIDPipe()) id: string,
+    ) {
+        try {
+            const archiveUser = await this.authService.archiveUser(id);
+            
+            return {
+                message: 'User archived successfully',
+                user: archiveUser,
+            };
+        } catch (error) {
+            throw new UnauthorizedException('Could not update user information');
+        }
+    }
+
 }
