@@ -13,6 +13,10 @@ export class AuthService {
       where: { username },
     });
 
+    if (user?.role_id === 5){
+      return -1
+    }
+
     if (user && await bcrypt.compare(pass, user.password)) { 
       const { password, ...result } = user;
       return result;

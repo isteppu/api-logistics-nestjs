@@ -20,6 +20,9 @@ export class AuthController {
     ) {
         const user = await this.authService.validateUser(loginDto.username, loginDto.password);
 
+        if(user === -1){
+            throw new UnauthorizedException('User is archived');
+        }
         if (!user) {
             throw new UnauthorizedException('Invalid login credentials');
         }

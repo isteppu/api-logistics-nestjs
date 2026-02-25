@@ -109,13 +109,7 @@ export class ShipmentService {
           }
         }
       }
-
-      const [...adminUsernames] = await Promise.all([
-        this.prisma.user.findMany({
-          where: { role_id: 1 },
-        }),
-      ]);
-
+      
       const notificationDetails = `New Shipment: ${shipment.blno} was added by ${data.issuer_username}`;
       const notifMessage = {
         name: 'SHIPMENT',

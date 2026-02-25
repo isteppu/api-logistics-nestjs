@@ -8,12 +8,13 @@ export class UserService {
     async findAll(skip: number, take: number) {
         const [items, totalCount] = await Promise.all([
             this.prisma.user.findMany({
+                where: { NOT: { role_id: 5 }},
                 skip,
                 take,
                 include: { role: true },
                 orderBy: { date_created: 'desc' }
             }),
-            this.prisma.user.count(),
+            this.prisma.user.count({ where: { NOT: { role_id: 5 }}, }),
         ]);
         return {
             items,
