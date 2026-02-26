@@ -352,17 +352,19 @@ export class ShipmentService extends Shipment {
         include: {
           user_shipment_customer_idTouser: true,
           user_shipment_issuer_idTouser: true,
+          storable_shipment_port_idToStorable: true,
+          storable_shipment_warehouse_idTostorable: true,
         },
       }),
       this.prisma.shipment.count(),
     ]);
-
+  
     const items = rawItems.map((item) => ({
       ...item,
       customer: item.user_shipment_customer_idTouser,
       issuer: item.user_shipment_issuer_idTouser,
     }));
-
+  
     return {
       items,
       totalCount,
