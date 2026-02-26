@@ -13,6 +13,6 @@ export class DashboardController {
 
   @Get('analytics')
   async getAnalytics() {
-    return this.dashboardService.getMonthlyAnalytics();
+    return this.dashboardService.getWeeklyAnalytics();
   }
 }

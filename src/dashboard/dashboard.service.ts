@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { startOfYear, format, eachMonthOfInterval, startOfMonth, endOfMonth } from 'date-fns';
+import { startOfYear, format, eachWeekOfInterval, startOfWeek, subWeeks } from 'date-fns';
 
 @Injectable()
 export class DashboardService {
@@ -33,49 +33,48 @@ export class DashboardService {
         };
     }
 
-    async getMonthlyAnalytics() {
+    async getWeeklyAnalytics() {
         const now = new Date();
-        const yearStart = startOfYear(now);
-
+        const startDate = startOfWeek(subWeeks(now, 4), { weekStartsOn: 1 }); // 4 weeks ago, start of that week
+      
         const [shipments, trips] = await Promise.all([
-            this.prisma.shipment.findMany({
-                where: {
-                    date_issued: { gte: yearStart },
-                },
-                select: { date_issued: true },
-            }),
-            this.prisma.trip.findMany({
-                where: {
-                    date_delivered: { gte: yearStart },
-                },
-                select: { date_delivered: true },
-            }),
+          this.prisma.shipment.findMany({
+            where: { date_issued: { gte: startDate } },
+            select: { date_issued: true },
+          }),
+          this.prisma.trip.findMany({
+            where: { date_delivered: { gte: startDate } },
+            select: { date_delivered: true },
+          }),
         ]);
-
-        const monthsInterval = eachMonthOfInterval({
-            start: yearStart,
-            end: now,
+      
+        const weeksInterval = eachWeekOfInterval({
+          start: startDate,
+          end: now,
+          weekStartsOn: 1, 
         });
-
-        const analytics = {};
-
-        monthsInterval.forEach((monthDate) => {
-            const monthName = format(monthDate, 'MMMM');
-
-            const shipmentCount = shipments.filter(
-                (s) => format(new Date(s.date_issued), 'MMMM') === monthName
-            ).length;
-
-            const tripCount = trips.filter(
-                (t) => format(new Date(t.date_delivered!), 'MMMM') === monthName
-            ).length;
-
-            analytics[monthName] = {
-                created_shipment: shipmentCount,
-                delivered_trips: tripCount,
-            };
+      
+        const analytics: Record<string, { created_shipments: number; delivered_trips: number }> = {};
+      
+        weeksInterval.forEach((weekStart) => {
+          const weekEnd = new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000); 
+      
+          const weekLabel = format(weekStart, 'yyyy-MM-dd');
+      
+          const shipmentCount = shipments.filter(
+            (s) => s.date_issued >= weekStart && s.date_issued < weekEnd
+          ).length;
+      
+          const tripCount = trips.filter(
+            (t) => t.date_delivered! >= weekStart && t.date_delivered! < weekEnd
+          ).length;
+      
+          analytics[weekLabel] = {
+            created_shipments: shipmentCount,
+            delivered_trips: tripCount,
+          };
         });
-
+      
         return analytics;
     }
 }
