@@ -115,6 +115,8 @@ export const ShipmentScalarFieldEnum = {
   volumex: 'volumex',
   volumey: 'volumey',
   actual_time_arrival: 'actual_time_arrival',
+  billing_date: 'billing_date',
+  payment_date: 'payment_date',
   date_issued: 'date_issued',
   estimated_time_arrival: 'estimated_time_arrival',
   customer_id: 'customer_id',

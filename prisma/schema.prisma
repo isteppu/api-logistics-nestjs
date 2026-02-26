@@ -30,6 +30,8 @@ model shipment {
   volumex                         Int?
   volumey                         Int?
   actual_time_arrival             DateTime?            @db.DateTime(6)
+  billing_date                    DateTime?            @db.DateTime(6)
+  payment_date                    DateTime?            @db.DateTime(6)
   date_issued                     DateTime             @default(now()) @db.Timestamp(0)
   estimated_time_arrival          DateTime?            @db.DateTime(6)
   customer_id                     String?              @db.VarChar(36)
@@ -46,8 +48,9 @@ model shipment {
   user_shipment_customer_idTouser User?                @relation("shipment_customer_idTouser", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_cust")
   user_shipment_issuer_idTouser   User?                @relation("shipment_issuer_idTouser", fields: [issuer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_issuer")
   storable                        storable?            @relation(fields: [port_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_port")
-  shipment_container              shipment_container[] @ignore
+  shipment_container              shipment_container[] 
   user_shipments                  user_shipments?
+
 
   @@index([customer_id], map: "fk_shipment_cust")
   @@index([issuer_id], map: "fk_shipment_issuer")
@@ -115,7 +118,7 @@ model storable {
   id                               String               @id @db.VarChar(255)
   type                             String               @db.VarChar(255)
   shipment                         shipment[]
-  shipment_container               shipment_container[] @ignore
+  shipment_container               shipment_container[] 
   user                             User?                @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_storable_user")
   trip_trip_container_idTostorable trip[]               @relation("trip_container_idTostorable")
   trip_trip_port_idTostorable      trip[]               @relation("trip_port_idTostorable")

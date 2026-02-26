@@ -34,3 +34,20 @@ export class ShipmentResponse {
   hasMore: boolean;
 }
 
+@ObjectType()
+export class ShipmentContainers {
+  @Field(() => ID)
+  id: string;
+
+  @Field()
+  type: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field()
+  date_created: Date;
+
+  @Field({ nullable: true })
+  created_by?: string;
+}

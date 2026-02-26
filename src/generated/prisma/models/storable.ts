@@ -183,6 +183,7 @@ export type storableWhereInput = {
   id?: Prisma.StringFilter<"storable"> | string
   type?: Prisma.StringFilter<"storable"> | string
   shipment?: Prisma.ShipmentListRelationFilter
+  shipment_container?: Prisma.Shipment_containerListRelationFilter
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   trip_trip_container_idTostorable?: Prisma.TripListRelationFilter
   trip_trip_port_idTostorable?: Prisma.TripListRelationFilter
@@ -196,6 +197,7 @@ export type storableOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   shipment?: Prisma.shipmentOrderByRelationAggregateInput
+  shipment_container?: Prisma.shipment_containerOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
   trip_trip_container_idTostorable?: Prisma.tripOrderByRelationAggregateInput
   trip_trip_port_idTostorable?: Prisma.tripOrderByRelationAggregateInput
@@ -213,6 +215,7 @@ export type storableWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"storable"> | string | null
   type?: Prisma.StringFilter<"storable"> | string
   shipment?: Prisma.ShipmentListRelationFilter
+  shipment_container?: Prisma.Shipment_containerListRelationFilter
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   trip_trip_container_idTostorable?: Prisma.TripListRelationFilter
   trip_trip_port_idTostorable?: Prisma.TripListRelationFilter
@@ -247,6 +250,7 @@ export type storableCreateInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutStorableInput
   user?: Prisma.UserCreateNestedOneWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_port_idTostorableInput
@@ -260,6 +264,7 @@ export type storableUncheckedCreateInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentUncheckedCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_port_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
@@ -271,6 +276,7 @@ export type storableUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutStorableNestedInput
   user?: Prisma.UserUpdateOneWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
@@ -284,6 +290,7 @@ export type storableUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUncheckedUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
@@ -315,6 +322,11 @@ export type storableUncheckedUpdateManyInput = {
 export type StorableNullableScalarRelationFilter = {
   is?: Prisma.storableWhereInput | null
   isNot?: Prisma.storableWhereInput | null
+}
+
+export type StorableScalarRelationFilter = {
+  is?: Prisma.storableWhereInput
+  isNot?: Prisma.storableWhereInput
 }
 
 export type storableOrderByRelevanceInput = {
@@ -371,6 +383,20 @@ export type storableUpdateOneWithoutShipmentNestedInput = {
   delete?: Prisma.storableWhereInput | boolean
   connect?: Prisma.storableWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.storableUpdateToOneWithWhereWithoutShipmentInput, Prisma.storableUpdateWithoutShipmentInput>, Prisma.storableUncheckedUpdateWithoutShipmentInput>
+}
+
+export type storableCreateNestedOneWithoutShipment_containerInput = {
+  create?: Prisma.XOR<Prisma.storableCreateWithoutShipment_containerInput, Prisma.storableUncheckedCreateWithoutShipment_containerInput>
+  connectOrCreate?: Prisma.storableCreateOrConnectWithoutShipment_containerInput
+  connect?: Prisma.storableWhereUniqueInput
+}
+
+export type storableUpdateOneRequiredWithoutShipment_containerNestedInput = {
+  create?: Prisma.XOR<Prisma.storableCreateWithoutShipment_containerInput, Prisma.storableUncheckedCreateWithoutShipment_containerInput>
+  connectOrCreate?: Prisma.storableCreateOrConnectWithoutShipment_containerInput
+  upsert?: Prisma.storableUpsertWithoutShipment_containerInput
+  connect?: Prisma.storableWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.storableUpdateToOneWithWhereWithoutShipment_containerInput, Prisma.storableUpdateWithoutShipment_containerInput>, Prisma.storableUncheckedUpdateWithoutShipment_containerInput>
 }
 
 export type storableCreateNestedOneWithoutTrip_trip_container_idTostorableInput = {
@@ -468,6 +494,7 @@ export type storableCreateWithoutShipmentInput = {
   description?: string | null
   id: string
   type: string
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutStorableInput
   user?: Prisma.UserCreateNestedOneWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_port_idTostorableInput
@@ -480,6 +507,7 @@ export type storableUncheckedCreateWithoutShipmentInput = {
   description?: string | null
   id: string
   type: string
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_port_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
@@ -506,6 +534,7 @@ export type storableUpdateWithoutShipmentInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutStorableNestedInput
   user?: Prisma.UserUpdateOneWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
@@ -518,6 +547,71 @@ export type storableUncheckedUpdateWithoutShipmentInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutStorableNestedInput
+  trip_trip_container_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
+  trip_trip_port_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
+  trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
+}
+
+export type storableCreateWithoutShipment_containerInput = {
+  date_created?: Date | string
+  description?: string | null
+  id: string
+  type: string
+  shipment?: Prisma.shipmentCreateNestedManyWithoutStorableInput
+  user?: Prisma.UserCreateNestedOneWithoutStorableInput
+  trip_trip_container_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput
+  trip_trip_port_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_port_idTostorableInput
+  trip_trip_warehouse_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
+}
+
+export type storableUncheckedCreateWithoutShipment_containerInput = {
+  date_created?: Date | string
+  created_by?: string | null
+  description?: string | null
+  id: string
+  type: string
+  shipment?: Prisma.shipmentUncheckedCreateNestedManyWithoutStorableInput
+  trip_trip_container_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_container_idTostorableInput
+  trip_trip_port_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_port_idTostorableInput
+  trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
+}
+
+export type storableCreateOrConnectWithoutShipment_containerInput = {
+  where: Prisma.storableWhereUniqueInput
+  create: Prisma.XOR<Prisma.storableCreateWithoutShipment_containerInput, Prisma.storableUncheckedCreateWithoutShipment_containerInput>
+}
+
+export type storableUpsertWithoutShipment_containerInput = {
+  update: Prisma.XOR<Prisma.storableUpdateWithoutShipment_containerInput, Prisma.storableUncheckedUpdateWithoutShipment_containerInput>
+  create: Prisma.XOR<Prisma.storableCreateWithoutShipment_containerInput, Prisma.storableUncheckedCreateWithoutShipment_containerInput>
+  where?: Prisma.storableWhereInput
+}
+
+export type storableUpdateToOneWithWhereWithoutShipment_containerInput = {
+  where?: Prisma.storableWhereInput
+  data: Prisma.XOR<Prisma.storableUpdateWithoutShipment_containerInput, Prisma.storableUncheckedUpdateWithoutShipment_containerInput>
+}
+
+export type storableUpdateWithoutShipment_containerInput = {
+  date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  shipment?: Prisma.shipmentUpdateManyWithoutStorableNestedInput
+  user?: Prisma.UserUpdateOneWithoutStorableNestedInput
+  trip_trip_container_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
+  trip_trip_port_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
+  trip_trip_warehouse_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
+}
+
+export type storableUncheckedUpdateWithoutShipment_containerInput = {
+  date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  shipment?: Prisma.shipmentUncheckedUpdateManyWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
@@ -529,6 +623,7 @@ export type storableCreateWithoutTrip_trip_container_idTostorableInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutStorableInput
   user?: Prisma.UserCreateNestedOneWithoutStorableInput
   trip_trip_port_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_port_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
@@ -541,6 +636,7 @@ export type storableUncheckedCreateWithoutTrip_trip_container_idTostorableInput 
   id: string
   type: string
   shipment?: Prisma.shipmentUncheckedCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutStorableInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_port_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
 }
@@ -556,6 +652,7 @@ export type storableCreateWithoutTrip_trip_port_idTostorableInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutStorableInput
   user?: Prisma.UserCreateNestedOneWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
@@ -568,6 +665,7 @@ export type storableUncheckedCreateWithoutTrip_trip_port_idTostorableInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentUncheckedCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
 }
@@ -583,6 +681,7 @@ export type storableCreateWithoutTrip_trip_warehouse_idTostorableInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutStorableInput
   user?: Prisma.UserCreateNestedOneWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_port_idTostorableInput
@@ -595,6 +694,7 @@ export type storableUncheckedCreateWithoutTrip_trip_warehouse_idTostorableInput 
   id: string
   type: string
   shipment?: Prisma.shipmentUncheckedCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_port_idTostorableInput
 }
@@ -621,6 +721,7 @@ export type storableUpdateWithoutTrip_trip_container_idTostorableInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutStorableNestedInput
   user?: Prisma.UserUpdateOneWithoutStorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
@@ -633,6 +734,7 @@ export type storableUncheckedUpdateWithoutTrip_trip_container_idTostorableInput 
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUncheckedUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutStorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
 }
@@ -654,6 +756,7 @@ export type storableUpdateWithoutTrip_trip_port_idTostorableInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutStorableNestedInput
   user?: Prisma.UserUpdateOneWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
@@ -666,6 +769,7 @@ export type storableUncheckedUpdateWithoutTrip_trip_port_idTostorableInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUncheckedUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
 }
@@ -687,6 +791,7 @@ export type storableUpdateWithoutTrip_trip_warehouse_idTostorableInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutStorableNestedInput
   user?: Prisma.UserUpdateOneWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
@@ -699,6 +804,7 @@ export type storableUncheckedUpdateWithoutTrip_trip_warehouse_idTostorableInput 
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUncheckedUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
 }
@@ -709,6 +815,7 @@ export type storableCreateWithoutUserInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_port_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
@@ -720,6 +827,7 @@ export type storableUncheckedCreateWithoutUserInput = {
   id: string
   type: string
   shipment?: Prisma.shipmentUncheckedCreateNestedManyWithoutStorableInput
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutStorableInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_container_idTostorableInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_port_idTostorableInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedCreateNestedManyWithoutStorable_trip_warehouse_idTostorableInput
@@ -775,6 +883,7 @@ export type storableUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
@@ -786,6 +895,7 @@ export type storableUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   shipment?: Prisma.shipmentUncheckedUpdateManyWithoutStorableNestedInput
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutStorableNestedInput
   trip_trip_container_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableNestedInput
   trip_trip_port_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableNestedInput
   trip_trip_warehouse_idTostorable?: Prisma.tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableNestedInput
@@ -805,6 +915,7 @@ export type storableUncheckedUpdateManyWithoutUserInput = {
 
 export type StorableCountOutputType = {
   shipment: number
+  shipment_container: number
   trip_trip_container_idTostorable: number
   trip_trip_port_idTostorable: number
   trip_trip_warehouse_idTostorable: number
@@ -812,6 +923,7 @@ export type StorableCountOutputType = {
 
 export type StorableCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shipment?: boolean | StorableCountOutputTypeCountShipmentArgs
+  shipment_container?: boolean | StorableCountOutputTypeCountShipment_containerArgs
   trip_trip_container_idTostorable?: boolean | StorableCountOutputTypeCountTrip_trip_container_idTostorableArgs
   trip_trip_port_idTostorable?: boolean | StorableCountOutputTypeCountTrip_trip_port_idTostorableArgs
   trip_trip_warehouse_idTostorable?: boolean | StorableCountOutputTypeCountTrip_trip_warehouse_idTostorableArgs
@@ -832,6 +944,13 @@ export type StorableCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
  */
 export type StorableCountOutputTypeCountShipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.shipmentWhereInput
+}
+
+/**
+ * StorableCountOutputType without action
+ */
+export type StorableCountOutputTypeCountShipment_containerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.shipment_containerWhereInput
 }
 
 /**
@@ -863,6 +982,7 @@ export type storableSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   type?: boolean
   shipment?: boolean | Prisma.storable$shipmentArgs<ExtArgs>
+  shipment_container?: boolean | Prisma.storable$shipment_containerArgs<ExtArgs>
   user?: boolean | Prisma.storable$userArgs<ExtArgs>
   trip_trip_container_idTostorable?: boolean | Prisma.storable$trip_trip_container_idTostorableArgs<ExtArgs>
   trip_trip_port_idTostorable?: boolean | Prisma.storable$trip_trip_port_idTostorableArgs<ExtArgs>
@@ -883,6 +1003,7 @@ export type storableSelectScalar = {
 export type storableOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"date_created" | "created_by" | "description" | "id" | "type", ExtArgs["result"]["storable"]>
 export type storableInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shipment?: boolean | Prisma.storable$shipmentArgs<ExtArgs>
+  shipment_container?: boolean | Prisma.storable$shipment_containerArgs<ExtArgs>
   user?: boolean | Prisma.storable$userArgs<ExtArgs>
   trip_trip_container_idTostorable?: boolean | Prisma.storable$trip_trip_container_idTostorableArgs<ExtArgs>
   trip_trip_port_idTostorable?: boolean | Prisma.storable$trip_trip_port_idTostorableArgs<ExtArgs>
@@ -894,6 +1015,7 @@ export type $storablePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "storable"
   objects: {
     shipment: Prisma.$shipmentPayload<ExtArgs>[]
+    shipment_container: Prisma.$shipment_containerPayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs> | null
     trip_trip_container_idTostorable: Prisma.$tripPayload<ExtArgs>[]
     trip_trip_port_idTostorable: Prisma.$tripPayload<ExtArgs>[]
@@ -1246,6 +1368,7 @@ readonly fields: storableFieldRefs;
 export interface Prisma__storableClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   shipment<T extends Prisma.storable$shipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storable$shipmentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shipment_container<T extends Prisma.storable$shipment_containerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storable$shipment_containerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipment_containerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.storable$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storable$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   trip_trip_container_idTostorable<T extends Prisma.storable$trip_trip_container_idTostorableArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storable$trip_trip_container_idTostorableArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trip_trip_port_idTostorable<T extends Prisma.storable$trip_trip_port_idTostorableArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storable$trip_trip_port_idTostorableArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1648,6 +1771,30 @@ export type storable$shipmentArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ShipmentScalarFieldEnum | Prisma.ShipmentScalarFieldEnum[]
+}
+
+/**
+ * storable.shipment_container
+ */
+export type storable$shipment_containerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the shipment_container
+   */
+  select?: Prisma.shipment_containerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the shipment_container
+   */
+  omit?: Prisma.shipment_containerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.shipment_containerInclude<ExtArgs> | null
+  where?: Prisma.shipment_containerWhereInput
+  orderBy?: Prisma.shipment_containerOrderByWithRelationInput | Prisma.shipment_containerOrderByWithRelationInput[]
+  cursor?: Prisma.shipment_containerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Shipment_containerScalarFieldEnum | Prisma.Shipment_containerScalarFieldEnum[]
 }
 
 /**

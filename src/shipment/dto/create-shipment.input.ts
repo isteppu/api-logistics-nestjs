@@ -78,4 +78,9 @@ export class CreateShipmentInput {
   @ValidateNested({ each: true }) 
   @Type(() => FinanceRowInput)    
   finances?: FinanceRowInput[];
+
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  containers?: string[];
 }

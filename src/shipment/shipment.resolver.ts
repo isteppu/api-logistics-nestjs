@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { ShipmentService } from './shipment.service.js';
-import { Shipment, ShipmentResponse } from './models/shipment.model.js';
+import { Shipment, ShipmentContainers, ShipmentResponse } from './models/shipment.model.js';
 import { CreateShipmentInput } from './dto/create-shipment.input.js';
 import { UpdateShipmentInput } from './dto/update-shipment.input.js';
 import { PaginationArgs } from './dto/shipment-pagination.args.js';
@@ -88,6 +88,36 @@ export class ShipmentResolver {
           title: e.shipment_expense.expense_map || 'Expense',
           type: e.shipment_expense.type || 'amount',
           value: Number(e.shipment_expense.value || 0)
+        });
+      }
+    });
+
+    return allRows;
+  }
+
+  @ResolveField(() => [ShipmentContainers])
+  async containers(@Parent() shipment: any) {
+    const shipmentContainers = await this.prisma.shipment_container.findMany({
+      where: { shipment_id: shipment.id },
+      include: {
+        storable: true
+      }
+    })
+
+    if (shipmentContainers.length === 0) {
+      return [];
+    }
+
+    const allRows: ShipmentContainers[] = [];
+
+    shipmentContainers.forEach(r => {
+      if (r.container_id) {
+        allRows.push({
+          id: r.container_id,
+          type: r.storable.type,
+          description: r.storable.description || "",
+          date_created: r.storable.date_created,
+          created_by: r.storable.created_by || ""
         });
       }
     });

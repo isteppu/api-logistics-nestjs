@@ -53,12 +53,21 @@ type Shipment {
   customer: User
   issuer: User
   financeSummary: [ShipmentFinanceRow]!
+  containers: [ShipmentContainers!]!
 }
 
 type ShipmentResponse {
   items: [Shipment!]
   totalCount: Int!
   hasMore: Boolean!
+}
+
+type ShipmentContainers {
+  id: ID!
+  type: String!
+  description: String
+  date_created: DateTime!
+  created_by: String
 }
 
 type Expense {
@@ -154,6 +163,7 @@ input CreateShipmentInput {
   actual_time_arrival: DateTime
   status: String
   finances: [FinanceRowInput!]
+  containers: [String!]
 }
 
 input FinanceRowInput {
@@ -178,6 +188,7 @@ input UpdateShipmentInput {
   actual_time_arrival: DateTime
   status: String
   finances: [FinanceRowInput!]
+  containers: [String!]
   id: String!
 }
 

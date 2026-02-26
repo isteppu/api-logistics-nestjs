@@ -43,6 +43,8 @@ export type ShipmentMinAggregateOutputType = {
   volumex: number | null
   volumey: number | null
   actual_time_arrival: Date | null
+  billing_date: Date | null
+  payment_date: Date | null
   date_issued: Date | null
   estimated_time_arrival: Date | null
   customer_id: string | null
@@ -63,6 +65,8 @@ export type ShipmentMaxAggregateOutputType = {
   volumex: number | null
   volumey: number | null
   actual_time_arrival: Date | null
+  billing_date: Date | null
+  payment_date: Date | null
   date_issued: Date | null
   estimated_time_arrival: Date | null
   customer_id: string | null
@@ -83,6 +87,8 @@ export type ShipmentCountAggregateOutputType = {
   volumex: number
   volumey: number
   actual_time_arrival: number
+  billing_date: number
+  payment_date: number
   date_issued: number
   estimated_time_arrival: number
   customer_id: number
@@ -117,6 +123,8 @@ export type ShipmentMinAggregateInputType = {
   volumex?: true
   volumey?: true
   actual_time_arrival?: true
+  billing_date?: true
+  payment_date?: true
   date_issued?: true
   estimated_time_arrival?: true
   customer_id?: true
@@ -137,6 +145,8 @@ export type ShipmentMaxAggregateInputType = {
   volumex?: true
   volumey?: true
   actual_time_arrival?: true
+  billing_date?: true
+  payment_date?: true
   date_issued?: true
   estimated_time_arrival?: true
   customer_id?: true
@@ -157,6 +167,8 @@ export type ShipmentCountAggregateInputType = {
   volumex?: true
   volumey?: true
   actual_time_arrival?: true
+  billing_date?: true
+  payment_date?: true
   date_issued?: true
   estimated_time_arrival?: true
   customer_id?: true
@@ -264,6 +276,8 @@ export type ShipmentGroupByOutputType = {
   volumex: number | null
   volumey: number | null
   actual_time_arrival: Date | null
+  billing_date: Date | null
+  payment_date: Date | null
   date_issued: Date
   estimated_time_arrival: Date | null
   customer_id: string | null
@@ -307,6 +321,8 @@ export type shipmentWhereInput = {
   volumex?: Prisma.IntNullableFilter<"shipment"> | number | null
   volumey?: Prisma.IntNullableFilter<"shipment"> | number | null
   actual_time_arrival?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
+  billing_date?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
+  payment_date?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
   date_issued?: Prisma.DateTimeFilter<"shipment"> | Date | string
   estimated_time_arrival?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
   customer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
@@ -323,6 +339,7 @@ export type shipmentWhereInput = {
   user_shipment_customer_idTouser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   user_shipment_issuer_idTouser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   storable?: Prisma.XOR<Prisma.StorableNullableScalarRelationFilter, Prisma.storableWhereInput> | null
+  shipment_container?: Prisma.Shipment_containerListRelationFilter
   user_shipments?: Prisma.XOR<Prisma.User_shipmentsNullableScalarRelationFilter, Prisma.user_shipmentsWhereInput> | null
 }
 
@@ -331,6 +348,8 @@ export type shipmentOrderByWithRelationInput = {
   volumex?: Prisma.SortOrderInput | Prisma.SortOrder
   volumey?: Prisma.SortOrderInput | Prisma.SortOrder
   actual_time_arrival?: Prisma.SortOrderInput | Prisma.SortOrder
+  billing_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  payment_date?: Prisma.SortOrderInput | Prisma.SortOrder
   date_issued?: Prisma.SortOrder
   estimated_time_arrival?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -347,6 +366,7 @@ export type shipmentOrderByWithRelationInput = {
   user_shipment_customer_idTouser?: Prisma.UserOrderByWithRelationInput
   user_shipment_issuer_idTouser?: Prisma.UserOrderByWithRelationInput
   storable?: Prisma.storableOrderByWithRelationInput
+  shipment_container?: Prisma.shipment_containerOrderByRelationAggregateInput
   user_shipments?: Prisma.user_shipmentsOrderByWithRelationInput
   _relevance?: Prisma.shipmentOrderByRelevanceInput
 }
@@ -365,6 +385,8 @@ export type shipmentWhereUniqueInput = Prisma.AtLeast<{
   volumex?: Prisma.IntNullableFilter<"shipment"> | number | null
   volumey?: Prisma.IntNullableFilter<"shipment"> | number | null
   actual_time_arrival?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
+  billing_date?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
+  payment_date?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
   date_issued?: Prisma.DateTimeFilter<"shipment"> | Date | string
   estimated_time_arrival?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
   customer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
@@ -375,6 +397,7 @@ export type shipmentWhereUniqueInput = Prisma.AtLeast<{
   user_shipment_customer_idTouser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   user_shipment_issuer_idTouser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   storable?: Prisma.XOR<Prisma.StorableNullableScalarRelationFilter, Prisma.storableWhereInput> | null
+  shipment_container?: Prisma.Shipment_containerListRelationFilter
   user_shipments?: Prisma.XOR<Prisma.User_shipmentsNullableScalarRelationFilter, Prisma.user_shipmentsWhereInput> | null
 }, "id" | "blno" | "contract_no" | "entry_no" | "reference" | "registry_no">
 
@@ -383,6 +406,8 @@ export type shipmentOrderByWithAggregationInput = {
   volumex?: Prisma.SortOrderInput | Prisma.SortOrder
   volumey?: Prisma.SortOrderInput | Prisma.SortOrder
   actual_time_arrival?: Prisma.SortOrderInput | Prisma.SortOrder
+  billing_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  payment_date?: Prisma.SortOrderInput | Prisma.SortOrder
   date_issued?: Prisma.SortOrder
   estimated_time_arrival?: Prisma.SortOrderInput | Prisma.SortOrder
   customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -411,6 +436,8 @@ export type shipmentScalarWhereWithAggregatesInput = {
   volumex?: Prisma.IntNullableWithAggregatesFilter<"shipment"> | number | null
   volumey?: Prisma.IntNullableWithAggregatesFilter<"shipment"> | number | null
   actual_time_arrival?: Prisma.DateTimeNullableWithAggregatesFilter<"shipment"> | Date | string | null
+  billing_date?: Prisma.DateTimeNullableWithAggregatesFilter<"shipment"> | Date | string | null
+  payment_date?: Prisma.DateTimeNullableWithAggregatesFilter<"shipment"> | Date | string | null
   date_issued?: Prisma.DateTimeWithAggregatesFilter<"shipment"> | Date | string
   estimated_time_arrival?: Prisma.DateTimeNullableWithAggregatesFilter<"shipment"> | Date | string | null
   customer_id?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
@@ -431,6 +458,8 @@ export type shipmentCreateInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -444,6 +473,7 @@ export type shipmentCreateInput = {
   user_shipment_customer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_customer_idTouserInput
   user_shipment_issuer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_issuer_idTouserInput
   storable?: Prisma.storableCreateNestedOneWithoutShipmentInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsCreateNestedOneWithoutShipmentInput
 }
 
@@ -452,6 +482,8 @@ export type shipmentUncheckedCreateInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -465,6 +497,7 @@ export type shipmentUncheckedCreateInput = {
   registry_no: string
   shipping_line?: string | null
   status?: string | null
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedOneWithoutShipmentInput
 }
 
@@ -473,6 +506,8 @@ export type shipmentUpdateInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -486,6 +521,7 @@ export type shipmentUpdateInput = {
   user_shipment_customer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_customer_idTouserNestedInput
   user_shipment_issuer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUpdateOneWithoutShipmentNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateOneWithoutShipmentNestedInput
 }
 
@@ -494,6 +530,8 @@ export type shipmentUncheckedUpdateInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -507,6 +545,7 @@ export type shipmentUncheckedUpdateInput = {
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
   shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateOneWithoutShipmentNestedInput
 }
 
@@ -515,6 +554,8 @@ export type shipmentCreateManyInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -535,6 +576,8 @@ export type shipmentUpdateManyMutationInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -552,6 +595,8 @@ export type shipmentUncheckedUpdateManyInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -578,6 +623,8 @@ export type shipmentCountOrderByAggregateInput = {
   volumex?: Prisma.SortOrder
   volumey?: Prisma.SortOrder
   actual_time_arrival?: Prisma.SortOrder
+  billing_date?: Prisma.SortOrder
+  payment_date?: Prisma.SortOrder
   date_issued?: Prisma.SortOrder
   estimated_time_arrival?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
@@ -604,6 +651,8 @@ export type shipmentMaxOrderByAggregateInput = {
   volumex?: Prisma.SortOrder
   volumey?: Prisma.SortOrder
   actual_time_arrival?: Prisma.SortOrder
+  billing_date?: Prisma.SortOrder
+  payment_date?: Prisma.SortOrder
   date_issued?: Prisma.SortOrder
   estimated_time_arrival?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
@@ -624,6 +673,8 @@ export type shipmentMinOrderByAggregateInput = {
   volumex?: Prisma.SortOrder
   volumey?: Prisma.SortOrder
   actual_time_arrival?: Prisma.SortOrder
+  billing_date?: Prisma.SortOrder
+  payment_date?: Prisma.SortOrder
   date_issued?: Prisma.SortOrder
   estimated_time_arrival?: Prisma.SortOrder
   customer_id?: Prisma.SortOrder
@@ -645,6 +696,11 @@ export type shipmentSumOrderByAggregateInput = {
   volumey?: Prisma.SortOrder
 }
 
+export type ShipmentScalarRelationFilter = {
+  is?: Prisma.shipmentWhereInput
+  isNot?: Prisma.shipmentWhereInput
+}
+
 export type ShipmentListRelationFilter = {
   every?: Prisma.shipmentWhereInput
   some?: Prisma.shipmentWhereInput
@@ -653,11 +709,6 @@ export type ShipmentListRelationFilter = {
 
 export type shipmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ShipmentScalarRelationFilter = {
-  is?: Prisma.shipmentWhereInput
-  isNot?: Prisma.shipmentWhereInput
 }
 
 export type NullableIntFieldUpdateOperationsInput = {
@@ -678,6 +729,20 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type shipmentCreateNestedOneWithoutShipment_containerInput = {
+  create?: Prisma.XOR<Prisma.shipmentCreateWithoutShipment_containerInput, Prisma.shipmentUncheckedCreateWithoutShipment_containerInput>
+  connectOrCreate?: Prisma.shipmentCreateOrConnectWithoutShipment_containerInput
+  connect?: Prisma.shipmentWhereUniqueInput
+}
+
+export type shipmentUpdateOneRequiredWithoutShipment_containerNestedInput = {
+  create?: Prisma.XOR<Prisma.shipmentCreateWithoutShipment_containerInput, Prisma.shipmentUncheckedCreateWithoutShipment_containerInput>
+  connectOrCreate?: Prisma.shipmentCreateOrConnectWithoutShipment_containerInput
+  upsert?: Prisma.shipmentUpsertWithoutShipment_containerInput
+  connect?: Prisma.shipmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.shipmentUpdateToOneWithWhereWithoutShipment_containerInput, Prisma.shipmentUpdateWithoutShipment_containerInput>, Prisma.shipmentUncheckedUpdateWithoutShipment_containerInput>
 }
 
 export type shipmentCreateNestedManyWithoutStorableInput = {
@@ -820,11 +885,13 @@ export type shipmentUpdateOneRequiredWithoutUser_shipmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.shipmentUpdateToOneWithWhereWithoutUser_shipmentsInput, Prisma.shipmentUpdateWithoutUser_shipmentsInput>, Prisma.shipmentUncheckedUpdateWithoutUser_shipmentsInput>
 }
 
-export type shipmentCreateWithoutStorableInput = {
+export type shipmentCreateWithoutShipment_containerInput = {
   is_archived?: number
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -837,6 +904,115 @@ export type shipmentCreateWithoutStorableInput = {
   status?: string | null
   user_shipment_customer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_customer_idTouserInput
   user_shipment_issuer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_issuer_idTouserInput
+  storable?: Prisma.storableCreateNestedOneWithoutShipmentInput
+  user_shipments?: Prisma.user_shipmentsCreateNestedOneWithoutShipmentInput
+}
+
+export type shipmentUncheckedCreateWithoutShipment_containerInput = {
+  is_archived?: number
+  volumex?: number | null
+  volumey?: number | null
+  actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
+  date_issued?: Date | string
+  estimated_time_arrival?: Date | string | null
+  customer_id?: string | null
+  id: string
+  issuer_id?: string | null
+  blno: string
+  contract_no: string
+  entry_no: string
+  port_id?: string | null
+  reference: string
+  registry_no: string
+  shipping_line?: string | null
+  status?: string | null
+  user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedOneWithoutShipmentInput
+}
+
+export type shipmentCreateOrConnectWithoutShipment_containerInput = {
+  where: Prisma.shipmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.shipmentCreateWithoutShipment_containerInput, Prisma.shipmentUncheckedCreateWithoutShipment_containerInput>
+}
+
+export type shipmentUpsertWithoutShipment_containerInput = {
+  update: Prisma.XOR<Prisma.shipmentUpdateWithoutShipment_containerInput, Prisma.shipmentUncheckedUpdateWithoutShipment_containerInput>
+  create: Prisma.XOR<Prisma.shipmentCreateWithoutShipment_containerInput, Prisma.shipmentUncheckedCreateWithoutShipment_containerInput>
+  where?: Prisma.shipmentWhereInput
+}
+
+export type shipmentUpdateToOneWithWhereWithoutShipment_containerInput = {
+  where?: Prisma.shipmentWhereInput
+  data: Prisma.XOR<Prisma.shipmentUpdateWithoutShipment_containerInput, Prisma.shipmentUncheckedUpdateWithoutShipment_containerInput>
+}
+
+export type shipmentUpdateWithoutShipment_containerInput = {
+  is_archived?: Prisma.IntFieldUpdateOperationsInput | number
+  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  blno?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  entry_no?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  registry_no?: Prisma.StringFieldUpdateOperationsInput | string
+  shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_shipment_customer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_customer_idTouserNestedInput
+  user_shipment_issuer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_issuer_idTouserNestedInput
+  storable?: Prisma.storableUpdateOneWithoutShipmentNestedInput
+  user_shipments?: Prisma.user_shipmentsUpdateOneWithoutShipmentNestedInput
+}
+
+export type shipmentUncheckedUpdateWithoutShipment_containerInput = {
+  is_archived?: Prisma.IntFieldUpdateOperationsInput | number
+  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  blno?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  entry_no?: Prisma.StringFieldUpdateOperationsInput | string
+  port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reference?: Prisma.StringFieldUpdateOperationsInput | string
+  registry_no?: Prisma.StringFieldUpdateOperationsInput | string
+  shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_shipments?: Prisma.user_shipmentsUncheckedUpdateOneWithoutShipmentNestedInput
+}
+
+export type shipmentCreateWithoutStorableInput = {
+  is_archived?: number
+  volumex?: number | null
+  volumey?: number | null
+  actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
+  date_issued?: Date | string
+  estimated_time_arrival?: Date | string | null
+  id: string
+  blno: string
+  contract_no: string
+  entry_no: string
+  reference: string
+  registry_no: string
+  shipping_line?: string | null
+  status?: string | null
+  user_shipment_customer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_customer_idTouserInput
+  user_shipment_issuer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_issuer_idTouserInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsCreateNestedOneWithoutShipmentInput
 }
 
@@ -845,6 +1021,8 @@ export type shipmentUncheckedCreateWithoutStorableInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -857,6 +1035,7 @@ export type shipmentUncheckedCreateWithoutStorableInput = {
   registry_no: string
   shipping_line?: string | null
   status?: string | null
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedOneWithoutShipmentInput
 }
 
@@ -894,6 +1073,8 @@ export type shipmentScalarWhereInput = {
   volumex?: Prisma.IntNullableFilter<"shipment"> | number | null
   volumey?: Prisma.IntNullableFilter<"shipment"> | number | null
   actual_time_arrival?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
+  billing_date?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
+  payment_date?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
   date_issued?: Prisma.DateTimeFilter<"shipment"> | Date | string
   estimated_time_arrival?: Prisma.DateTimeNullableFilter<"shipment"> | Date | string | null
   customer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
@@ -914,6 +1095,8 @@ export type shipmentCreateWithoutUser_shipment_customer_idTouserInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -926,6 +1109,7 @@ export type shipmentCreateWithoutUser_shipment_customer_idTouserInput = {
   status?: string | null
   user_shipment_issuer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_issuer_idTouserInput
   storable?: Prisma.storableCreateNestedOneWithoutShipmentInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsCreateNestedOneWithoutShipmentInput
 }
 
@@ -934,6 +1118,8 @@ export type shipmentUncheckedCreateWithoutUser_shipment_customer_idTouserInput =
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -946,6 +1132,7 @@ export type shipmentUncheckedCreateWithoutUser_shipment_customer_idTouserInput =
   registry_no: string
   shipping_line?: string | null
   status?: string | null
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedOneWithoutShipmentInput
 }
 
@@ -964,6 +1151,8 @@ export type shipmentCreateWithoutUser_shipment_issuer_idTouserInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -976,6 +1165,7 @@ export type shipmentCreateWithoutUser_shipment_issuer_idTouserInput = {
   status?: string | null
   user_shipment_customer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_customer_idTouserInput
   storable?: Prisma.storableCreateNestedOneWithoutShipmentInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsCreateNestedOneWithoutShipmentInput
 }
 
@@ -984,6 +1174,8 @@ export type shipmentUncheckedCreateWithoutUser_shipment_issuer_idTouserInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -996,6 +1188,7 @@ export type shipmentUncheckedCreateWithoutUser_shipment_issuer_idTouserInput = {
   registry_no: string
   shipping_line?: string | null
   status?: string | null
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutShipmentInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedOneWithoutShipmentInput
 }
 
@@ -1046,6 +1239,8 @@ export type shipmentCreateWithoutUser_shipmentsInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -1059,6 +1254,7 @@ export type shipmentCreateWithoutUser_shipmentsInput = {
   user_shipment_customer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_customer_idTouserInput
   user_shipment_issuer_idTouser?: Prisma.UserCreateNestedOneWithoutShipment_shipment_issuer_idTouserInput
   storable?: Prisma.storableCreateNestedOneWithoutShipmentInput
+  shipment_container?: Prisma.shipment_containerCreateNestedManyWithoutShipmentInput
 }
 
 export type shipmentUncheckedCreateWithoutUser_shipmentsInput = {
@@ -1066,6 +1262,8 @@ export type shipmentUncheckedCreateWithoutUser_shipmentsInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -1079,6 +1277,7 @@ export type shipmentUncheckedCreateWithoutUser_shipmentsInput = {
   registry_no: string
   shipping_line?: string | null
   status?: string | null
+  shipment_container?: Prisma.shipment_containerUncheckedCreateNestedManyWithoutShipmentInput
 }
 
 export type shipmentCreateOrConnectWithoutUser_shipmentsInput = {
@@ -1102,6 +1301,8 @@ export type shipmentUpdateWithoutUser_shipmentsInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1115,6 +1316,7 @@ export type shipmentUpdateWithoutUser_shipmentsInput = {
   user_shipment_customer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_customer_idTouserNestedInput
   user_shipment_issuer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUpdateOneWithoutShipmentNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutShipmentNestedInput
 }
 
 export type shipmentUncheckedUpdateWithoutUser_shipmentsInput = {
@@ -1122,6 +1324,8 @@ export type shipmentUncheckedUpdateWithoutUser_shipmentsInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1135,6 +1339,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipmentsInput = {
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
   shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutShipmentNestedInput
 }
 
 export type shipmentCreateManyStorableInput = {
@@ -1142,6 +1347,8 @@ export type shipmentCreateManyStorableInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -1161,6 +1368,8 @@ export type shipmentUpdateWithoutStorableInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1173,6 +1382,7 @@ export type shipmentUpdateWithoutStorableInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user_shipment_customer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_customer_idTouserNestedInput
   user_shipment_issuer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_issuer_idTouserNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateOneWithoutShipmentNestedInput
 }
 
@@ -1181,6 +1391,8 @@ export type shipmentUncheckedUpdateWithoutStorableInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1193,6 +1405,7 @@ export type shipmentUncheckedUpdateWithoutStorableInput = {
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
   shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateOneWithoutShipmentNestedInput
 }
 
@@ -1201,6 +1414,8 @@ export type shipmentUncheckedUpdateManyWithoutStorableInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1220,6 +1435,8 @@ export type shipmentCreateManyUser_shipment_customer_idTouserInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   id: string
@@ -1239,6 +1456,8 @@ export type shipmentCreateManyUser_shipment_issuer_idTouserInput = {
   volumex?: number | null
   volumey?: number | null
   actual_time_arrival?: Date | string | null
+  billing_date?: Date | string | null
+  payment_date?: Date | string | null
   date_issued?: Date | string
   estimated_time_arrival?: Date | string | null
   customer_id?: string | null
@@ -1258,6 +1477,8 @@ export type shipmentUpdateWithoutUser_shipment_customer_idTouserInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1270,6 +1491,7 @@ export type shipmentUpdateWithoutUser_shipment_customer_idTouserInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user_shipment_issuer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUpdateOneWithoutShipmentNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateOneWithoutShipmentNestedInput
 }
 
@@ -1278,6 +1500,8 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_customer_idTouserInput =
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1290,6 +1514,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_customer_idTouserInput =
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
   shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateOneWithoutShipmentNestedInput
 }
 
@@ -1298,6 +1523,8 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserInp
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1317,6 +1544,8 @@ export type shipmentUpdateWithoutUser_shipment_issuer_idTouserInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1329,6 +1558,7 @@ export type shipmentUpdateWithoutUser_shipment_issuer_idTouserInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user_shipment_customer_idTouser?: Prisma.UserUpdateOneWithoutShipment_shipment_customer_idTouserNestedInput
   storable?: Prisma.storableUpdateOneWithoutShipmentNestedInput
+  shipment_container?: Prisma.shipment_containerUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateOneWithoutShipmentNestedInput
 }
 
@@ -1337,6 +1567,8 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_issuer_idTouserInput = {
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1349,6 +1581,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_issuer_idTouserInput = {
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
   shipping_line?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shipment_container?: Prisma.shipment_containerUncheckedUpdateManyWithoutShipmentNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateOneWithoutShipmentNestedInput
 }
 
@@ -1357,6 +1590,8 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserInput
   volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actual_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  billing_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  payment_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   date_issued?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1372,12 +1607,43 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserInput
 }
 
 
+/**
+ * Count Type ShipmentCountOutputType
+ */
+
+export type ShipmentCountOutputType = {
+  shipment_container: number
+}
+
+export type ShipmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  shipment_container?: boolean | ShipmentCountOutputTypeCountShipment_containerArgs
+}
+
+/**
+ * ShipmentCountOutputType without action
+ */
+export type ShipmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShipmentCountOutputType
+   */
+  select?: Prisma.ShipmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ShipmentCountOutputType without action
+ */
+export type ShipmentCountOutputTypeCountShipment_containerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.shipment_containerWhereInput
+}
+
 
 export type shipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   is_archived?: boolean
   volumex?: boolean
   volumey?: boolean
   actual_time_arrival?: boolean
+  billing_date?: boolean
+  payment_date?: boolean
   date_issued?: boolean
   estimated_time_arrival?: boolean
   customer_id?: boolean
@@ -1394,7 +1660,9 @@ export type shipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   user_shipment_customer_idTouser?: boolean | Prisma.shipment$user_shipment_customer_idTouserArgs<ExtArgs>
   user_shipment_issuer_idTouser?: boolean | Prisma.shipment$user_shipment_issuer_idTouserArgs<ExtArgs>
   storable?: boolean | Prisma.shipment$storableArgs<ExtArgs>
+  shipment_container?: boolean | Prisma.shipment$shipment_containerArgs<ExtArgs>
   user_shipments?: boolean | Prisma.shipment$user_shipmentsArgs<ExtArgs>
+  _count?: boolean | Prisma.ShipmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shipment"]>
 
 
@@ -1404,6 +1672,8 @@ export type shipmentSelectScalar = {
   volumex?: boolean
   volumey?: boolean
   actual_time_arrival?: boolean
+  billing_date?: boolean
+  payment_date?: boolean
   date_issued?: boolean
   estimated_time_arrival?: boolean
   customer_id?: boolean
@@ -1419,12 +1689,14 @@ export type shipmentSelectScalar = {
   status?: boolean
 }
 
-export type shipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"is_archived" | "volumex" | "volumey" | "actual_time_arrival" | "date_issued" | "estimated_time_arrival" | "customer_id" | "id" | "issuer_id" | "blno" | "contract_no" | "entry_no" | "port_id" | "reference" | "registry_no" | "shipping_line" | "status", ExtArgs["result"]["shipment"]>
+export type shipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"is_archived" | "volumex" | "volumey" | "actual_time_arrival" | "billing_date" | "payment_date" | "date_issued" | "estimated_time_arrival" | "customer_id" | "id" | "issuer_id" | "blno" | "contract_no" | "entry_no" | "port_id" | "reference" | "registry_no" | "shipping_line" | "status", ExtArgs["result"]["shipment"]>
 export type shipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user_shipment_customer_idTouser?: boolean | Prisma.shipment$user_shipment_customer_idTouserArgs<ExtArgs>
   user_shipment_issuer_idTouser?: boolean | Prisma.shipment$user_shipment_issuer_idTouserArgs<ExtArgs>
   storable?: boolean | Prisma.shipment$storableArgs<ExtArgs>
+  shipment_container?: boolean | Prisma.shipment$shipment_containerArgs<ExtArgs>
   user_shipments?: boolean | Prisma.shipment$user_shipmentsArgs<ExtArgs>
+  _count?: boolean | Prisma.ShipmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $shipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1433,6 +1705,7 @@ export type $shipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     user_shipment_customer_idTouser: Prisma.$UserPayload<ExtArgs> | null
     user_shipment_issuer_idTouser: Prisma.$UserPayload<ExtArgs> | null
     storable: Prisma.$storablePayload<ExtArgs> | null
+    shipment_container: Prisma.$shipment_containerPayload<ExtArgs>[]
     user_shipments: Prisma.$user_shipmentsPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1440,6 +1713,8 @@ export type $shipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     volumex: number | null
     volumey: number | null
     actual_time_arrival: Date | null
+    billing_date: Date | null
+    payment_date: Date | null
     date_issued: Date
     estimated_time_arrival: Date | null
     customer_id: string | null
@@ -1796,6 +2071,7 @@ export interface Prisma__shipmentClient<T, Null = never, ExtArgs extends runtime
   user_shipment_customer_idTouser<T extends Prisma.shipment$user_shipment_customer_idTouserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipment$user_shipment_customer_idTouserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user_shipment_issuer_idTouser<T extends Prisma.shipment$user_shipment_issuer_idTouserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipment$user_shipment_issuer_idTouserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   storable<T extends Prisma.shipment$storableArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipment$storableArgs<ExtArgs>>): Prisma.Prisma__storableClient<runtime.Types.Result.GetResult<Prisma.$storablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  shipment_container<T extends Prisma.shipment$shipment_containerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipment$shipment_containerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$shipment_containerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_shipments<T extends Prisma.shipment$user_shipmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipment$user_shipmentsArgs<ExtArgs>>): Prisma.Prisma__user_shipmentsClient<runtime.Types.Result.GetResult<Prisma.$user_shipmentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1830,6 +2106,8 @@ export interface shipmentFieldRefs {
   readonly volumex: Prisma.FieldRef<"shipment", 'Int'>
   readonly volumey: Prisma.FieldRef<"shipment", 'Int'>
   readonly actual_time_arrival: Prisma.FieldRef<"shipment", 'DateTime'>
+  readonly billing_date: Prisma.FieldRef<"shipment", 'DateTime'>
+  readonly payment_date: Prisma.FieldRef<"shipment", 'DateTime'>
   readonly date_issued: Prisma.FieldRef<"shipment", 'DateTime'>
   readonly estimated_time_arrival: Prisma.FieldRef<"shipment", 'DateTime'>
   readonly customer_id: Prisma.FieldRef<"shipment", 'String'>
@@ -2240,6 +2518,30 @@ export type shipment$storableArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.storableInclude<ExtArgs> | null
   where?: Prisma.storableWhereInput
+}
+
+/**
+ * shipment.shipment_container
+ */
+export type shipment$shipment_containerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the shipment_container
+   */
+  select?: Prisma.shipment_containerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the shipment_container
+   */
+  omit?: Prisma.shipment_containerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.shipment_containerInclude<ExtArgs> | null
+  where?: Prisma.shipment_containerWhereInput
+  orderBy?: Prisma.shipment_containerOrderByWithRelationInput | Prisma.shipment_containerOrderByWithRelationInput[]
+  cursor?: Prisma.shipment_containerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Shipment_containerScalarFieldEnum | Prisma.Shipment_containerScalarFieldEnum[]
 }
 
 /**
