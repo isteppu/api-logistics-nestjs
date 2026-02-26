@@ -100,6 +100,56 @@ export class ShipmentService extends Shipment {
         },
       });
 
+      if (data.finances?.length) {
+        for (const row of data.finances) {
+          const isRevenue = row.title.toLowerCase().includes('billing');
+
+          if (isRevenue) {
+            await tx.revenue.upsert({
+              where: { title: row.title },
+              update: {},
+              create: { title: row.title },
+            });
+
+            const rev = await tx.shipment_revenue.create({
+              data: {
+                value: row.value,
+                revenue_map: row.title,
+                type: row.type,
+              },
+            });
+
+            await tx.shipment_revenues.create({
+              data: {
+                shipment_id: shipment.id,
+                revenues_id: rev.id,
+              },
+            });
+          } else {
+            await tx.expense.upsert({
+              where: { title: row.title },
+              update: {},
+              create: { title: row.title },
+            });
+
+            const exp = await tx.shipment_expense.create({
+              data: {
+                value: row.value,
+                expense_map: row.title,
+                type: row.type,
+              },
+            });
+
+            await tx.shipment_expenses.create({
+              data: {
+                shipment_id: shipment.id,
+                expenses_id: exp.id,
+              },
+            });
+          }
+        }
+      }
+
       // Handle containers
       if (data.containers?.length) {
         const uniqueContainerNames = [...new Set(data.containers)];
@@ -125,43 +175,171 @@ export class ShipmentService extends Shipment {
    * Update shipment
    */
   async update(id: string, data: UpdateShipmentInput) {
-    const updatePayload: any = { ...data };
-    delete updatePayload.id;
-
-    if (data.customer_username) {
-      const customer = await this.prisma.user.findUnique({ where: { username: data.customer_username } });
-      if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
-      updatePayload.customer_id = customer.id;
-      delete updatePayload.customer_username;
-    }
-
-    if (data.issuer_username) {
-      const issuer = await this.prisma.user.findUnique({ where: { username: data.issuer_username } });
-      if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
-      updatePayload.issuer_id = issuer.id;
-      delete updatePayload.issuer_username;
-    }
-
     return this.prisma.$transaction(async (tx) => {
-      // Ensure port and warehouse exist
+      const updatePayload: any = { ...data };
+      delete updatePayload.id;
+
+      let customerId: string | undefined;
+      let issuerId: string | undefined;
+
+      // Resolve customer
+      if (data.customer_username) {
+        const customer = await tx.user.findUnique({ where: { username: data.customer_username } });
+        if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
+        customerId = customer.id;
+        updatePayload.customer_id = customerId;
+      }
+
+      // Resolve issuer
+      if (data.issuer_username) {
+        const issuer = await tx.user.findUnique({ where: { username: data.issuer_username } });
+        if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
+        issuerId = issuer.id;
+        updatePayload.issuer_id = issuerId;
+      }
+
+      // Handle port and warehouse
       if (data.port_id) {
-        await this.ensureStorable(tx, data.port_id, 'PORT', `${data.port_id} port`);
+        updatePayload.port_id = await this.ensureStorable(
+          tx,
+          data.port_id,
+          'PORT',
+          `${data.port_id} port`,
+          issuerId
+        );
       }
-
       if (data.warehouse_id) {
-        await this.ensureStorable(tx, data.warehouse_id, 'WAREHOUSE', `${data.warehouse_id} warehouse`);
+        updatePayload.warehouse_id = await this.ensureStorable(
+          tx,
+          data.warehouse_id,
+          'WAREHOUSE',
+          `${data.warehouse_id} warehouse`,
+          issuerId
+        );
       }
 
-      return tx.shipment.update({
+      // Update shipment
+      const shipment = await tx.shipment.update({
         where: { id },
         data: updatePayload,
-        include: {
-          user_shipment_customer_idTouser: true,
-          user_shipment_issuer_idTouser: true,
-          storable_shipment_port_idToStorable: true,
-          storable_shipment_warehouse_idTostorable: true,
-        },
       });
+
+      // Handle containers
+      if (data.containers?.length) {
+        const uniqueContainerNames = [...new Set(data.containers)];
+        await Promise.all(
+          uniqueContainerNames.map(name =>
+            this.ensureStorable(tx, name, 'CONTAINER', `${name} container`, issuerId)
+          )
+        );
+
+        // Delete old containers not in new list
+        await tx.shipment_container.deleteMany({
+          where: {
+            shipment_id: shipment.id,
+            container_id: { notIn: uniqueContainerNames },
+          },
+        });
+
+        // Add new containers
+        await tx.shipment_container.createMany({
+          data: uniqueContainerNames.map(name => ({
+            shipment_id: shipment.id,
+            container_id: name,
+          })),
+          skipDuplicates: true,
+        });
+      }
+
+      // Handle finances
+      // Handle finances
+      if (data.finances?.length) {
+        for (const row of data.finances) {
+          const isRevenue = row.title.toLowerCase().includes('billing');
+
+          if (isRevenue) {
+            // Ensure revenue exists
+            await tx.revenue.upsert({
+              where: { title: row.title },
+              update: {},
+              create: { title: row.title },
+            });
+
+            // Check if a shipment_revenue already exists for this shipment & title
+            let existing = await tx.shipment_revenues.findFirst({
+              where: {
+                shipment_id: shipment.id,
+                shipment_revenue: { revenue_map: row.title },
+              },
+              include: { shipment_revenue: true },
+            });
+
+            if (existing) {
+              // Update the revenue value and type
+              await tx.shipment_revenue.update({
+                where: { id: existing.revenues_id },
+                data: { value: row.value, type: row.type },
+              });
+            } else {
+              // Create new shipment_revenue
+              const rev = await tx.shipment_revenue.create({
+                data: {
+                  value: row.value,
+                  revenue_map: row.title,
+                  type: row.type,
+                },
+              });
+
+              // Link it to the shipment
+              await tx.shipment_revenues.create({
+                data: {
+                  shipment_id: shipment.id,
+                  revenues_id: rev.id,
+                },
+              });
+            }
+          } else {
+            // Handle expenses similarly
+            await tx.expense.upsert({
+              where: { title: row.title },
+              update: {},
+              create: { title: row.title },
+            });
+
+            let existing = await tx.shipment_expenses.findFirst({
+              where: {
+                shipment_id: shipment.id,
+                shipment_expense: { expense_map: row.title },
+              },
+              include: { shipment_expense: true },
+            });
+
+            if (existing) {
+              await tx.shipment_expense.update({
+                where: { id: existing.expenses_id },
+                data: { value: row.value, type: row.type },
+              });
+            } else {
+              const exp = await tx.shipment_expense.create({
+                data: {
+                  value: row.value,
+                  expense_map: row.title,
+                  type: row.type,
+                },
+              });
+
+              await tx.shipment_expenses.create({
+                data: {
+                  shipment_id: shipment.id,
+                  expenses_id: exp.id,
+                },
+              });
+            }
+          }
+        }
+      }
+
+      return shipment;
     });
   }
 
