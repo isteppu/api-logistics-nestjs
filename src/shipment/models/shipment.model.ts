@@ -11,6 +11,7 @@ export class Shipment {
   @Field() reference: string;
   @Field() registry_no: string;
   @Field({ nullable: true }) port_id?: string;
+  @Field({ nullable: true }) warehouse_id?: string;
   @Field({ nullable: true }) shipping_line?: string;
   @Field({ nullable: true }) status?: string;
   @Field(() => Int, { nullable: true }) volumex?: number;
@@ -35,7 +36,7 @@ export class ShipmentResponse {
 }
 
 @ObjectType()
-export class ShipmentContainers {
+export class ShipmentStorable {
   @Field(() => ID)
   id: string;
 

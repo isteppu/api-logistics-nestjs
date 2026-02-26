@@ -44,6 +44,7 @@ type Shipment {
   reference: String!
   registry_no: String!
   port_id: String
+  warehouse_id: String
   shipping_line: String
   status: String
   volumex: Int
@@ -53,7 +54,7 @@ type Shipment {
   customer: User
   issuer: User
   financeSummary: [ShipmentFinanceRow]!
-  containers: [ShipmentContainers!]!
+  containers: [ShipmentStorable!]!
 }
 
 type ShipmentResponse {
@@ -62,7 +63,7 @@ type ShipmentResponse {
   hasMore: Boolean!
 }
 
-type ShipmentContainers {
+type ShipmentStorable {
   id: ID!
   type: String!
   description: String
@@ -133,7 +134,6 @@ type Query {
 type Mutation {
   createShipment(input: CreateShipmentInput!): Shipment!
   updateShipment(input: UpdateShipmentInput!): Shipment!
-  removeShipment(id: Int!): Shipment!
   syncShipmentFinance(input: SyncShipmentFinanceInput!): Boolean!
   createExpense(createExpenseInput: CreateExpenseInput!): Expense!
   updateExpense(updateExpenseInput: UpdateExpenseInput!): Expense!
@@ -154,6 +154,7 @@ input CreateShipmentInput {
   reference: String!
   registry_no: String!
   port_id: String!
+  warehouse_id: String!
   shipping_line: String!
   estimated_time_arrival: DateTime!
   customer_username: String!
@@ -179,6 +180,7 @@ input UpdateShipmentInput {
   reference: String
   registry_no: String
   port_id: String
+  warehouse_id: String
   shipping_line: String
   estimated_time_arrival: DateTime
   customer_username: String

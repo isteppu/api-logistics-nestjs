@@ -38,6 +38,11 @@ export class CreateShipmentInput {
   @Field()
   @IsString()
   @IsNotEmpty()
+  warehouse_id: string;
+
+  @Field()
+  @IsString()
+  @IsNotEmpty()
   shipping_line: string;
 
   @Field()

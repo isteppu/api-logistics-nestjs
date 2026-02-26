@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { ShipmentService } from './shipment.service.js';
-import { Shipment, ShipmentContainers, ShipmentResponse } from './models/shipment.model.js';
+import { Shipment, ShipmentResponse, ShipmentStorable } from './models/shipment.model.js';
 import { CreateShipmentInput } from './dto/create-shipment.input.js';
 import { UpdateShipmentInput } from './dto/update-shipment.input.js';
 import { PaginationArgs } from './dto/shipment-pagination.args.js';
@@ -37,11 +37,6 @@ export class ShipmentResolver {
     return this.shipmentService.search(query);
   }
 
-  @Mutation(() => Shipment)
-  removeShipment(@Args('id', { type: () => Int }) id: number) {
-    return this.shipmentService.remove(id);
-  }
-
   @Mutation(() => Boolean)
   async syncShipmentFinance(
     @Args('input') input: SyncShipmentFinanceInput,
@@ -61,9 +56,6 @@ export class ShipmentResolver {
         include: { shipment_expense: true }
       })
     ]);
-
-    // If both are empty, return an empty array immediately 
-    // to avoid returning null to a non-nullable field.
     if (revenues.length === 0 && expenses.length === 0) {
       return [];
     }
@@ -73,7 +65,6 @@ export class ShipmentResolver {
     revenues.forEach(r => {
       if (r.shipment_revenue) {
         allRows.push({
-          // Fallback to "Revenue" if revenue_map is null
           title: r.shipment_revenue.revenue_map || 'Revenue',
           type: r.shipment_revenue.type || 'amount',
           value: Number(r.shipment_revenue.value || 0)
@@ -84,7 +75,6 @@ export class ShipmentResolver {
     expenses.forEach(e => {
       if (e.shipment_expense) {
         allRows.push({
-          // Fallback to "Expense" if expense_map is null
           title: e.shipment_expense.expense_map || 'Expense',
           type: e.shipment_expense.type || 'amount',
           value: Number(e.shipment_expense.value || 0)
@@ -95,7 +85,7 @@ export class ShipmentResolver {
     return allRows;
   }
 
-  @ResolveField(() => [ShipmentContainers])
+  @ResolveField(() => [ShipmentStorable])
   async containers(@Parent() shipment: any) {
     const shipmentContainers = await this.prisma.shipment_container.findMany({
       where: { shipment_id: shipment.id },
@@ -108,7 +98,7 @@ export class ShipmentResolver {
       return [];
     }
 
-    const allRows: ShipmentContainers[] = [];
+    const allRows: ShipmentStorable[] = [];
 
     shipmentContainers.forEach(r => {
       if (r.container_id) {
