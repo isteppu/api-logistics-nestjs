@@ -29,11 +29,6 @@ export class CreateShipmentInput {
   @Field()
   @IsString()
   @IsNotEmpty()
-  reference: string;
-
-  @Field()
-  @IsString()
-  @IsNotEmpty()
   registry_no: string;
 
   @Field()

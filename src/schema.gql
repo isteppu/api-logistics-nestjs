@@ -38,6 +38,7 @@ type ShipmentFinanceRow {
 
 type Shipment {
   id: ID!
+  selectivity: String
   blno: String!
   contract_no: String!
   entry_no: String!
@@ -149,10 +150,10 @@ type Mutation {
 }
 
 input CreateShipmentInput {
+  selectivity: String!
   blno: String!
   contract_no: String!
   entry_no: String!
-  reference: String!
   registry_no: String!
   port_id: String!
   warehouse_id: String!
@@ -175,10 +176,10 @@ input FinanceRowInput {
 }
 
 input UpdateShipmentInput {
+  selectivity: String
   blno: String
   contract_no: String
   entry_no: String
-  reference: String
   registry_no: String
   port_id: String
   warehouse_id: String
