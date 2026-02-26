@@ -19,6 +19,13 @@ export class TripResolver {
     return this.tripService.findAllPaginated(skip, take);
   }
 
+  @Query(() => TripPaginationResponse)
+  async searchTrips(
+    @Args('query', { type: () => String, defaultValue: '' }) query: string,
+  ) {
+    return this.tripService.search(query);
+  }
+
   @Mutation(() => Trip)
   async createTrip(@Args('input') input: CreateTripInput) {
     return this.tripService.create(input);

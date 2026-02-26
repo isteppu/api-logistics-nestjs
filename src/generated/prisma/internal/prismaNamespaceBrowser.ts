@@ -120,6 +120,7 @@ export const ShipmentScalarFieldEnum = {
   date_issued: 'date_issued',
   estimated_time_arrival: 'estimated_time_arrival',
   customer_id: 'customer_id',
+  selectivity: 'selectivity',
   id: 'id',
   issuer_id: 'issuer_id',
   blno: 'blno',
@@ -332,6 +333,7 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 export const shipmentOrderByRelevanceFieldEnum = {
   customer_id: 'customer_id',
+  selectivity: 'selectivity',
   id: 'id',
   issuer_id: 'issuer_id',
   blno: 'blno',

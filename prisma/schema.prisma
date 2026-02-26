@@ -35,6 +35,7 @@ model shipment {
   date_issued                                 DateTime             @default(now()) @db.Timestamp(0)
   estimated_time_arrival                      DateTime?            @db.DateTime(6)
   customer_id                                 String?              @db.VarChar(36)
+  selectivity                                 String?              @db.VarChar(36)
   id                                          String               @id @db.VarChar(36)
   issuer_id                                   String?              @db.VarChar(36)
   blno                                        String               @unique(map: "uk_blno") @db.VarChar(255)

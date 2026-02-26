@@ -5,6 +5,12 @@ import { FinanceRowInput } from './sync-shipment-finance.input.js';
 
 @InputType()
 export class CreateShipmentInput {
+  
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  selectivity: string;
+
   @Field()
   @IsString()
   @IsNotEmpty()

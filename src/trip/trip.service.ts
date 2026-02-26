@@ -120,4 +120,42 @@ export class TripService {
 
     return { items, totalCount, hasMore: skip + take < totalCount };
   }
+
+
+  async search(query: string) {
+    const condition = [
+      { id: { contains: query } },
+      { commodity: { contains: query } },
+      { container_id: { contains: query } },
+      { port_id: { contains: query } },
+      { warehouse_id: { contains: query } },
+      { truck_id: { contains: query } },
+    ]
+    const [items, totalCount] = await Promise.all([
+      this.prisma.trip.findMany({
+        where: {
+          OR: condition,
+        },
+        include: {
+          truck: true,
+          storable_trip_container_idTostorable: true,
+          storable_trip_port_idTostorable: true,
+          storable_trip_warehouse_idTostorable: true,
+        },
+        orderBy: { date_created: 'desc' },
+      }),
+
+      this.prisma.trip.count({
+        where: {
+          OR: condition,
+        },
+      }),
+    ]);
+
+    return {
+      items,
+      totalCount,
+      hasMore: false,
+    };
+  }
 }

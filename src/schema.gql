@@ -126,6 +126,7 @@ type Query {
   shipment(input: String!): ShipmentResponse!
   expense(id: Int!): Expense!
   trips(skip: Int! = 0, take: Int! = 10): TripPaginationResponse!
+  searchTrips(query: String! = ""): TripPaginationResponse!
   storablesByType(type: String!): [Storable!]!
   storables(skip: Int! = 0, take: Int! = 10, type: String): StorablePagination!
   trucks(skip: Int! = 0, take: Int! = 10, showArchived: Boolean! = false): TruckPagination!

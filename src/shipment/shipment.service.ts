@@ -81,6 +81,7 @@ export class ShipmentService extends Shipment {
       const shipment = await tx.shipment.create({
         data: {
           id: randomUUID(),
+          selectivity: data.selectivity,
           blno: data.blno,
           contract_no: data.contract_no,
           entry_no: data.entry_no,
@@ -375,6 +376,7 @@ export class ShipmentService extends Shipment {
   async search(query: string) {
     const condition = [
       { id: { contains: query } },
+      { selectivity: { contains: query } },
       { blno: { contains: query } },
       { reference: { contains: query } },
       { contract_no: { contains: query } },

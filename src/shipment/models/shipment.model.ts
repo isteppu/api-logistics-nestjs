@@ -5,6 +5,7 @@ import { ShipmentFinanceRow } from './shipment-finance-row.model.js';
 @ObjectType()
 export class Shipment {
   @Field(() => ID) id: string;
+  @Field({ nullable: true }) selectivity: string;
   @Field() blno: string;
   @Field() contract_no: string;
   @Field() entry_no: string;
