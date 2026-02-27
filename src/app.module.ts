@@ -19,6 +19,7 @@ import { NotificationsController } from './notifications/notifications.controlle
 import { NotificationService } from './notifications/notifications.service.js';
 import { NotificationsModule } from './notifications/notifications.module.js';
 import { DownloadModule } from './download/download.module.js';
+import { AuditModule } from './audit/audit.module.js';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { DownloadModule } from './download/download.module.js';
       resolvers: { DateTime: GraphQLISODateTime }
     }),
     AuthModule, 
-    PrismaModule, ShipmentModule, UserModule, ExpenseModule, TripModule, StorableModule, TruckModule, DashboardModule, NotificationsModule, DownloadModule
+    PrismaModule, ShipmentModule, UserModule, ExpenseModule, TripModule, StorableModule, TruckModule, DashboardModule, NotificationsModule, DownloadModule, AuditModule
   ],
   controllers: [AppController, NotificationsController],
   providers: [AppService, UserService, UserResolver, NotificationService],
