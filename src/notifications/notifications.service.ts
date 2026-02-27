@@ -10,6 +10,7 @@ interface TelegramMessage {
   details: string;
   usernames: string[];
   readersStatus: Record<string, boolean>; // tracks read per username
+  telegramMessage: any,
 }
 
 @Injectable()
@@ -48,6 +49,7 @@ export class NotificationService {
       details: type.details,
       usernames: allUsernames,
       readersStatus,
+      telegramMessage: resp.data.result,
     };
 
     return resp;
@@ -120,12 +122,18 @@ export class NotificationService {
   }
 
   getNotificationsByUser(username: string) {
-    return Object.values(this.telegramMessages).map(msg => ({
-      refId: msg.refId,
-      name: msg.name,
-      details: msg.details,
-      read: msg.readersStatus[username] || false,
-      usernames: msg.usernames,
-    }));
+    return Object.values(this.telegramMessages)
+      .filter(msg => msg.usernames.includes(username))
+      .map(msg => {
+        return {
+          update_id: msg.messageId,
+          callback_query: {
+            id: `fake-callback-${msg.messageId}`,
+            from: { username },
+            message: msg.telegramMessage, 
+            data: `read_${msg.refId}`,
+          }
+        };
+      });
   }
 }

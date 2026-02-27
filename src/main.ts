@@ -14,14 +14,21 @@ async function bootstrap() {
     transform: true,
   }));
 
-  app.enableCors({
-    // origin: [
-    //   'http://localhost:9000',
-    //   'https://your-frontend-domain.com', 
-    // ],
+
+   app.enableCors({
     origin: true,
-    credentials: true
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'Authorization',
+      'ngrok-skip-browser-warning'
+    ],
   });
+
 
   await app.register(fastifyCookie, {
     secret: process.env.SECRET || ""
