@@ -180,57 +180,85 @@ export class ShipmentService extends Shipment {
     return shipment
   }
 
-
   async update(id: string, data: UpdateShipmentInput) {
     return this.prisma.$transaction(async (tx) => {
-      const updatePayload: any = { ...data };
-      delete updatePayload.id;
+      const {
+        customer_username,
+        issuer_username,
+        port_id,
+        warehouse_id,
+        containers,
+        finances,
+        ...scalarData
+      } = data;
 
       let customerId: string | undefined;
       let issuerId: string | undefined;
 
-      if (data.customer_username) {
-        const customer = await tx.user.findUnique({ where: { username: data.customer_username } });
-        if (!customer) throw new BadRequestException(`Customer '${data.customer_username}' not found`);
+      if (customer_username) {
+        const customer = await tx.user.findUnique({ where: { username: customer_username } });
+        if (!customer) throw new BadRequestException(`Customer '${customer_username}' not found`);
         customerId = customer.id;
-        updatePayload.customer_id = customerId;
       }
 
-      if (data.issuer_username) {
-        const issuer = await tx.user.findUnique({ where: { username: data.issuer_username } });
-        if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
+      if (issuer_username) {
+        const issuer = await tx.user.findUnique({ where: { username: issuer_username } });
+        if (!issuer) throw new BadRequestException(`Issuer '${issuer_username}' not found`);
         issuerId = issuer.id;
-        updatePayload.issuer_id = issuerId;
-      }
-
-      if (data.port_id) {
-        updatePayload.port_id = await this.ensureStorable(
-          tx,
-          data.port_id,
-          'PORT',
-          `${data.port_id} port`,
-          issuerId
-        );
-      }
-      if (data.warehouse_id) {
-        updatePayload.warehouse_id = await this.ensureStorable(
-          tx,
-          data.warehouse_id,
-          'WAREHOUSE',
-          `${data.warehouse_id} warehouse`,
-          issuerId
-        );
       }
 
       const shipment = await tx.shipment.update({
         where: { id },
-        data: updatePayload,
+        data: {
+          ...scalarData,
+
+          ...(customerId && {
+            user_shipment_customer_idTouser: {
+              connect: { id: customerId },
+            },
+          }),
+
+          ...(issuerId && {
+            user_shipment_issuer_idTouser: {
+              connect: { id: issuerId },
+            },
+          }),
+
+          ...(port_id && {
+            storable_shipment_port_idToStorable: {
+              connect: {
+                id: await this.ensureStorable(
+                  tx,
+                  port_id,
+                  'PORT',
+                  `${port_id} port`,
+                  issuerId
+                )
+              },
+            },
+          }),
+
+          ...(warehouse_id && {
+            storable_shipment_warehouse_idTostorable: {
+              connect: {
+                id: await this.ensureStorable(
+                  tx,
+                  warehouse_id,
+                  'WAREHOUSE',
+                  `${warehouse_id} warehouse`,
+                  issuerId
+                )
+              },
+            },
+          }),
+        },
       });
 
-      if (data.containers?.length) {
-        const uniqueContainerNames = [...new Set(data.containers)];
+      if (containers?.length) {
+        const unique = [...new Set(containers)];
+
         await Promise.all(
-          uniqueContainerNames.map(name =>
+          unique.map(name =>
             this.ensureStorable(tx, name, 'CONTAINER', `${name} container`, issuerId)
           )
         );
@@ -238,30 +266,25 @@ export class ShipmentService extends Shipment {
         await tx.shipment_container.deleteMany({
           where: {
             shipment_id: shipment.id,
-            container_id: { notIn: uniqueContainerNames },
+            container_id: { notIn: unique },
           },
         });
 
         await tx.shipment_container.createMany({
-          data: uniqueContainerNames.map(name => ({
+          data: unique.map(name => ({
             shipment_id: shipment.id,
             container_id: name,
           })),
           skipDuplicates: true,
         });
       }
-      if (data.finances?.length) {
-        for (const row of data.finances) {
+
+      if (finances?.length) {
+        for (const row of finances) {
           const isRevenue = row.title.toLowerCase().includes('billing');
 
           if (isRevenue) {
-            await tx.revenue.upsert({
-              where: { title: row.title },
-              update: {},
-              create: { title: row.title },
-            });
-
-            let existing = await tx.shipment_revenues.findFirst({
+            const existing = await tx.shipment_revenues.findFirst({
               where: {
                 shipment_id: shipment.id,
                 shipment_revenue: { revenue_map: row.title },
@@ -291,13 +314,7 @@ export class ShipmentService extends Shipment {
               });
             }
           } else {
-            await tx.expense.upsert({
-              where: { title: row.title },
-              update: {},
-              create: { title: row.title },
-            });
-
-            let existing = await tx.shipment_expenses.findFirst({
+            const existing = await tx.shipment_expenses.findFirst({
               where: {
                 shipment_id: shipment.id,
                 shipment_expense: { expense_map: row.title },
@@ -331,7 +348,10 @@ export class ShipmentService extends Shipment {
       }
 
       return shipment;
-    });
+    },
+  {
+    timeout: 15000, // or 20000
+  });
   }
 
   async findAll(skip: number, take: number) {
