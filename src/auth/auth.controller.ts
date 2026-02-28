@@ -32,7 +32,7 @@ export class AuthController {
         res.setCookie('auth_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
+            sameSite: 'none',
             path: '/',
             maxAge: 86400, // 1 day
         });
