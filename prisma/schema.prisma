@@ -212,7 +212,6 @@ model User {
   storable                            storable[]
   role                                role                @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_role")
   user_shipments                      user_shipments[]
-  notifications                       user_notification[]
 
   @@index([role_id], map: "fk_user_role")
   @@map("user")
@@ -227,23 +226,15 @@ model user_shipments {
   @@index([user_id], map: "fk_us_user")
 }
 
-model notification {
-  id           Int                 @id @default(autoincrement())
-  message      String              @db.VarChar(255)
-  type         String              @db.VarChar(50) // e.g., "SHIPMENT", "TRIP"
-  reference_id String?             @db.VarChar(36)
-  created_at   DateTime            @default(now())
-  user_status  user_notification[]
-}
-
-model user_notification {
-  user_id         String    @db.VarChar(36)
-  notification_id Int
-  is_read         Boolean   @default(false)
-  read_at         DateTime?
-
-  user         User         @relation(fields: [user_id], references: [id])
-  notification notification @relation(fields: [notification_id], references: [id])
-
-  @@id([user_id, notification_id])
+model Notification {
+  id            String   @id @default(cuid())
+  refId         String   // e.g., shipment/trip ID
+  type          String   // "TRIP" or "SHIPMENT"
+  title         String   // short name/title
+  details       String   // small text summary
+  telegramId    Int?     // Telegram message_id
+  usernames     String   // comma-separated usernames
+  readersStatus Json     // { "user1": true, "user2": false }
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

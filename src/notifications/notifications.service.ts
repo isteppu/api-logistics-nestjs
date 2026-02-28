@@ -3,38 +3,24 @@ import axios from 'axios';
 import { NotificationItems } from './models/notification-item.model.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 
-interface TelegramMessage {
-  messageId: number;
-  refId: string;
-  name: string;
-  details: string;
-  usernames: string[];
-  readersStatus: Record<string, boolean>; // tracks read per username
-  telegramMessage: any,
-}
-
 @Injectable()
 export class NotificationService {
   constructor(private prisma: PrismaService) { }
+
   private readonly botToken = process.env.TELEGRAM_BOT_TOKEN;
   private readonly chatId = process.env.TELEGRAM_CHAT_ID;
 
-  private telegramMessages: Record<number, TelegramMessage> = {};
-
-  async getAdminUsernames() {
+  async getAdminUsernames(): Promise<string[]> {
     const admins = await this.prisma.user.findMany({
-      where: {
-        role: { title: { in: ['ADMIN', 'SUPER_ADMIN'] } },
-      },
+      where: { role: { title: { in: ['ADMIN', 'SUPER_ADMIN'] } } },
       select: { username: true },
     });
-
-    return admins;
+    return admins.map(a => a.username);
   }
 
   async sendAlert(type: NotificationItems, usernames: string[]) {
     const adminUsernames = await this.getAdminUsernames();
-    const allUsernames = [...new Set([...usernames, ...adminUsernames.map(a => a.username)])];
+    const allUsernames = [...new Set([...usernames, ...adminUsernames])];
 
     const readersStatus: Record<string, boolean> = {};
     allUsernames.forEach(u => (readersStatus[u] = false));
@@ -42,17 +28,19 @@ export class NotificationService {
     const text = this.formatMessage(type, allUsernames, readersStatus);
     const resp: any = await this.sendToTelegram(text, type.id);
 
-    this.telegramMessages[resp.data.result.message_id] = {
-      messageId: resp.data.result.message_id,
-      refId: type.id,
-      name: type.name,
-      details: type.details,
-      usernames: allUsernames,
-      readersStatus,
-      telegramMessage: resp.data.result,
-    };
+    const notif = await this.prisma.notification.create({
+      data: {
+        refId: type.id,
+        type: type.name,
+        title: type.name,
+        details: type.details,
+        telegramId: resp.data.result.message_id,
+        usernames: allUsernames.join(','),
+        readersStatus,
+      },
+    });
 
-    return resp;
+    return notif;
   }
 
   formatMessage(
@@ -64,11 +52,9 @@ export class NotificationService {
     text += `<b>ID:</b> <code>${type.id}</code>\n`;
     text += `<b>Details:</b> ${type.details}\n\n`;
     text += `<b>Acknowledge Status:</b>\n`;
-
     text += usernames
       .map(u => (readersStatus[u] ? `- ${u}: ✅ Read` : `- ${u}: Mark as Read`))
       .join('\n');
-
     return text;
   }
 
@@ -103,37 +89,45 @@ export class NotificationService {
     });
   }
 
-  async markAsRead(messageId: number, username: string) {
-    const msg = this.telegramMessages[messageId];
-    if (!msg) return;
+  async markAsRead(telegramId: number, username: string) {
+    const notif = await this.prisma.notification.findFirst({
+      where: { telegramId },
+    });
+    if (!notif) return;
 
-    if (msg.usernames.includes(username)) {
-      msg.readersStatus[username] = true;
+    const readers = notif.readersStatus as Record<string, boolean>;
+    if (readers[username] !== undefined) {
+      readers[username] = true;
 
-      const updatedText = this.formatMessage(
-        { id: msg.refId, name: msg.name, details: msg.details },
-        msg.usernames,
-        msg.readersStatus
+      await this.prisma.notification.update({
+        where: { id: notif.id },
+        data: { readersStatus: readers },
+      });
+
+      const text = this.formatMessage(
+        { id: notif.refId, name: notif.title, details: notif.details },
+        notif.usernames.split(','),
+        readers
       );
-
-      this.telegramMessages[messageId].readersStatus = msg.readersStatus;
-      await this.editTelegramMessage(messageId, updatedText, msg.refId);
+      await this.editTelegramMessage(telegramId, text, notif.refId);
     }
   }
 
-  getNotificationsByUser(username: string) {
-    return Object.values(this.telegramMessages)
-      .filter(msg => msg.usernames.includes(username))
-      .map(msg => {
-        return {
-          update_id: msg.messageId,
-          callback_query: {
-            id: `fake-callback-${msg.messageId}`,
-            from: { username },
-            message: msg.telegramMessage, 
-            data: `read_${msg.refId}`,
-          }
-        };
-      });
+  async getNotificationsByUser(username: string) {
+    const notifs = await this.prisma.notification.findMany({
+      where: {
+        usernames: { contains: username },
+      },
+    });
+
+    return notifs.map(n => ({
+      update_id: n.telegramId,
+      callback_query: {
+        id: `fake-callback-${n.telegramId}`,
+        from: { username },
+        message: { telegramId: n.telegramId, title: n.title, details: n.details },
+        data: `read_${n.refId}`,
+      },
+    }));
   }
 }

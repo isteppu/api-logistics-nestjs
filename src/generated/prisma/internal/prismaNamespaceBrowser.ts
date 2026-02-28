@@ -68,8 +68,7 @@ export const ModelName = {
   truck: 'truck',
   User: 'User',
   user_shipments: 'user_shipments',
-  notification: 'notification',
-  user_notification: 'user_notification'
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -275,23 +274,18 @@ export type User_shipmentsScalarFieldEnum = (typeof User_shipmentsScalarFieldEnu
 
 export const NotificationScalarFieldEnum = {
   id: 'id',
-  message: 'message',
+  refId: 'refId',
   type: 'type',
-  reference_id: 'reference_id',
-  created_at: 'created_at'
+  title: 'title',
+  details: 'details',
+  telegramId: 'telegramId',
+  usernames: 'usernames',
+  readersStatus: 'readersStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
-
-
-export const User_notificationScalarFieldEnum = {
-  user_id: 'user_id',
-  notification_id: 'notification_id',
-  is_read: 'is_read',
-  read_at: 'read_at'
-} as const
-
-export type User_notificationScalarFieldEnum = (typeof User_notificationScalarFieldEnum)[keyof typeof User_notificationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -300,6 +294,13 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const expenseOrderByRelevanceFieldEnum = {
@@ -465,18 +466,31 @@ export const user_shipmentsOrderByRelevanceFieldEnum = {
 export type user_shipmentsOrderByRelevanceFieldEnum = (typeof user_shipmentsOrderByRelevanceFieldEnum)[keyof typeof user_shipmentsOrderByRelevanceFieldEnum]
 
 
-export const notificationOrderByRelevanceFieldEnum = {
-  message: 'message',
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NotificationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  refId: 'refId',
   type: 'type',
-  reference_id: 'reference_id'
+  title: 'title',
+  details: 'details',
+  usernames: 'usernames'
 } as const
 
-export type notificationOrderByRelevanceFieldEnum = (typeof notificationOrderByRelevanceFieldEnum)[keyof typeof notificationOrderByRelevanceFieldEnum]
-
-
-export const user_notificationOrderByRelevanceFieldEnum = {
-  user_id: 'user_id'
-} as const
-
-export type user_notificationOrderByRelevanceFieldEnum = (typeof user_notificationOrderByRelevanceFieldEnum)[keyof typeof user_notificationOrderByRelevanceFieldEnum]
+export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByRelevanceFieldEnum)[keyof typeof NotificationOrderByRelevanceFieldEnum]
 

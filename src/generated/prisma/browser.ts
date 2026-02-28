@@ -103,12 +103,7 @@ export type User = Prisma.UserModel
  */
 export type user_shipments = Prisma.user_shipmentsModel
 /**
- * Model notification
+ * Model Notification
  * 
  */
-export type notification = Prisma.notificationModel
-/**
- * Model user_notification
- * 
- */
-export type user_notification = Prisma.user_notificationModel
+export type Notification = Prisma.NotificationModel

@@ -261,7 +261,6 @@ export type UserWhereInput = {
   storable?: Prisma.StorableListRelationFilter
   role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.roleWhereInput>
   user_shipments?: Prisma.User_shipmentsListRelationFilter
-  notifications?: Prisma.User_notificationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -280,7 +279,6 @@ export type UserOrderByWithRelationInput = {
   storable?: Prisma.storableOrderByRelationAggregateInput
   role?: Prisma.roleOrderByWithRelationInput
   user_shipments?: Prisma.user_shipmentsOrderByRelationAggregateInput
-  notifications?: Prisma.user_notificationOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -303,7 +301,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   storable?: Prisma.StorableListRelationFilter
   role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.roleWhereInput>
   user_shipments?: Prisma.User_shipmentsListRelationFilter
-  notifications?: Prisma.User_notificationListRelationFilter
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -355,7 +352,6 @@ export type UserCreateInput = {
   storable?: Prisma.storableCreateNestedManyWithoutUserInput
   role: Prisma.roleCreateNestedOneWithoutUserInput
   user_shipments?: Prisma.user_shipmentsCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -373,7 +369,6 @@ export type UserUncheckedCreateInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   storable?: Prisma.storableUncheckedCreateNestedManyWithoutUserInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -391,7 +386,6 @@ export type UserUpdateInput = {
   storable?: Prisma.storableUpdateManyWithoutUserNestedInput
   role?: Prisma.roleUpdateOneRequiredWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -409,7 +403,6 @@ export type UserUncheckedUpdateInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUncheckedUpdateManyWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -631,20 +624,6 @@ export type UserUpdateOneRequiredWithoutUser_shipmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUser_shipmentsInput, Prisma.UserUpdateWithoutUser_shipmentsInput>, Prisma.UserUncheckedUpdateWithoutUser_shipmentsInput>
 }
 
-export type UserCreateNestedOneWithoutNotificationsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
-  upsert?: Prisma.UserUpsertWithoutNotificationsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
 export type UserCreateWithoutRoleInput = {
   date_created?: Date | string
   last_logged_in?: Date | string | null
@@ -659,7 +638,6 @@ export type UserCreateWithoutRoleInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   storable?: Prisma.storableCreateNestedManyWithoutUserInput
   user_shipments?: Prisma.user_shipmentsCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRoleInput = {
@@ -676,7 +654,6 @@ export type UserUncheckedCreateWithoutRoleInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   storable?: Prisma.storableUncheckedCreateNestedManyWithoutUserInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRoleInput = {
@@ -735,7 +712,6 @@ export type UserCreateWithoutShipment_shipment_customer_idTouserInput = {
   storable?: Prisma.storableCreateNestedManyWithoutUserInput
   role: Prisma.roleCreateNestedOneWithoutUserInput
   user_shipments?: Prisma.user_shipmentsCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutShipment_shipment_customer_idTouserInput = {
@@ -752,7 +728,6 @@ export type UserUncheckedCreateWithoutShipment_shipment_customer_idTouserInput =
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   storable?: Prisma.storableUncheckedCreateNestedManyWithoutUserInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutShipment_shipment_customer_idTouserInput = {
@@ -774,7 +749,6 @@ export type UserCreateWithoutShipment_shipment_issuer_idTouserInput = {
   storable?: Prisma.storableCreateNestedManyWithoutUserInput
   role: Prisma.roleCreateNestedOneWithoutUserInput
   user_shipments?: Prisma.user_shipmentsCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutShipment_shipment_issuer_idTouserInput = {
@@ -791,7 +765,6 @@ export type UserUncheckedCreateWithoutShipment_shipment_issuer_idTouserInput = {
   shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_customer_idTouserInput
   storable?: Prisma.storableUncheckedCreateNestedManyWithoutUserInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutShipment_shipment_issuer_idTouserInput = {
@@ -824,7 +797,6 @@ export type UserUpdateWithoutShipment_shipment_customer_idTouserInput = {
   storable?: Prisma.storableUpdateManyWithoutUserNestedInput
   role?: Prisma.roleUpdateOneRequiredWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutShipment_shipment_customer_idTouserInput = {
@@ -841,7 +813,6 @@ export type UserUncheckedUpdateWithoutShipment_shipment_customer_idTouserInput =
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUncheckedUpdateManyWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutShipment_shipment_issuer_idTouserInput = {
@@ -869,7 +840,6 @@ export type UserUpdateWithoutShipment_shipment_issuer_idTouserInput = {
   storable?: Prisma.storableUpdateManyWithoutUserNestedInput
   role?: Prisma.roleUpdateOneRequiredWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutShipment_shipment_issuer_idTouserInput = {
@@ -886,7 +856,6 @@ export type UserUncheckedUpdateWithoutShipment_shipment_issuer_idTouserInput = {
   shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserNestedInput
   storable?: Prisma.storableUncheckedUpdateManyWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStorableInput = {
@@ -903,7 +872,6 @@ export type UserCreateWithoutStorableInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   role: Prisma.roleCreateNestedOneWithoutUserInput
   user_shipments?: Prisma.user_shipmentsCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStorableInput = {
@@ -920,7 +888,6 @@ export type UserUncheckedCreateWithoutStorableInput = {
   shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_customer_idTouserInput
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStorableInput = {
@@ -953,7 +920,6 @@ export type UserUpdateWithoutStorableInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   role?: Prisma.roleUpdateOneRequiredWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStorableInput = {
@@ -970,7 +936,6 @@ export type UserUncheckedUpdateWithoutStorableInput = {
   shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserNestedInput
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUser_shipmentsInput = {
@@ -987,7 +952,6 @@ export type UserCreateWithoutUser_shipmentsInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   storable?: Prisma.storableCreateNestedManyWithoutUserInput
   role: Prisma.roleCreateNestedOneWithoutUserInput
-  notifications?: Prisma.user_notificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUser_shipmentsInput = {
@@ -1004,7 +968,6 @@ export type UserUncheckedCreateWithoutUser_shipmentsInput = {
   shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_customer_idTouserInput
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
   storable?: Prisma.storableUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.user_notificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUser_shipmentsInput = {
@@ -1037,7 +1000,6 @@ export type UserUpdateWithoutUser_shipmentsInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUpdateManyWithoutUserNestedInput
   role?: Prisma.roleUpdateOneRequiredWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUser_shipmentsInput = {
@@ -1054,91 +1016,6 @@ export type UserUncheckedUpdateWithoutUser_shipmentsInput = {
   shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserNestedInput
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutNotificationsInput = {
-  date_created?: Date | string
-  last_logged_in?: Date | string | null
-  current_session?: runtime.Bytes | null
-  id: string
-  first_name: string
-  last_name: string
-  middle_name?: string | null
-  password: string
-  username: string
-  shipment_shipment_customer_idTouser?: Prisma.shipmentCreateNestedManyWithoutUser_shipment_customer_idTouserInput
-  shipment_shipment_issuer_idTouser?: Prisma.shipmentCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
-  storable?: Prisma.storableCreateNestedManyWithoutUserInput
-  role: Prisma.roleCreateNestedOneWithoutUserInput
-  user_shipments?: Prisma.user_shipmentsCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutNotificationsInput = {
-  role_id: number
-  date_created?: Date | string
-  last_logged_in?: Date | string | null
-  current_session?: runtime.Bytes | null
-  id: string
-  first_name: string
-  last_name: string
-  middle_name?: string | null
-  password: string
-  username: string
-  shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_customer_idTouserInput
-  shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedCreateNestedManyWithoutUser_shipment_issuer_idTouserInput
-  storable?: Prisma.storableUncheckedCreateNestedManyWithoutUserInput
-  user_shipments?: Prisma.user_shipmentsUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutNotificationsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-}
-
-export type UserUpsertWithoutNotificationsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
-export type UserUpdateWithoutNotificationsInput = {
-  date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  last_logged_in?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  current_session?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  middle_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  shipment_shipment_customer_idTouser?: Prisma.shipmentUpdateManyWithoutUser_shipment_customer_idTouserNestedInput
-  shipment_shipment_issuer_idTouser?: Prisma.shipmentUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
-  storable?: Prisma.storableUpdateManyWithoutUserNestedInput
-  role?: Prisma.roleUpdateOneRequiredWithoutUserNestedInput
-  user_shipments?: Prisma.user_shipmentsUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutNotificationsInput = {
-  role_id?: Prisma.IntFieldUpdateOperationsInput | number
-  date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  last_logged_in?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  current_session?: Prisma.NullableBytesFieldUpdateOperationsInput | runtime.Bytes | null
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  middle_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  shipment_shipment_customer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserNestedInput
-  shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
-  storable?: Prisma.storableUncheckedUpdateManyWithoutUserNestedInput
-  user_shipments?: Prisma.user_shipmentsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyRoleInput = {
@@ -1167,7 +1044,6 @@ export type UserUpdateWithoutRoleInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUpdateManyWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleInput = {
@@ -1184,7 +1060,6 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   shipment_shipment_issuer_idTouser?: Prisma.shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserNestedInput
   storable?: Prisma.storableUncheckedUpdateManyWithoutUserNestedInput
   user_shipments?: Prisma.user_shipmentsUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.user_notificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -1209,7 +1084,6 @@ export type UserCountOutputType = {
   shipment_shipment_issuer_idTouser: number
   storable: number
   user_shipments: number
-  notifications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1217,7 +1091,6 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   shipment_shipment_issuer_idTouser?: boolean | UserCountOutputTypeCountShipment_shipment_issuer_idTouserArgs
   storable?: boolean | UserCountOutputTypeCountStorableArgs
   user_shipments?: boolean | UserCountOutputTypeCountUser_shipmentsArgs
-  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -1258,13 +1131,6 @@ export type UserCountOutputTypeCountUser_shipmentsArgs<ExtArgs extends runtime.T
   where?: Prisma.user_shipmentsWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.user_notificationWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   role_id?: boolean
@@ -1282,7 +1148,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   storable?: boolean | Prisma.User$storableArgs<ExtArgs>
   role?: boolean | Prisma.roleDefaultArgs<ExtArgs>
   user_shipments?: boolean | Prisma.User$user_shipmentsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1308,7 +1173,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   storable?: boolean | Prisma.User$storableArgs<ExtArgs>
   role?: boolean | Prisma.roleDefaultArgs<ExtArgs>
   user_shipments?: boolean | Prisma.User$user_shipmentsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1320,7 +1184,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     storable: Prisma.$storablePayload<ExtArgs>[]
     role: Prisma.$rolePayload<ExtArgs>
     user_shipments: Prisma.$user_shipmentsPayload<ExtArgs>[]
-    notifications: Prisma.$user_notificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     role_id: number
@@ -1678,7 +1541,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   storable<T extends Prisma.User$storableArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$storableArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$storablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   role<T extends Prisma.roleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.roleDefaultArgs<ExtArgs>>): Prisma.Prisma__roleClient<runtime.Types.Result.GetResult<Prisma.$rolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user_shipments<T extends Prisma.User$user_shipmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$user_shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_shipmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_notificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2154,30 +2016,6 @@ export type User$user_shipmentsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.User_shipmentsScalarFieldEnum | Prisma.User_shipmentsScalarFieldEnum[]
-}
-
-/**
- * User.notifications
- */
-export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the user_notification
-   */
-  select?: Prisma.user_notificationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the user_notification
-   */
-  omit?: Prisma.user_notificationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.user_notificationInclude<ExtArgs> | null
-  where?: Prisma.user_notificationWhereInput
-  orderBy?: Prisma.user_notificationOrderByWithRelationInput | Prisma.user_notificationOrderByWithRelationInput[]
-  cursor?: Prisma.user_notificationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.User_notificationScalarFieldEnum | Prisma.User_notificationScalarFieldEnum[]
 }
 
 /**
