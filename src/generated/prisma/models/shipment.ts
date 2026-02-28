@@ -297,7 +297,7 @@ export type ShipmentGroupByOutputType = {
   id: string
   issuer_id: string | null
   blno: string
-  contract_no: string
+  contract_no: string | null
   entry_no: string
   port_id: string | null
   warehouse_id: string | null
@@ -344,7 +344,7 @@ export type shipmentWhereInput = {
   id?: Prisma.StringFilter<"shipment"> | string
   issuer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   blno?: Prisma.StringFilter<"shipment"> | string
-  contract_no?: Prisma.StringFilter<"shipment"> | string
+  contract_no?: Prisma.StringNullableFilter<"shipment"> | string | null
   entry_no?: Prisma.StringFilter<"shipment"> | string
   port_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   warehouse_id?: Prisma.StringNullableFilter<"shipment"> | string | null
@@ -374,7 +374,7 @@ export type shipmentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   blno?: Prisma.SortOrder
-  contract_no?: Prisma.SortOrder
+  contract_no?: Prisma.SortOrderInput | Prisma.SortOrder
   entry_no?: Prisma.SortOrder
   port_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -438,7 +438,7 @@ export type shipmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   blno?: Prisma.SortOrder
-  contract_no?: Prisma.SortOrder
+  contract_no?: Prisma.SortOrderInput | Prisma.SortOrder
   entry_no?: Prisma.SortOrder
   port_id?: Prisma.SortOrderInput | Prisma.SortOrder
   warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -470,7 +470,7 @@ export type shipmentScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"shipment"> | string
   issuer_id?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
   blno?: Prisma.StringWithAggregatesFilter<"shipment"> | string
-  contract_no?: Prisma.StringWithAggregatesFilter<"shipment"> | string
+  contract_no?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
   entry_no?: Prisma.StringWithAggregatesFilter<"shipment"> | string
   port_id?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
   warehouse_id?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
@@ -492,7 +492,7 @@ export type shipmentCreateInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -520,7 +520,7 @@ export type shipmentUncheckedCreateInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -544,7 +544,7 @@ export type shipmentUpdateInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -572,7 +572,7 @@ export type shipmentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -598,7 +598,7 @@ export type shipmentCreateManyInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -620,7 +620,7 @@ export type shipmentUpdateManyMutationInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -642,7 +642,7 @@ export type shipmentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -985,7 +985,7 @@ export type shipmentCreateWithoutShipment_containerInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -1012,7 +1012,7 @@ export type shipmentUncheckedCreateWithoutShipment_containerInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -1051,7 +1051,7 @@ export type shipmentUpdateWithoutShipment_containerInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1078,7 +1078,7 @@ export type shipmentUncheckedUpdateWithoutShipment_containerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1101,7 +1101,7 @@ export type shipmentCreateWithoutStorable_shipment_port_idToStorableInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -1128,7 +1128,7 @@ export type shipmentUncheckedCreateWithoutStorable_shipment_port_idToStorableInp
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   warehouse_id?: string | null
   reference: string
@@ -1161,7 +1161,7 @@ export type shipmentCreateWithoutStorable_shipment_warehouse_idTostorableInput =
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -1188,7 +1188,7 @@ export type shipmentUncheckedCreateWithoutStorable_shipment_warehouse_idTostorab
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   reference: string
@@ -1242,7 +1242,7 @@ export type shipmentScalarWhereInput = {
   id?: Prisma.StringFilter<"shipment"> | string
   issuer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   blno?: Prisma.StringFilter<"shipment"> | string
-  contract_no?: Prisma.StringFilter<"shipment"> | string
+  contract_no?: Prisma.StringNullableFilter<"shipment"> | string | null
   entry_no?: Prisma.StringFilter<"shipment"> | string
   port_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   warehouse_id?: Prisma.StringNullableFilter<"shipment"> | string | null
@@ -1280,7 +1280,7 @@ export type shipmentCreateWithoutUser_shipment_customer_idTouserInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -1306,7 +1306,7 @@ export type shipmentUncheckedCreateWithoutUser_shipment_customer_idTouserInput =
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -1340,7 +1340,7 @@ export type shipmentCreateWithoutUser_shipment_issuer_idTouserInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -1366,7 +1366,7 @@ export type shipmentUncheckedCreateWithoutUser_shipment_issuer_idTouserInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -1432,7 +1432,7 @@ export type shipmentCreateWithoutUser_shipmentsInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   reference: string
   registry_no: string
@@ -1459,7 +1459,7 @@ export type shipmentUncheckedCreateWithoutUser_shipmentsInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -1498,7 +1498,7 @@ export type shipmentUpdateWithoutUser_shipmentsInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1525,7 +1525,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1550,7 +1550,7 @@ export type shipmentCreateManyStorable_shipment_port_idToStorableInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   warehouse_id?: string | null
   reference: string
@@ -1573,7 +1573,7 @@ export type shipmentCreateManyStorable_shipment_warehouse_idTostorableInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   reference: string
@@ -1594,7 +1594,7 @@ export type shipmentUpdateWithoutStorable_shipment_port_idToStorableInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1621,7 +1621,7 @@ export type shipmentUncheckedUpdateWithoutStorable_shipment_port_idToStorableInp
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1646,7 +1646,7 @@ export type shipmentUncheckedUpdateManyWithoutStorable_shipment_port_idToStorabl
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1667,7 +1667,7 @@ export type shipmentUpdateWithoutStorable_shipment_warehouse_idTostorableInput =
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1694,7 +1694,7 @@ export type shipmentUncheckedUpdateWithoutStorable_shipment_warehouse_idTostorab
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1719,7 +1719,7 @@ export type shipmentUncheckedUpdateManyWithoutStorable_shipment_warehouse_idTost
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reference?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1741,7 +1741,7 @@ export type shipmentCreateManyUser_shipment_customer_idTouserInput = {
   id: string
   issuer_id?: string | null
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -1764,7 +1764,7 @@ export type shipmentCreateManyUser_shipment_issuer_idTouserInput = {
   selectivity?: string | null
   id: string
   blno: string
-  contract_no: string
+  contract_no?: string | null
   entry_no: string
   port_id?: string | null
   warehouse_id?: string | null
@@ -1786,7 +1786,7 @@ export type shipmentUpdateWithoutUser_shipment_customer_idTouserInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1812,7 +1812,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_customer_idTouserInput =
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1837,7 +1837,7 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserInp
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1859,7 +1859,7 @@ export type shipmentUpdateWithoutUser_shipment_issuer_idTouserInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
   registry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1885,7 +1885,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_issuer_idTouserInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1910,7 +1910,7 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserInput
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   blno?: Prisma.StringFieldUpdateOperationsInput | string
-  contract_no?: Prisma.StringFieldUpdateOperationsInput | string
+  contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
   port_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2043,7 +2043,7 @@ export type $shipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     issuer_id: string | null
     blno: string
-    contract_no: string
+    contract_no: string | null
     entry_no: string
     port_id: string | null
     warehouse_id: string | null

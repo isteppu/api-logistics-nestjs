@@ -39,7 +39,7 @@ model shipment {
   id                                          String               @id @db.VarChar(36)
   issuer_id                                   String?              @db.VarChar(36)
   blno                                        String               @unique(map: "uk_blno") @db.VarChar(255)
-  contract_no                                 String               @unique(map: "uk_contract") @db.VarChar(255)
+  contract_no                                 String?              @unique(map: "uk_contract") @db.VarChar(255)
   entry_no                                    String               @unique(map: "uk_entry") @db.VarChar(255)
   port_id                                     String?              @db.VarChar(255)
   warehouse_id                                String?              @db.VarChar(255)
