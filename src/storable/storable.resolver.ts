@@ -16,6 +16,7 @@ export class StorableResolver {
   }
 
   @Mutation(() => Storable)
+  @UseGuards(AuthGuard)
   async createStorable(
     @Args('input') input: CreateStorableInput,
     @CurrentUser() user: any,
