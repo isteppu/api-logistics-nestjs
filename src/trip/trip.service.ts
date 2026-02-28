@@ -79,7 +79,6 @@ export class TripService {
     return trip;
   }
 
-
   async update(id: string, data: UpdateTripInput) {
     const { id: _ignored, finances, ...tripData } = data;
 
@@ -119,32 +118,25 @@ export class TripService {
             type: e.type,
           }));
 
-        if (revenueRows.length) {
-          await tx.trip_revenue.createMany({ data: revenueRows });
-        }
-
-        if (expenseRows.length) {
-          await tx.trip_expense.createMany({ data: expenseRows });
-        }
+        if (revenueRows.length) await tx.trip_revenue.createMany({ data: revenueRows });
+        if (expenseRows.length) await tx.trip_expense.createMany({ data: expenseRows });
       }
 
       return trip;
     });
 
-    setImmediate(async () => {
-      try {
-        await this.notificationService.sendAlert(
-          {
-            name: 'TRIP',
-            id,
-            details: `Update Trip: ${id} has new updates!`,
-          },
-          []
-        );
-      } catch (err) {
-        console.error('Trip update notification failed:', err);
-      }
-    });
+    try {
+      await this.notificationService.sendAlert(
+        {
+          name: 'TRIP',
+          id,
+          details: `Update Trip: ${id} has new updates!`,
+        },
+        []
+      );
+    } catch (err) {
+      console.error('Trip update notification failed:', err);
+    }
 
     return updatedTrip;
   }
