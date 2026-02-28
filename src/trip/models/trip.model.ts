@@ -23,6 +23,9 @@ export class Trip {
 
   @Field(() => Storable, { nullable: true })
   warehouse?: any;
+  
+  @Field({ nullable: true })
+  date_delivered?: string;
 }
 
 @ObjectType()

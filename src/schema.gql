@@ -114,6 +114,7 @@ type Trip {
   port: Storable
   container: Storable
   warehouse: Storable
+  date_delivered: String
   financeSummary: [ShipmentFinanceRow!]!
 }
 
@@ -243,6 +244,7 @@ input UpdateTripInput {
   commodity: String
   finances: [TripFinanceRowInput!]
   id: String!
+  date_delivered: DateTime
 }
 
 input CreateStorableInput {
