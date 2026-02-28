@@ -7,7 +7,7 @@ export class Shipment {
   @Field(() => ID) id: string;
   @Field({ nullable: true }) selectivity: string;
   @Field() blno: string;
-  @Field() contract_no: string;
+  @Field({ nullable: true }) contract_no?: string;
   @Field() entry_no: string;
   @Field() reference: string;
   @Field() registry_no: string;
