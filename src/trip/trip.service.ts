@@ -79,28 +79,76 @@ export class TripService {
     return trip;
   }
 
+
   async update(id: string, data: UpdateTripInput) {
-    const { id: _, ...updateData } = data;
+    const { id: _ignored, finances, ...tripData } = data;
 
-    const notificationDetails = `Update Trip: ${id} has new updates!`
-    const notifMessage = {
-      name: "TRIP",
-      id: id,
-      details: notificationDetails
-    }
+    const updatedTrip = await this.prisma.$transaction(async (tx) => {
+      const trip = await tx.trip.update({
+        where: { id },
+        data: tripData,
+        include: {
+          truck: true,
+          storable_trip_port_idTostorable: true,
+          storable_trip_container_idTostorable: true,
+          storable_trip_warehouse_idTostorable: true,
+        },
+      });
 
-    await this.notificationService.sendAlert(
-      notifMessage,
-      []
-    )
+      if (finances) {
+        await Promise.all([
+          tx.trip_revenue.deleteMany({ where: { trip_id: id } }),
+          tx.trip_expense.deleteMany({ where: { trip_id: id } }),
+        ]);
 
+        const revenueRows = finances
+          .filter(f => f.title?.toLowerCase() === 'tariff rate')
+          .map(r => ({
+            trip_id: id,
+            value: r.value,
+            revenue_map: r.title,
+            type: r.type,
+          }));
 
-    return this.prisma.trip.update({
-      where: { id },
-      data: updateData,
-      include: { truck: true, storable_trip_port_idTostorable: true }
+        const expenseRows = finances
+          .filter(f => f.title?.toLowerCase() !== 'tariff rate')
+          .map(e => ({
+            trip_id: id,
+            value: e.value,
+            expense_map: e.title,
+            type: e.type,
+          }));
+
+        if (revenueRows.length) {
+          await tx.trip_revenue.createMany({ data: revenueRows });
+        }
+
+        if (expenseRows.length) {
+          await tx.trip_expense.createMany({ data: expenseRows });
+        }
+      }
+
+      return trip;
     });
+
+    setImmediate(async () => {
+      try {
+        await this.notificationService.sendAlert(
+          {
+            name: 'TRIP',
+            id,
+            details: `Update Trip: ${id} has new updates!`,
+          },
+          []
+        );
+      } catch (err) {
+        console.error('Trip update notification failed:', err);
+      }
+    });
+
+    return updatedTrip;
   }
+
 
   async findAllPaginated(skip: number, take: number) {
     const [items, totalCount] = await Promise.all([
