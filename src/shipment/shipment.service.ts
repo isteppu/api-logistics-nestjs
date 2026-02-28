@@ -171,7 +171,7 @@ export class ShipmentService extends Shipment {
         {
           id: shipment.id,
           name: 'New Shipment Created',
-          details: `BL No: ${shipment.blno}, Contract: ${shipment.contract_no}`,
+          details: `Reference: ${shipment.reference}, BL No: ${shipment.blno}`,
         },
         usernames
       );

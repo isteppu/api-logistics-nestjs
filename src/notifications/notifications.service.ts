@@ -122,13 +122,16 @@ export class NotificationService {
     });
 
     return notifs.map(n => ({
-      update_id: n.telegramId,
-      callback_query: {
-        id: `fake-callback-${n.telegramId}`,
-        from: { username },
-        message: { telegramId: n.telegramId, title: n.title, details: n.details },
-        data: `read_${n.refId}`,
-      },
+      date: n.createdAt,
+      rawData: {
+        update_id: n.telegramId,
+        callback_query: {
+          id: `fake-callback-${n.telegramId}`,
+          from: { username },
+          message: { telegramId: n.telegramId, title: n.title, details: n.details },
+          data: `read_${n.refId}`,
+        },
+      }
     }));
   }
 }
