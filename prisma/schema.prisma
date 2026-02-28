@@ -234,7 +234,7 @@ model Notification {
   details       String   // small text summary
   telegramId    Int?     // Telegram message_id
   usernames     String   // comma-separated usernames
-  readersStatus Json     // { "user1": true, "user2": false }
+  readersStatus String     // { "user1": true, "user2": false }
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

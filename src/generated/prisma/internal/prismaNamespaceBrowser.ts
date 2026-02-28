@@ -296,13 +296,6 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const expenseOrderByRelevanceFieldEnum = {
   title: 'title'
 } as const
@@ -466,30 +459,14 @@ export const user_shipmentsOrderByRelevanceFieldEnum = {
 export type user_shipmentsOrderByRelevanceFieldEnum = (typeof user_shipmentsOrderByRelevanceFieldEnum)[keyof typeof user_shipmentsOrderByRelevanceFieldEnum]
 
 
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-} as const
-
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
 export const NotificationOrderByRelevanceFieldEnum = {
   id: 'id',
   refId: 'refId',
   type: 'type',
   title: 'title',
   details: 'details',
-  usernames: 'usernames'
+  usernames: 'usernames',
+  readersStatus: 'readersStatus'
 } as const
 
 export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByRelevanceFieldEnum)[keyof typeof NotificationOrderByRelevanceFieldEnum]

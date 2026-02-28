@@ -42,6 +42,7 @@ export type NotificationMinAggregateOutputType = {
   details: string | null
   telegramId: number | null
   usernames: string | null
+  readersStatus: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +55,7 @@ export type NotificationMaxAggregateOutputType = {
   details: string | null
   telegramId: number | null
   usernames: string | null
+  readersStatus: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -89,6 +91,7 @@ export type NotificationMinAggregateInputType = {
   details?: true
   telegramId?: true
   usernames?: true
+  readersStatus?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -101,6 +104,7 @@ export type NotificationMaxAggregateInputType = {
   details?: true
   telegramId?: true
   usernames?: true
+  readersStatus?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -213,7 +217,7 @@ export type NotificationGroupByOutputType = {
   details: string
   telegramId: number | null
   usernames: string
-  readersStatus: runtime.JsonValue
+  readersStatus: string
   createdAt: Date
   updatedAt: Date
   _count: NotificationCountAggregateOutputType | null
@@ -249,7 +253,7 @@ export type NotificationWhereInput = {
   details?: Prisma.StringFilter<"Notification"> | string
   telegramId?: Prisma.IntNullableFilter<"Notification"> | number | null
   usernames?: Prisma.StringFilter<"Notification"> | string
-  readersStatus?: Prisma.JsonFilter<"Notification">
+  readersStatus?: Prisma.StringFilter<"Notification"> | string
   createdAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
 }
@@ -279,7 +283,7 @@ export type NotificationWhereUniqueInput = Prisma.AtLeast<{
   details?: Prisma.StringFilter<"Notification"> | string
   telegramId?: Prisma.IntNullableFilter<"Notification"> | number | null
   usernames?: Prisma.StringFilter<"Notification"> | string
-  readersStatus?: Prisma.JsonFilter<"Notification">
+  readersStatus?: Prisma.StringFilter<"Notification"> | string
   createdAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
 }, "id">
@@ -313,7 +317,7 @@ export type NotificationScalarWhereWithAggregatesInput = {
   details?: Prisma.StringWithAggregatesFilter<"Notification"> | string
   telegramId?: Prisma.IntNullableWithAggregatesFilter<"Notification"> | number | null
   usernames?: Prisma.StringWithAggregatesFilter<"Notification"> | string
-  readersStatus?: Prisma.JsonWithAggregatesFilter<"Notification">
+  readersStatus?: Prisma.StringWithAggregatesFilter<"Notification"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Notification"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Notification"> | Date | string
 }
@@ -326,7 +330,7 @@ export type NotificationCreateInput = {
   details: string
   telegramId?: number | null
   usernames: string
-  readersStatus: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -339,7 +343,7 @@ export type NotificationUncheckedCreateInput = {
   details: string
   telegramId?: number | null
   usernames: string
-  readersStatus: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -352,7 +356,7 @@ export type NotificationUpdateInput = {
   details?: Prisma.StringFieldUpdateOperationsInput | string
   telegramId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usernames?: Prisma.StringFieldUpdateOperationsInput | string
-  readersStatus?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -365,7 +369,7 @@ export type NotificationUncheckedUpdateInput = {
   details?: Prisma.StringFieldUpdateOperationsInput | string
   telegramId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usernames?: Prisma.StringFieldUpdateOperationsInput | string
-  readersStatus?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -378,7 +382,7 @@ export type NotificationCreateManyInput = {
   details: string
   telegramId?: number | null
   usernames: string
-  readersStatus: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -391,7 +395,7 @@ export type NotificationUpdateManyMutationInput = {
   details?: Prisma.StringFieldUpdateOperationsInput | string
   telegramId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usernames?: Prisma.StringFieldUpdateOperationsInput | string
-  readersStatus?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -404,7 +408,7 @@ export type NotificationUncheckedUpdateManyInput = {
   details?: Prisma.StringFieldUpdateOperationsInput | string
   telegramId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   usernames?: Prisma.StringFieldUpdateOperationsInput | string
-  readersStatus?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  readersStatus?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -440,6 +444,7 @@ export type NotificationMaxOrderByAggregateInput = {
   details?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   usernames?: Prisma.SortOrder
+  readersStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -452,6 +457,7 @@ export type NotificationMinOrderByAggregateInput = {
   details?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
   usernames?: Prisma.SortOrder
+  readersStatus?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -503,7 +509,7 @@ export type $NotificationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     details: string
     telegramId: number | null
     usernames: string
-    readersStatus: runtime.JsonValue
+    readersStatus: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["notification"]>
@@ -882,7 +888,7 @@ export interface NotificationFieldRefs {
   readonly details: Prisma.FieldRef<"Notification", 'String'>
   readonly telegramId: Prisma.FieldRef<"Notification", 'Int'>
   readonly usernames: Prisma.FieldRef<"Notification", 'String'>
-  readonly readersStatus: Prisma.FieldRef<"Notification", 'Json'>
+  readonly readersStatus: Prisma.FieldRef<"Notification", 'String'>
   readonly createdAt: Prisma.FieldRef<"Notification", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Notification", 'DateTime'>
 }

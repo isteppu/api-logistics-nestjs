@@ -36,7 +36,7 @@ export class NotificationService {
         details: type.details,
         telegramId: resp.data.result.message_id,
         usernames: allUsernames.join(','),
-        readersStatus,
+        readersStatus: JSON.stringify(readersStatus), // ✅ serialize here
       },
     });
 
@@ -95,13 +95,16 @@ export class NotificationService {
     });
     if (!notif) return;
 
-    const readers = notif.readersStatus as Record<string, boolean>;
+    // ✅ deserialize readersStatus
+    const readers: Record<string, boolean> = JSON.parse(notif.readersStatus);
+
     if (readers[username] !== undefined) {
       readers[username] = true;
 
+      // ✅ serialize before saving
       await this.prisma.notification.update({
         where: { id: notif.id },
-        data: { readersStatus: readers },
+        data: { readersStatus: JSON.stringify(readers) },
       });
 
       const text = this.formatMessage(
@@ -115,9 +118,7 @@ export class NotificationService {
 
   async getNotificationsByUser(username: string) {
     const notifs = await this.prisma.notification.findMany({
-      where: {
-        usernames: { contains: username },
-      },
+      where: { usernames: { contains: username } },
     });
 
     return notifs.map(n => ({
