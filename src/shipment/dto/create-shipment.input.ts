@@ -16,9 +16,9 @@ export class CreateShipmentInput {
   @IsNotEmpty()
   blno: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   contract_no: string;
 
   @Field()
