@@ -108,6 +108,8 @@ type Trip {
   id: ID!
   commodity: String
   base_rate: Float
+  volumex: Float
+  volumey: Float
   truck: Truck
   port: Storable
   container: Storable

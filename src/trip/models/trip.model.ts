@@ -7,6 +7,9 @@ export class Trip {
   @Field(() => ID) id: string;
   @Field({ nullable: true }) commodity?: string;
   @Field(() => Float, { nullable: true }) base_rate?: number;
+  
+  @Field(() => Float, { nullable: true }) volumex?: number;
+  @Field(() => Float, { nullable: true }) volumey?: number;
 
   // Map the long Prisma names to clean GraphQL fields
   @Field(() => Truck, { nullable: true })
