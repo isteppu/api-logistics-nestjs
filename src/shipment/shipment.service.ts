@@ -74,7 +74,7 @@ export class ShipmentService extends Shipment {
           id: randomUUID(),
           selectivity: data.selectivity,
           blno: data.blno,
-          contract_no: data.contract_no,
+          contract_no: data.contract_no ?? null,
           entry_no: data.entry_no,
           reference: customerId ? this.generateConsigneeReference(data.customer_username!) : randomUUID(),
           registry_no: data.registry_no,
