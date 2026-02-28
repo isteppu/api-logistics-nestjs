@@ -33,6 +33,7 @@ export class AuthController {
             httpOnly: true,
             secure:true,
             sameSite: 'none',
+            partitioned: true,
             path: '/',
             maxAge: 86400, // 1 day
         });
