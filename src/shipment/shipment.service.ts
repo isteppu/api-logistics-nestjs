@@ -83,6 +83,7 @@ export class ShipmentService extends Shipment {
           volumey: data.volumey,
           customer_id: customerId,
           issuer_id: issuerId,
+          shipping_line: data.shipping_line,
           port_id: portId,
           warehouse_id: warehouseId,
           estimated_time_arrival: data.estimated_time_arrival,
