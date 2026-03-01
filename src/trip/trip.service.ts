@@ -123,6 +123,8 @@ export class TripService {
       }
 
       return trip;
+    }, {
+      timeout: 1000, // Increase timeout slightly for TiDB/Serverless
     });
 
     try {
