@@ -95,10 +95,8 @@ export class TripService {
       });
 
       if (finances) {
-        await Promise.all([
-          tx.trip_revenue.deleteMany({ where: { trip_id: id } }),
-          tx.trip_expense.deleteMany({ where: { trip_id: id } }),
-        ]);
+        await tx.trip_revenue.deleteMany({ where: { trip_id: id } });
+        await tx.trip_expense.deleteMany({ where: { trip_id: id } });
 
         const revenueRows = finances
           .filter(f => f.title?.toLowerCase() === 'tariff rate')
@@ -124,13 +122,13 @@ export class TripService {
 
       return trip;
     }, {
-      timeout: 1000, // Increase timeout slightly for TiDB/Serverless
+      timeout: 5000,
     });
 
     try {
       await this.notificationService.sendAlert(
         {
-          name: 'TRIP',
+          name: 'Updated Trip',
           id,
           details: `Update Trip: ${id} has new updates!`,
         },
