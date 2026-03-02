@@ -40,7 +40,7 @@ type Shipment {
   id: ID!
   selectivity: String
   blno: String!
-  contract_no: String!
+  contract_no: String
   entry_no: String!
   reference: String!
   registry_no: String!
@@ -155,15 +155,15 @@ type Mutation {
 input CreateShipmentInput {
   selectivity: String!
   blno: String!
-  contract_no: String!
+  contract_no: String
   entry_no: String!
   registry_no: String!
   port_id: String!
-  warehouse_id: String!
+  warehouse_id: String
   shipping_line: String!
   estimated_time_arrival: DateTime!
   customer_username: String!
-  issuer_username: String!
+  issuer_username: String
   volumex: Int
   volumey: Int
   actual_time_arrival: DateTime

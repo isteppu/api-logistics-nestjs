@@ -36,7 +36,7 @@ export class CreateShipmentInput {
   @IsNotEmpty()
   port_id: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
   @IsOptional()
   warehouse_id?: string;
@@ -55,7 +55,7 @@ export class CreateShipmentInput {
   @IsString()
   customer_username: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   issuer_username?: string;

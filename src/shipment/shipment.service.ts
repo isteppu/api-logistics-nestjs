@@ -34,8 +34,9 @@ export class ShipmentService extends Shipment {
 
   async create(data: CreateShipmentInput, user: any) {
     let customerId: string | undefined;
-    let issuerId: string | undefined;
     let warehouseId: string | undefined;
+
+    console.log("CreateShipmentInput::", data)
 
 
     if (data.customer_username) {
@@ -46,13 +47,6 @@ export class ShipmentService extends Shipment {
       customerId = customer.id;
     }
 
-    if (user.sub || user.id) {
-      const issuer = await this.prisma.user.findUnique({
-        where: { username: user.sub || user.id },
-      });
-      if (!issuer) throw new BadRequestException(`Issuer '${user.sub || user.id}' not found`);
-      issuerId = issuer.id;
-    }
 
     const shipment = await this.prisma.$transaction(async (tx) => {
 
@@ -61,7 +55,7 @@ export class ShipmentService extends Shipment {
         data.port_id,
         'PORT',
         `${data.port_id} port`,
-        issuerId
+        user.sub || user.id
       );
 
 
@@ -71,7 +65,7 @@ export class ShipmentService extends Shipment {
           data.warehouse_id,
           'WAREHOUSE',
           `${data.warehouse_id} warehouse`,
-          issuerId
+          user.sub || user.id
         );
       }
 
@@ -88,7 +82,7 @@ export class ShipmentService extends Shipment {
           volumex: data.volumex,
           volumey: data.volumey,
           customer_id: customerId,
-          issuer_id: issuerId,
+          issuer_id: user.sub || user.id,
           shipping_line: data.shipping_line,
           port_id: portId,
           warehouse_id: warehouseId,
@@ -153,7 +147,7 @@ export class ShipmentService extends Shipment {
         const uniqueContainerNames = [...new Set(data.containers)];
 
         for (const name of uniqueContainerNames) {
-          await this.ensureStorable(tx, name, 'CONTAINER', `${name} container`, issuerId);
+          await this.ensureStorable(tx, name, 'CONTAINER', `${name} container`, user.sub || user.id);
         }
 
         await tx.shipment_container.createMany({
