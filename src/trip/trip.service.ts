@@ -67,7 +67,7 @@ export class TripService {
         const notificationDetails = `New Trip: ${trip.id} was added using truck ${trip.truck_id}, operator: ${truck?.operator ?? 'Unknown'}`;
 
         await this.notificationService.sendAlert({
-          name: "TRIP",
+          name: "New Trip Created",
           id: trip.id,
           details: notificationDetails
         }, []);
@@ -125,12 +125,14 @@ export class TripService {
       timeout: 5000,
     });
 
+    const details = updatedTrip.date_delivered ? `Updated Trip: Delivered on ${updatedTrip.date_delivered}` : `Updated Trip: ${id} has new updates!`;
+
     try {
       await this.notificationService.sendAlert(
         {
           name: 'Updated Trip',
           id,
-          details: `Update Trip: ${id} has new updates!`,
+          details: details,
         },
         []
       );
