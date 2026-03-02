@@ -8,7 +8,31 @@ import { NotificationService } from '../notifications/notifications.service.js';
 export class TripService {
   constructor(private prisma: PrismaService, private notificationService: NotificationService) { }
 
-  async create(data: CreateTripInput) {
+  private async ensureStorable(
+    tx: any,
+    id: string,
+    type: 'PORT' | 'WAREHOUSE' | 'CONTAINER',
+    description: string,
+    createdBy?: string
+  ) {
+    if (!id) return undefined;
+
+    const existing = await tx.storable.findUnique({ where: { id } });
+    if (!existing) {
+      await tx.storable.create({
+        data: {
+          id,
+          type,
+          description,
+          created_by: createdBy,
+          date_created: new Date(),
+        },
+      });
+    }
+    return id;
+  }
+
+  async create(data: CreateTripInput, user: any) {
     const { finances, ...tripData } = data;
 
     const trip = await this.prisma.$transaction(async (tx) => {
@@ -28,6 +52,14 @@ export class TripService {
           ...tripData,
         },
       });
+
+      const container_id = await this.ensureStorable(
+        tx,
+        data.container_id,
+        'CONTAINER',
+        `${data.port_id} port`,
+        user.sub || user.id
+      );
 
       if (finances && finances.length > 0) {
         const revenueRows = finances

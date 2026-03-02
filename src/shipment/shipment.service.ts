@@ -4,6 +4,7 @@ import { UpdateShipmentInput } from './dto/update-shipment.input.js';
 import { randomUUID } from 'crypto';
 import { Shipment } from './shipment.js';
 
+
 @Injectable()
 export class ShipmentService extends Shipment {
 
@@ -31,9 +32,11 @@ export class ShipmentService extends Shipment {
     return id;
   }
 
-  async create(data: CreateShipmentInput) {
+  async create(data: CreateShipmentInput, user: any) {
     let customerId: string | undefined;
     let issuerId: string | undefined;
+    let warehouseId: string | undefined;
+
 
     if (data.customer_username) {
       const customer = await this.prisma.user.findUnique({
@@ -43,11 +46,11 @@ export class ShipmentService extends Shipment {
       customerId = customer.id;
     }
 
-    if (data.issuer_username) {
+    if (user.sub || user.id) {
       const issuer = await this.prisma.user.findUnique({
-        where: { username: data.issuer_username },
+        where: { username: user.sub || user.id },
       });
-      if (!issuer) throw new BadRequestException(`Issuer '${data.issuer_username}' not found`);
+      if (!issuer) throw new BadRequestException(`Issuer '${user.sub || user.id}' not found`);
       issuerId = issuer.id;
     }
 
@@ -61,20 +64,23 @@ export class ShipmentService extends Shipment {
         issuerId
       );
 
-      const warehouseId = await this.ensureStorable(
-        tx,
-        data.warehouse_id,
-        'WAREHOUSE',
-        `${data.warehouse_id} warehouse`,
-        issuerId
-      );
+
+      if (data.warehouse_id) {
+        await this.ensureStorable(
+          tx,
+          data.warehouse_id,
+          'WAREHOUSE',
+          `${data.warehouse_id} warehouse`,
+          issuerId
+        );
+      }
 
       const shipment = await tx.shipment.create({
         data: {
           id: randomUUID(),
           selectivity: data.selectivity,
           blno: data.blno,
-          contract_no: data.contract_no === "" ? null: data.contract_no ,
+          contract_no: data.contract_no === "" ? null : data.contract_no,
           entry_no: data.entry_no,
           reference: customerId ? this.generateConsigneeReference(data.customer_username!) : randomUUID(),
           registry_no: data.registry_no,
@@ -350,9 +356,9 @@ export class ShipmentService extends Shipment {
 
       return shipment;
     },
-  {
-    timeout: 15000, // or 20000
-  });
+      {
+        timeout: 15000, // or 20000
+      });
   }
 
   async findAll(skip: number, take: number) {

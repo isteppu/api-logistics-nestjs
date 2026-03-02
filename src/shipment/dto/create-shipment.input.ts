@@ -38,8 +38,8 @@ export class CreateShipmentInput {
 
   @Field()
   @IsString()
-  @IsNotEmpty()
-  warehouse_id: string;
+  @IsOptional()
+  warehouse_id?: string;
 
   @Field()
   @IsString()
@@ -56,8 +56,9 @@ export class CreateShipmentInput {
   customer_username: string;
 
   @Field()
+  @IsOptional()
   @IsString()
-  issuer_username: string;
+  issuer_username?: string;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()

@@ -8,6 +8,9 @@ import { SyncShipmentFinanceInput } from './dto/sync-shipment-finance.input.js';
 import { ShipmentFinanceRow } from './models/shipment-finance-row.model.js';
 import { ShipmentFinanceService } from './shipment-finance.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard.js';
+import { CurrentUser } from '../auth/current-user.decorator.js';
 
 @Resolver(() => Shipment)
 export class ShipmentResolver {
@@ -18,8 +21,12 @@ export class ShipmentResolver {
   ) { }
 
   @Mutation(() => Shipment)
-  createShipment(@Args('input') createShipmentInput: CreateShipmentInput) {
-    return this.shipmentService.create(createShipmentInput);
+  @UseGuards(AuthGuard)
+  createShipment(
+    @Args('input') createShipmentInput: CreateShipmentInput,
+    @CurrentUser() user: any,
+  ) {
+    return this.shipmentService.create(createShipmentInput, user);
   }
 
   @Mutation(() => Shipment)
