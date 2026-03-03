@@ -60,15 +60,15 @@ export class CreateShipmentInput {
   @IsString()
   issuer_username?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   @IsOptional()
-  @IsNumber()
-  volumex?: number;
+  @IsString()
+  volumex?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   @IsOptional()
-  @IsNumber()
-  volumey?: number;
+  @IsString()
+  volumey?: string;
 
   @Field({ nullable: true })
   @IsOptional()

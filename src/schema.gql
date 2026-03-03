@@ -48,8 +48,8 @@ type Shipment {
   warehouse_id: String
   shipping_line: String
   status: String
-  volumex: Int
-  volumey: Int
+  volumex: String
+  volumey: String
   estimated_time_arrival: DateTime
   actual_time_arrival: DateTime
   customer: User
@@ -68,6 +68,7 @@ type ShipmentStorable {
   id: ID!
   type: String!
   description: String
+  warehouse_id: String
   date_created: DateTime!
   created_by: String
 }
@@ -164,18 +165,23 @@ input CreateShipmentInput {
   estimated_time_arrival: DateTime!
   customer_username: String!
   issuer_username: String
-  volumex: Int
-  volumey: Int
+  volumex: String
+  volumey: String
   actual_time_arrival: DateTime
   status: String
   finances: [FinanceRowInput!]
-  containers: [String!]
+  containers: [ContainersAndWarehouses!]
 }
 
 input FinanceRowInput {
   title: String!
   type: String!
   value: Float!
+}
+
+input ContainersAndWarehouses {
+  container_id: String!
+  warehouse_id: String
 }
 
 input UpdateShipmentInput {
@@ -190,12 +196,12 @@ input UpdateShipmentInput {
   estimated_time_arrival: DateTime
   customer_username: String
   issuer_username: String
-  volumex: Int
-  volumey: Int
+  volumex: String
+  volumey: String
   actual_time_arrival: DateTime
   status: String
   finances: [FinanceRowInput!]
-  containers: [String!]
+  containers: [ContainersAndWarehouses!]
   id: String!
 }
 
@@ -220,8 +226,8 @@ input CreateTripInput {
   truck_id: String!
   warehouse_id: String
   base_rate: Float
-  volumex: Float
-  volumey: Float
+  volumex: String
+  volumey: String
   port_id: String
   commodity: String
   finances: [TripFinanceRowInput!]
@@ -238,8 +244,8 @@ input UpdateTripInput {
   truck_id: String
   warehouse_id: String
   base_rate: Float
-  volumex: Float
-  volumey: Float
+  volumex: String
+  volumey: String
   port_id: String
   commodity: String
   finances: [TripFinanceRowInput!]

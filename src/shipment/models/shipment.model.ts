@@ -15,8 +15,8 @@ export class Shipment {
   @Field({ nullable: true }) warehouse_id?: string;
   @Field({ nullable: true }) shipping_line?: string;
   @Field({ nullable: true }) status?: string;
-  @Field(() => Int, { nullable: true }) volumex?: number;
-  @Field(() => Int, { nullable: true }) volumey?: number;
+  @Field({ nullable: true }) volumex?: string;
+  @Field({ nullable: true }) volumey?: string;
   @Field({ nullable: true }) estimated_time_arrival?: Date;
   @Field({ nullable: true }) actual_time_arrival?: Date;
   @Field(() => User, { nullable: true }) customer?: User;
@@ -46,6 +46,9 @@ export class ShipmentStorable {
 
   @Field({ nullable: true })
   description?: string;
+
+  @Field({ nullable: true })
+  warehouse_id?: string;
 
   @Field()
   date_created: Date;

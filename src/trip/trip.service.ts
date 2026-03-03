@@ -34,6 +34,7 @@ export class TripService {
 
   async create(data: CreateTripInput, user: any) {
     const { finances, ...tripData } = data;
+    const currentUserId = user.sub || user.id;
 
     const trip = await this.prisma.$transaction(async (tx) => {
       await tx.truck.upsert({
@@ -46,20 +47,22 @@ export class TripService {
         },
       });
 
+      if (data.port_id) {
+        await this.ensureStorable(tx, data.port_id, 'PORT', `Port ${data.port_id}`, currentUserId);
+      }
+      if (data.container_id) {
+        await this.ensureStorable(tx, data.container_id, 'CONTAINER', `Container ${data.container_id}`, currentUserId);
+      }
+      if (data.warehouse_id) {
+        await this.ensureStorable(tx, data.warehouse_id, 'WAREHOUSE', `Warehouse ${data.warehouse_id}`, currentUserId);
+      }
+
       const newTrip = await tx.trip.create({
         data: {
           id: crypto.randomUUID(),
           ...tripData,
         },
       });
-
-      const container_id = await this.ensureStorable(
-        tx,
-        data.container_id,
-        'CONTAINER',
-        `${data.port_id} port`,
-        user.sub || user.id
-      );
 
       if (finances && finances.length > 0) {
         const revenueRows = finances
@@ -113,17 +116,23 @@ export class TripService {
 
   async update(id: string, data: UpdateTripInput) {
     const { id: _ignored, finances, ...tripData } = data;
+    const currentUserId = _ignored;
 
     const updatedTrip = await this.prisma.$transaction(async (tx) => {
+      if (tripData.port_id) {
+        await this.ensureStorable(tx, tripData.port_id, 'PORT', `Port ${tripData.port_id}`, currentUserId);
+      }
+      if (tripData.container_id) {
+        await this.ensureStorable(tx, tripData.container_id, 'CONTAINER', `Container ${tripData.container_id}`, currentUserId);
+      }
+      if (tripData.warehouse_id) {
+        await this.ensureStorable(tx, tripData.warehouse_id, 'WAREHOUSE', `Warehouse ${tripData.warehouse_id}`, currentUserId);
+      }
+
       const trip = await tx.trip.update({
         where: { id },
         data: tripData,
-        include: {
-          truck: true,
-          storable_trip_port_idTostorable: true,
-          storable_trip_container_idTostorable: true,
-          storable_trip_warehouse_idTostorable: true,
-        },
+        include: { truck: true }
       });
 
       if (finances) {
@@ -131,7 +140,7 @@ export class TripService {
         await tx.trip_expense.deleteMany({ where: { trip_id: id } });
 
         const revenueRows = finances
-          .filter(f => f.title?.toLowerCase() === 'tariff rate')
+          .filter(f => f.title?.toLowerCase().includes('tariff rate'))
           .map(r => ({
             trip_id: id,
             value: r.value,
@@ -140,7 +149,7 @@ export class TripService {
           }));
 
         const expenseRows = finances
-          .filter(f => f.title?.toLowerCase() !== 'tariff rate')
+          .filter(f => !f.title?.toLowerCase().includes('tariff rate'))
           .map(e => ({
             trip_id: id,
             value: e.value,
@@ -153,28 +162,24 @@ export class TripService {
       }
 
       return trip;
-    }, {
-      timeout: 5000,
-    });
+    }, { timeout: 15000 });
 
-    const details = updatedTrip.date_delivered ? `Updated Trip: Delivered on ${updatedTrip.date_delivered}` : `Updated Trip: ${id} has new updates!`;
+    const details = updatedTrip.date_delivered
+      ? `Trip ${id} Delivered on ${updatedTrip.date_delivered.toLocaleDateString()}`
+      : `Trip ${id} has been updated.`;
 
     try {
-      await this.notificationService.sendAlert(
-        {
-          name: 'Updated Trip',
-          id,
-          details: details,
-        },
-        []
-      );
+      await this.notificationService.sendAlert({
+        name: 'Trip Updated',
+        id: id,
+        details: details,
+      }, []);
     } catch (err) {
-      console.error('Trip update notification failed:', err);
+      console.error('Notification failed:', err);
     }
 
     return updatedTrip;
   }
-
 
   async findAllPaginated(skip: number, take: number) {
     const [items, totalCount] = await Promise.all([

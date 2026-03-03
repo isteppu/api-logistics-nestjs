@@ -144,30 +144,46 @@ export class ShipmentService extends Shipment {
       }
 
       if (data.containers?.length) {
-        const uniqueContainerNames = [...new Set(data.containers)];
+        for (const item of data.containers) {
+          await this.ensureStorable(
+            tx,
+            item.container_id,
+            'CONTAINER',
+            `Container ${item.container_id}`,
+            user.sub || user.id
+          );
 
-        for (const name of uniqueContainerNames) {
-          await this.ensureStorable(tx, name, 'CONTAINER', `${name} container`, user.sub || user.id);
+          if (item.warehouse_id) {
+            await this.ensureStorable(
+              tx,
+              item.warehouse_id,
+              'WAREHOUSE',
+              `Warehouse ${item.warehouse_id}`,
+              user.sub || user.id
+            );
+          }
+
+          await tx.shipment_container.create({
+            data: {
+              shipment_id: shipment.id,
+              container_id: item.container_id,
+              warehouse_id: item.warehouse_id || null,
+            },
+          });
         }
-
-        await tx.shipment_container.createMany({
-          data: uniqueContainerNames.map((name) => ({
-            shipment_id: shipment.id,
-            container_id: name,
-          })),
-          skipDuplicates: true,
-        });
       }
 
 
 
       return shipment;
+    }, {
+        timeout: 30000,
+        maxWait: 5000,
     })
 
     const usernames: string[] = [data.customer_username, data.issuer_username].filter(Boolean) as string[];
 
     if (usernames.length > 0) {
-      // Assuming NotificationService is injected as this.notificationService
       await this.notificationService.sendAlert(
         {
           id: shipment.id,
@@ -181,7 +197,7 @@ export class ShipmentService extends Shipment {
     return shipment
   }
 
-  async update(id: string, data: UpdateShipmentInput) {
+  async update(id: string, data: UpdateShipmentInput, user: any) {
     return this.prisma.$transaction(async (tx) => {
       const {
         customer_username,
@@ -194,18 +210,12 @@ export class ShipmentService extends Shipment {
       } = data;
 
       let customerId: string | undefined;
-      let issuerId: string | undefined;
+      let issuerId = user.sub || user.id;
 
       if (customer_username) {
         const customer = await tx.user.findUnique({ where: { username: customer_username } });
         if (!customer) throw new BadRequestException(`Customer '${customer_username}' not found`);
         customerId = customer.id;
-      }
-
-      if (issuer_username) {
-        const issuer = await tx.user.findUnique({ where: { username: issuer_username } });
-        if (!issuer) throw new BadRequestException(`Issuer '${issuer_username}' not found`);
-        issuerId = issuer.id;
       }
 
       const shipment = await tx.shipment.update({
@@ -216,12 +226,6 @@ export class ShipmentService extends Shipment {
           ...(customerId && {
             user_shipment_customer_idTouser: {
               connect: { id: customerId },
-            },
-          }),
-
-          ...(issuerId && {
-            user_shipment_issuer_idTouser: {
-              connect: { id: issuerId },
             },
           }),
 
@@ -239,33 +243,43 @@ export class ShipmentService extends Shipment {
             },
           }),
 
-          
+
         },
       });
 
-      if (containers?.length) {
-        const unique = [...new Set(containers)];
+      if (containers) {
+        const incomingContainerIds = containers.map(c => c.container_id);
 
-        await Promise.all(
-          unique.map(name =>
-            this.ensureStorable(tx, name, 'CONTAINER', `${name} container`, issuerId)
-          )
-        );
+        for (const item of containers) {
+          await this.ensureStorable(tx, item.container_id, 'CONTAINER', `Container ${item.container_id}`, issuerId);
+          if (item.warehouse_id) {
+            await this.ensureStorable(tx, item.warehouse_id, 'WAREHOUSE', `Warehouse ${item.warehouse_id}`, issuerId);
+          }
+        }
 
         await tx.shipment_container.deleteMany({
           where: {
-            shipment_id: shipment.id,
-            container_id: { notIn: unique },
+            shipment_id: id,
+            container_id: { notIn: incomingContainerIds },
           },
         });
 
-        await tx.shipment_container.createMany({
-          data: unique.map(name => ({
-            shipment_id: shipment.id,
-            container_id: name,
-          })),
-          skipDuplicates: true,
-        });
+        for (const item of containers) {
+          await tx.shipment_container.upsert({
+            where: {
+              shipment_id_container_id: {
+                shipment_id: id,
+                container_id: item.container_id,
+              },
+            },
+            update: { warehouse_id: item.warehouse_id || null },
+            create: {
+              shipment_id: id,
+              container_id: item.container_id,
+              warehouse_id: item.warehouse_id || null,
+            },
+          });
+        }
       }
 
       if (finances?.length) {
@@ -339,7 +353,7 @@ export class ShipmentService extends Shipment {
       return shipment;
     },
       {
-        timeout: 15000, // or 20000
+        timeout: 15000,
       });
   }
 
