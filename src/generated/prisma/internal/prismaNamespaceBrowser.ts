@@ -138,7 +138,8 @@ export type ShipmentScalarFieldEnum = (typeof ShipmentScalarFieldEnum)[keyof typ
 
 export const Shipment_containerScalarFieldEnum = {
   shipment_id: 'shipment_id',
-  container_id: 'container_id'
+  container_id: 'container_id',
+  warehouse_id: 'warehouse_id'
 } as const
 
 export type Shipment_containerScalarFieldEnum = (typeof Shipment_containerScalarFieldEnum)[keyof typeof Shipment_containerScalarFieldEnum]
@@ -326,6 +327,8 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const shipmentOrderByRelevanceFieldEnum = {
+  volumex: 'volumex',
+  volumey: 'volumey',
   customer_id: 'customer_id',
   selectivity: 'selectivity',
   id: 'id',
@@ -346,7 +349,8 @@ export type shipmentOrderByRelevanceFieldEnum = (typeof shipmentOrderByRelevance
 
 export const shipment_containerOrderByRelevanceFieldEnum = {
   shipment_id: 'shipment_id',
-  container_id: 'container_id'
+  container_id: 'container_id',
+  warehouse_id: 'warehouse_id'
 } as const
 
 export type shipment_containerOrderByRelevanceFieldEnum = (typeof shipment_containerOrderByRelevanceFieldEnum)[keyof typeof shipment_containerOrderByRelevanceFieldEnum]
@@ -401,6 +405,8 @@ export type storableOrderByRelevanceFieldEnum = (typeof storableOrderByRelevance
 
 
 export const tripOrderByRelevanceFieldEnum = {
+  volumex: 'volumex',
+  volumey: 'volumey',
   id: 'id',
   commodity: 'commodity',
   container_id: 'container_id',

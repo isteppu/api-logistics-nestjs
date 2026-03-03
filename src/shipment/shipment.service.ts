@@ -187,7 +187,7 @@ export class ShipmentService extends Shipment {
         customer_username,
         issuer_username,
         port_id,
-        warehouse_id,
+        // warehouse_id,
         containers,
         finances,
         ...scalarData
@@ -239,19 +239,7 @@ export class ShipmentService extends Shipment {
             },
           }),
 
-          ...(warehouse_id && {
-            storable_shipment_warehouse_idTostorable: {
-              connect: {
-                id: await this.ensureStorable(
-                  tx,
-                  warehouse_id,
-                  'WAREHOUSE',
-                  `${warehouse_id} warehouse`,
-                  issuerId
-                )
-              },
-            },
-          }),
+          
         },
       });
 
@@ -365,7 +353,6 @@ export class ShipmentService extends Shipment {
           user_shipment_customer_idTouser: true,
           user_shipment_issuer_idTouser: true,
           storable_shipment_port_idToStorable: true,
-          storable_shipment_warehouse_idTostorable: true,
         },
       }),
       this.prisma.shipment.count(),

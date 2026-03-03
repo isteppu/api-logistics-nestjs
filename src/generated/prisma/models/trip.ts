@@ -28,20 +28,16 @@ export type AggregateTrip = {
 
 export type TripAvgAggregateOutputType = {
   base_rate: runtime.Decimal | null
-  volumex: number | null
-  volumey: number | null
 }
 
 export type TripSumAggregateOutputType = {
   base_rate: runtime.Decimal | null
-  volumex: number | null
-  volumey: number | null
 }
 
 export type TripMinAggregateOutputType = {
   base_rate: runtime.Decimal | null
-  volumex: number | null
-  volumey: number | null
+  volumex: string | null
+  volumey: string | null
   date_created: Date | null
   date_delivered: Date | null
   id: string | null
@@ -54,8 +50,8 @@ export type TripMinAggregateOutputType = {
 
 export type TripMaxAggregateOutputType = {
   base_rate: runtime.Decimal | null
-  volumex: number | null
-  volumey: number | null
+  volumex: string | null
+  volumey: string | null
   date_created: Date | null
   date_delivered: Date | null
   id: string | null
@@ -84,14 +80,10 @@ export type TripCountAggregateOutputType = {
 
 export type TripAvgAggregateInputType = {
   base_rate?: true
-  volumex?: true
-  volumey?: true
 }
 
 export type TripSumAggregateInputType = {
   base_rate?: true
-  volumex?: true
-  volumey?: true
 }
 
 export type TripMinAggregateInputType = {
@@ -225,8 +217,8 @@ export type tripGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type TripGroupByOutputType = {
   base_rate: runtime.Decimal | null
-  volumex: number | null
-  volumey: number | null
+  volumex: string | null
+  volumey: string | null
   date_created: Date
   date_delivered: Date | null
   id: string
@@ -262,8 +254,8 @@ export type tripWhereInput = {
   OR?: Prisma.tripWhereInput[]
   NOT?: Prisma.tripWhereInput | Prisma.tripWhereInput[]
   base_rate?: Prisma.DecimalNullableFilter<"trip"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.IntNullableFilter<"trip"> | number | null
-  volumey?: Prisma.IntNullableFilter<"trip"> | number | null
+  volumex?: Prisma.StringNullableFilter<"trip"> | string | null
+  volumey?: Prisma.StringNullableFilter<"trip"> | string | null
   date_created?: Prisma.DateTimeFilter<"trip"> | Date | string
   date_delivered?: Prisma.DateTimeNullableFilter<"trip"> | Date | string | null
   id?: Prisma.StringFilter<"trip"> | string
@@ -303,8 +295,8 @@ export type tripWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.tripWhereInput[]
   NOT?: Prisma.tripWhereInput | Prisma.tripWhereInput[]
   base_rate?: Prisma.DecimalNullableFilter<"trip"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.IntNullableFilter<"trip"> | number | null
-  volumey?: Prisma.IntNullableFilter<"trip"> | number | null
+  volumex?: Prisma.StringNullableFilter<"trip"> | string | null
+  volumey?: Prisma.StringNullableFilter<"trip"> | string | null
   date_created?: Prisma.DateTimeFilter<"trip"> | Date | string
   date_delivered?: Prisma.DateTimeNullableFilter<"trip"> | Date | string | null
   commodity?: Prisma.StringNullableFilter<"trip"> | string | null
@@ -342,8 +334,8 @@ export type tripScalarWhereWithAggregatesInput = {
   OR?: Prisma.tripScalarWhereWithAggregatesInput[]
   NOT?: Prisma.tripScalarWhereWithAggregatesInput | Prisma.tripScalarWhereWithAggregatesInput[]
   base_rate?: Prisma.DecimalNullableWithAggregatesFilter<"trip"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.IntNullableWithAggregatesFilter<"trip"> | number | null
-  volumey?: Prisma.IntNullableWithAggregatesFilter<"trip"> | number | null
+  volumex?: Prisma.StringNullableWithAggregatesFilter<"trip"> | string | null
+  volumey?: Prisma.StringNullableWithAggregatesFilter<"trip"> | string | null
   date_created?: Prisma.DateTimeWithAggregatesFilter<"trip"> | Date | string
   date_delivered?: Prisma.DateTimeNullableWithAggregatesFilter<"trip"> | Date | string | null
   id?: Prisma.StringWithAggregatesFilter<"trip"> | string
@@ -356,8 +348,8 @@ export type tripScalarWhereWithAggregatesInput = {
 
 export type tripCreateInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -370,8 +362,8 @@ export type tripCreateInput = {
 
 export type tripUncheckedCreateInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -384,8 +376,8 @@ export type tripUncheckedCreateInput = {
 
 export type tripUpdateInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -398,8 +390,8 @@ export type tripUpdateInput = {
 
 export type tripUncheckedUpdateInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -412,8 +404,8 @@ export type tripUncheckedUpdateInput = {
 
 export type tripCreateManyInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -426,8 +418,8 @@ export type tripCreateManyInput = {
 
 export type tripUpdateManyMutationInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -436,8 +428,8 @@ export type tripUpdateManyMutationInput = {
 
 export type tripUncheckedUpdateManyInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -480,8 +472,6 @@ export type tripCountOrderByAggregateInput = {
 
 export type tripAvgOrderByAggregateInput = {
   base_rate?: Prisma.SortOrder
-  volumex?: Prisma.SortOrder
-  volumey?: Prisma.SortOrder
 }
 
 export type tripMaxOrderByAggregateInput = {
@@ -514,8 +504,6 @@ export type tripMinOrderByAggregateInput = {
 
 export type tripSumOrderByAggregateInput = {
   base_rate?: Prisma.SortOrder
-  volumex?: Prisma.SortOrder
-  volumey?: Prisma.SortOrder
 }
 
 export type tripCreateNestedManyWithoutStorable_trip_container_idTostorableInput = {
@@ -688,8 +676,8 @@ export type tripUncheckedUpdateManyWithoutTruckNestedInput = {
 
 export type tripCreateWithoutStorable_trip_container_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -701,8 +689,8 @@ export type tripCreateWithoutStorable_trip_container_idTostorableInput = {
 
 export type tripUncheckedCreateWithoutStorable_trip_container_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -724,8 +712,8 @@ export type tripCreateManyStorable_trip_container_idTostorableInputEnvelope = {
 
 export type tripCreateWithoutStorable_trip_port_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -737,8 +725,8 @@ export type tripCreateWithoutStorable_trip_port_idTostorableInput = {
 
 export type tripUncheckedCreateWithoutStorable_trip_port_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -760,8 +748,8 @@ export type tripCreateManyStorable_trip_port_idTostorableInputEnvelope = {
 
 export type tripCreateWithoutStorable_trip_warehouse_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -773,8 +761,8 @@ export type tripCreateWithoutStorable_trip_warehouse_idTostorableInput = {
 
 export type tripUncheckedCreateWithoutStorable_trip_warehouse_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -815,8 +803,8 @@ export type tripScalarWhereInput = {
   OR?: Prisma.tripScalarWhereInput[]
   NOT?: Prisma.tripScalarWhereInput | Prisma.tripScalarWhereInput[]
   base_rate?: Prisma.DecimalNullableFilter<"trip"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.IntNullableFilter<"trip"> | number | null
-  volumey?: Prisma.IntNullableFilter<"trip"> | number | null
+  volumex?: Prisma.StringNullableFilter<"trip"> | string | null
+  volumey?: Prisma.StringNullableFilter<"trip"> | string | null
   date_created?: Prisma.DateTimeFilter<"trip"> | Date | string
   date_delivered?: Prisma.DateTimeNullableFilter<"trip"> | Date | string | null
   id?: Prisma.StringFilter<"trip"> | string
@@ -861,8 +849,8 @@ export type tripUpdateManyWithWhereWithoutStorable_trip_warehouse_idTostorableIn
 
 export type tripCreateWithoutTruckInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -874,8 +862,8 @@ export type tripCreateWithoutTruckInput = {
 
 export type tripUncheckedCreateWithoutTruckInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -913,8 +901,8 @@ export type tripUpdateManyWithWhereWithoutTruckInput = {
 
 export type tripCreateManyStorable_trip_container_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -926,8 +914,8 @@ export type tripCreateManyStorable_trip_container_idTostorableInput = {
 
 export type tripCreateManyStorable_trip_port_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -939,8 +927,8 @@ export type tripCreateManyStorable_trip_port_idTostorableInput = {
 
 export type tripCreateManyStorable_trip_warehouse_idTostorableInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -952,8 +940,8 @@ export type tripCreateManyStorable_trip_warehouse_idTostorableInput = {
 
 export type tripUpdateWithoutStorable_trip_container_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -965,8 +953,8 @@ export type tripUpdateWithoutStorable_trip_container_idTostorableInput = {
 
 export type tripUncheckedUpdateWithoutStorable_trip_container_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -978,8 +966,8 @@ export type tripUncheckedUpdateWithoutStorable_trip_container_idTostorableInput 
 
 export type tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -991,8 +979,8 @@ export type tripUncheckedUpdateManyWithoutStorable_trip_container_idTostorableIn
 
 export type tripUpdateWithoutStorable_trip_port_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1004,8 +992,8 @@ export type tripUpdateWithoutStorable_trip_port_idTostorableInput = {
 
 export type tripUncheckedUpdateWithoutStorable_trip_port_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1017,8 +1005,8 @@ export type tripUncheckedUpdateWithoutStorable_trip_port_idTostorableInput = {
 
 export type tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1030,8 +1018,8 @@ export type tripUncheckedUpdateManyWithoutStorable_trip_port_idTostorableInput =
 
 export type tripUpdateWithoutStorable_trip_warehouse_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1043,8 +1031,8 @@ export type tripUpdateWithoutStorable_trip_warehouse_idTostorableInput = {
 
 export type tripUncheckedUpdateWithoutStorable_trip_warehouse_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1056,8 +1044,8 @@ export type tripUncheckedUpdateWithoutStorable_trip_warehouse_idTostorableInput 
 
 export type tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1069,8 +1057,8 @@ export type tripUncheckedUpdateManyWithoutStorable_trip_warehouse_idTostorableIn
 
 export type tripCreateManyTruckInput = {
   base_rate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: number | null
-  volumey?: number | null
+  volumex?: string | null
+  volumey?: string | null
   date_created?: Date | string
   date_delivered?: Date | string | null
   id: string
@@ -1082,8 +1070,8 @@ export type tripCreateManyTruckInput = {
 
 export type tripUpdateWithoutTruckInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1095,8 +1083,8 @@ export type tripUpdateWithoutTruckInput = {
 
 export type tripUncheckedUpdateWithoutTruckInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1108,8 +1096,8 @@ export type tripUncheckedUpdateWithoutTruckInput = {
 
 export type tripUncheckedUpdateManyWithoutTruckInput = {
   base_rate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  volumex?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  volumey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  volumex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  volumey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date_created?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   date_delivered?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1173,8 +1161,8 @@ export type $tripPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     base_rate: runtime.Decimal | null
-    volumex: number | null
-    volumey: number | null
+    volumex: string | null
+    volumey: string | null
     date_created: Date
     date_delivered: Date | null
     id: string
@@ -1557,8 +1545,8 @@ export interface Prisma__tripClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface tripFieldRefs {
   readonly base_rate: Prisma.FieldRef<"trip", 'Decimal'>
-  readonly volumex: Prisma.FieldRef<"trip", 'Int'>
-  readonly volumey: Prisma.FieldRef<"trip", 'Int'>
+  readonly volumex: Prisma.FieldRef<"trip", 'String'>
+  readonly volumey: Prisma.FieldRef<"trip", 'String'>
   readonly date_created: Prisma.FieldRef<"trip", 'DateTime'>
   readonly date_delivered: Prisma.FieldRef<"trip", 'DateTime'>
   readonly id: Prisma.FieldRef<"trip", 'String'>
