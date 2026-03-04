@@ -47,6 +47,7 @@ export type ShipmentMinAggregateOutputType = {
   selectivity: string | null
   id: string | null
   issuer_id: string | null
+  commodity: string | null
   blno: string | null
   contract_no: string | null
   entry_no: string | null
@@ -71,6 +72,7 @@ export type ShipmentMaxAggregateOutputType = {
   selectivity: string | null
   id: string | null
   issuer_id: string | null
+  commodity: string | null
   blno: string | null
   contract_no: string | null
   entry_no: string | null
@@ -95,6 +97,7 @@ export type ShipmentCountAggregateOutputType = {
   selectivity: number
   id: number
   issuer_id: number
+  commodity: number
   blno: number
   contract_no: number
   entry_no: number
@@ -129,6 +132,7 @@ export type ShipmentMinAggregateInputType = {
   selectivity?: true
   id?: true
   issuer_id?: true
+  commodity?: true
   blno?: true
   contract_no?: true
   entry_no?: true
@@ -153,6 +157,7 @@ export type ShipmentMaxAggregateInputType = {
   selectivity?: true
   id?: true
   issuer_id?: true
+  commodity?: true
   blno?: true
   contract_no?: true
   entry_no?: true
@@ -177,6 +182,7 @@ export type ShipmentCountAggregateInputType = {
   selectivity?: true
   id?: true
   issuer_id?: true
+  commodity?: true
   blno?: true
   contract_no?: true
   entry_no?: true
@@ -288,6 +294,7 @@ export type ShipmentGroupByOutputType = {
   selectivity: string | null
   id: string
   issuer_id: string | null
+  commodity: string | null
   blno: string
   contract_no: string | null
   entry_no: string
@@ -335,6 +342,7 @@ export type shipmentWhereInput = {
   selectivity?: Prisma.StringNullableFilter<"shipment"> | string | null
   id?: Prisma.StringFilter<"shipment"> | string
   issuer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
+  commodity?: Prisma.StringNullableFilter<"shipment"> | string | null
   blno?: Prisma.StringFilter<"shipment"> | string
   contract_no?: Prisma.StringNullableFilter<"shipment"> | string | null
   entry_no?: Prisma.StringFilter<"shipment"> | string
@@ -364,6 +372,7 @@ export type shipmentOrderByWithRelationInput = {
   selectivity?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  commodity?: Prisma.SortOrderInput | Prisma.SortOrder
   blno?: Prisma.SortOrder
   contract_no?: Prisma.SortOrderInput | Prisma.SortOrder
   entry_no?: Prisma.SortOrder
@@ -401,6 +410,7 @@ export type shipmentWhereUniqueInput = Prisma.AtLeast<{
   customer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   selectivity?: Prisma.StringNullableFilter<"shipment"> | string | null
   issuer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
+  commodity?: Prisma.StringNullableFilter<"shipment"> | string | null
   port_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   warehouse_id?: Prisma.StringNullableFilter<"shipment"> | string | null
   reference?: Prisma.StringFilter<"shipment"> | string
@@ -426,6 +436,7 @@ export type shipmentOrderByWithAggregationInput = {
   selectivity?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  commodity?: Prisma.SortOrderInput | Prisma.SortOrder
   blno?: Prisma.SortOrder
   contract_no?: Prisma.SortOrderInput | Prisma.SortOrder
   entry_no?: Prisma.SortOrder
@@ -458,6 +469,7 @@ export type shipmentScalarWhereWithAggregatesInput = {
   selectivity?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
   id?: Prisma.StringWithAggregatesFilter<"shipment"> | string
   issuer_id?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
+  commodity?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
   blno?: Prisma.StringWithAggregatesFilter<"shipment"> | string
   contract_no?: Prisma.StringNullableWithAggregatesFilter<"shipment"> | string | null
   entry_no?: Prisma.StringWithAggregatesFilter<"shipment"> | string
@@ -480,6 +492,7 @@ export type shipmentCreateInput = {
   estimated_time_arrival?: Date | string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -508,6 +521,7 @@ export type shipmentUncheckedCreateInput = {
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -532,6 +546,7 @@ export type shipmentUpdateInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -560,6 +575,7 @@ export type shipmentUncheckedUpdateInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -586,6 +602,7 @@ export type shipmentCreateManyInput = {
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -608,6 +625,7 @@ export type shipmentUpdateManyMutationInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -631,6 +649,7 @@ export type shipmentUncheckedUpdateManyInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -661,6 +680,7 @@ export type shipmentCountOrderByAggregateInput = {
   selectivity?: Prisma.SortOrder
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrder
+  commodity?: Prisma.SortOrder
   blno?: Prisma.SortOrder
   contract_no?: Prisma.SortOrder
   entry_no?: Prisma.SortOrder
@@ -689,6 +709,7 @@ export type shipmentMaxOrderByAggregateInput = {
   selectivity?: Prisma.SortOrder
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrder
+  commodity?: Prisma.SortOrder
   blno?: Prisma.SortOrder
   contract_no?: Prisma.SortOrder
   entry_no?: Prisma.SortOrder
@@ -713,6 +734,7 @@ export type shipmentMinOrderByAggregateInput = {
   selectivity?: Prisma.SortOrder
   id?: Prisma.SortOrder
   issuer_id?: Prisma.SortOrder
+  commodity?: Prisma.SortOrder
   blno?: Prisma.SortOrder
   contract_no?: Prisma.SortOrder
   entry_no?: Prisma.SortOrder
@@ -920,6 +942,7 @@ export type shipmentCreateWithoutShipment_containerInput = {
   estimated_time_arrival?: Date | string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -947,6 +970,7 @@ export type shipmentUncheckedCreateWithoutShipment_containerInput = {
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -986,6 +1010,7 @@ export type shipmentUpdateWithoutShipment_containerInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1013,6 +1038,7 @@ export type shipmentUncheckedUpdateWithoutShipment_containerInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1036,6 +1062,7 @@ export type shipmentCreateWithoutStorable_shipment_port_idToStorableInput = {
   estimated_time_arrival?: Date | string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1063,6 +1090,7 @@ export type shipmentUncheckedCreateWithoutStorable_shipment_port_idToStorableInp
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1117,6 +1145,7 @@ export type shipmentScalarWhereInput = {
   selectivity?: Prisma.StringNullableFilter<"shipment"> | string | null
   id?: Prisma.StringFilter<"shipment"> | string
   issuer_id?: Prisma.StringNullableFilter<"shipment"> | string | null
+  commodity?: Prisma.StringNullableFilter<"shipment"> | string | null
   blno?: Prisma.StringFilter<"shipment"> | string
   contract_no?: Prisma.StringNullableFilter<"shipment"> | string | null
   entry_no?: Prisma.StringFilter<"shipment"> | string
@@ -1139,6 +1168,7 @@ export type shipmentCreateWithoutUser_shipment_customer_idTouserInput = {
   estimated_time_arrival?: Date | string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1165,6 +1195,7 @@ export type shipmentUncheckedCreateWithoutUser_shipment_customer_idTouserInput =
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1199,6 +1230,7 @@ export type shipmentCreateWithoutUser_shipment_issuer_idTouserInput = {
   estimated_time_arrival?: Date | string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1225,6 +1257,7 @@ export type shipmentUncheckedCreateWithoutUser_shipment_issuer_idTouserInput = {
   customer_id?: string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1291,6 +1324,7 @@ export type shipmentCreateWithoutUser_shipmentsInput = {
   estimated_time_arrival?: Date | string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1318,6 +1352,7 @@ export type shipmentUncheckedCreateWithoutUser_shipmentsInput = {
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1357,6 +1392,7 @@ export type shipmentUpdateWithoutUser_shipmentsInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1384,6 +1420,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipmentsInput = {
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1409,6 +1446,7 @@ export type shipmentCreateManyStorable_shipment_port_idToStorableInput = {
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1430,6 +1468,7 @@ export type shipmentUpdateWithoutStorable_shipment_port_idToStorableInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1457,6 +1496,7 @@ export type shipmentUncheckedUpdateWithoutStorable_shipment_port_idToStorableInp
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1482,6 +1522,7 @@ export type shipmentUncheckedUpdateManyWithoutStorable_shipment_port_idToStorabl
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1504,6 +1545,7 @@ export type shipmentCreateManyUser_shipment_customer_idTouserInput = {
   selectivity?: string | null
   id: string
   issuer_id?: string | null
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1527,6 +1569,7 @@ export type shipmentCreateManyUser_shipment_issuer_idTouserInput = {
   customer_id?: string | null
   selectivity?: string | null
   id: string
+  commodity?: string | null
   blno: string
   contract_no?: string | null
   entry_no: string
@@ -1549,6 +1592,7 @@ export type shipmentUpdateWithoutUser_shipment_customer_idTouserInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1575,6 +1619,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_customer_idTouserInput =
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1600,6 +1645,7 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_customer_idTouserInp
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   issuer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1622,6 +1668,7 @@ export type shipmentUpdateWithoutUser_shipment_issuer_idTouserInput = {
   estimated_time_arrival?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1648,6 +1695,7 @@ export type shipmentUncheckedUpdateWithoutUser_shipment_issuer_idTouserInput = {
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1673,6 +1721,7 @@ export type shipmentUncheckedUpdateManyWithoutUser_shipment_issuer_idTouserInput
   customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   selectivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  commodity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blno?: Prisma.StringFieldUpdateOperationsInput | string
   contract_no?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entry_no?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1728,6 +1777,7 @@ export type shipmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   selectivity?: boolean
   id?: boolean
   issuer_id?: boolean
+  commodity?: boolean
   blno?: boolean
   contract_no?: boolean
   entry_no?: boolean
@@ -1760,6 +1810,7 @@ export type shipmentSelectScalar = {
   selectivity?: boolean
   id?: boolean
   issuer_id?: boolean
+  commodity?: boolean
   blno?: boolean
   contract_no?: boolean
   entry_no?: boolean
@@ -1771,7 +1822,7 @@ export type shipmentSelectScalar = {
   status?: boolean
 }
 
-export type shipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"is_archived" | "volumex" | "volumey" | "actual_time_arrival" | "billing_date" | "payment_date" | "date_issued" | "estimated_time_arrival" | "customer_id" | "selectivity" | "id" | "issuer_id" | "blno" | "contract_no" | "entry_no" | "port_id" | "warehouse_id" | "reference" | "registry_no" | "shipping_line" | "status", ExtArgs["result"]["shipment"]>
+export type shipmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"is_archived" | "volumex" | "volumey" | "actual_time_arrival" | "billing_date" | "payment_date" | "date_issued" | "estimated_time_arrival" | "customer_id" | "selectivity" | "id" | "issuer_id" | "commodity" | "blno" | "contract_no" | "entry_no" | "port_id" | "warehouse_id" | "reference" | "registry_no" | "shipping_line" | "status", ExtArgs["result"]["shipment"]>
 export type shipmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user_shipment_customer_idTouser?: boolean | Prisma.shipment$user_shipment_customer_idTouserArgs<ExtArgs>
   user_shipment_issuer_idTouser?: boolean | Prisma.shipment$user_shipment_issuer_idTouserArgs<ExtArgs>
@@ -1803,6 +1854,7 @@ export type $shipmentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     selectivity: string | null
     id: string
     issuer_id: string | null
+    commodity: string | null
     blno: string
     contract_no: string | null
     entry_no: string
@@ -2198,6 +2250,7 @@ export interface shipmentFieldRefs {
   readonly selectivity: Prisma.FieldRef<"shipment", 'String'>
   readonly id: Prisma.FieldRef<"shipment", 'String'>
   readonly issuer_id: Prisma.FieldRef<"shipment", 'String'>
+  readonly commodity: Prisma.FieldRef<"shipment", 'String'>
   readonly blno: Prisma.FieldRef<"shipment", 'String'>
   readonly contract_no: Prisma.FieldRef<"shipment", 'String'>
   readonly entry_no: Prisma.FieldRef<"shipment", 'String'>

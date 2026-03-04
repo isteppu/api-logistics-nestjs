@@ -72,6 +72,11 @@ export class CreateShipmentInput {
 
   @Field({ nullable: true })
   @IsOptional()
+  @IsString()
+  commodity?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
   actual_time_arrival?: Date;
 
   @Field({ nullable: true })
