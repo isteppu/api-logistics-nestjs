@@ -69,6 +69,8 @@ export class ShipmentService extends Shipment {
         );
       }
 
+      const reference = customerId ? await this.generateConsigneeReference(tx, data.customer_username!, customerId) : randomUUID();
+
       const shipment = await tx.shipment.create({
         data: {
           id: randomUUID(),
@@ -76,7 +78,7 @@ export class ShipmentService extends Shipment {
           blno: data.blno,
           contract_no: data.contract_no === "" ? null : data.contract_no,
           entry_no: data.entry_no,
-          reference: customerId ? this.generateConsigneeReference(data.customer_username!) : randomUUID(),
+          reference: reference,
           registry_no: data.registry_no,
           status: 'PENDING',
           volumex: data.volumex,
