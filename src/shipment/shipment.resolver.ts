@@ -8,6 +8,9 @@ import { SyncShipmentFinanceInput } from './dto/sync-shipment-finance.input.js';
 import { ShipmentFinanceRow } from './models/shipment-finance-row.model.js';
 import { ShipmentFinanceService } from './shipment-finance.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard.js';
+import { CurrentUser } from '../auth/current-user.decorator.js';
 
 @Resolver(() => Shipment)
 export class ShipmentResolver {
@@ -18,13 +21,21 @@ export class ShipmentResolver {
   ) { }
 
   @Mutation(() => Shipment)
-  createShipment(@Args('input') createShipmentInput: CreateShipmentInput) {
-    return this.shipmentService.create(createShipmentInput);
+  @UseGuards(AuthGuard)
+  createShipment(
+    @Args('input') createShipmentInput: CreateShipmentInput,
+    @CurrentUser() user: any,
+  ) {
+    return this.shipmentService.create(createShipmentInput, user);
   }
 
   @Mutation(() => Shipment)
-  async updateShipment(@Args('input') input: UpdateShipmentInput) {
-    return this.shipmentService.update(input.id, input);
+  @UseGuards(AuthGuard)
+  async updateShipment(
+    @Args('input') input: UpdateShipmentInput,
+    @CurrentUser() user: any,
+  ) {
+    return this.shipmentService.update(input.id, input, user);
   }
 
   @Query(() => ShipmentResponse, { name: 'shipments' })
@@ -90,28 +101,25 @@ export class ShipmentResolver {
     const shipmentContainers = await this.prisma.shipment_container.findMany({
       where: { shipment_id: shipment.id },
       include: {
-        storable: true
-      }
-    })
-
-    if (shipmentContainers.length === 0) {
-      return [];
-    }
-
-    const allRows: ShipmentStorable[] = [];
-
-    shipmentContainers.forEach(r => {
-      if (r.container_id) {
-        allRows.push({
-          id: r.container_id,
-          type: r.storable.type,
-          description: r.storable.description || "",
-          date_created: r.storable.date_created,
-          created_by: r.storable.created_by || ""
-        });
+        storable_container_idToshipment: true,
       }
     });
 
-    return allRows;
+    if (!shipmentContainers.length) {
+      return [];
+    }
+
+    return shipmentContainers.map(r => {
+      const s = r.storable_container_idToshipment;
+
+      return {
+        id: r.container_id,
+        warehouse_id: r.warehouse_id || null,
+        type: s.type,
+        description: s.description || "",
+        date_created: s.date_created,
+        created_by: s.created_by || ""
+      };
+    });
   }
 }

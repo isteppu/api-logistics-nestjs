@@ -27,8 +27,8 @@ model role {
 
 model shipment {
   is_archived                                 Int                  @default(0) @db.UnsignedInt
-  volumex                                     Int?
-  volumey                                     Int?
+  volumex                                     String?              @db.VarChar(36)
+  volumey                                     String?              @db.VarChar(36)
   actual_time_arrival                         DateTime?            @db.DateTime(6)
   billing_date                                DateTime?            @db.DateTime(6)
   payment_date                                DateTime?            @db.DateTime(6)
@@ -38,19 +38,19 @@ model shipment {
   selectivity                                 String?              @db.VarChar(36)
   id                                          String               @id @db.VarChar(36)
   issuer_id                                   String?              @db.VarChar(36)
+  commodity                                   String?              @db.VarChar(36)
   blno                                        String               @unique(map: "uk_blno") @db.VarChar(255)
   contract_no                                 String?              @unique(map: "uk_contract") @db.VarChar(255)
   entry_no                                    String               @unique(map: "uk_entry") @db.VarChar(255)
   port_id                                     String?              @db.VarChar(255)
   warehouse_id                                String?              @db.VarChar(255)
-  reference                                   String               @unique(map: "uk_ref") @db.VarChar(255)
+  reference                                   String               @db.VarChar(255)
   registry_no                                 String               @unique(map: "uk_reg") @db.VarChar(255)
   shipping_line                               String?              @db.VarChar(255)
   status                                      String?              @db.VarChar(255)
   user_shipment_customer_idTouser             User?                @relation("shipment_customer_idTouser", fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_cust")
   user_shipment_issuer_idTouser               User?                @relation("shipment_issuer_idTouser", fields: [issuer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_issuer")
   storable_shipment_port_idToStorable         storable?            @relation("shipment_port_idTostorable", fields: [port_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_port")
-  storable_shipment_warehouse_idTostorable    storable?            @relation("shipment_warehouse_idTostorable", fields: [warehouse_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_shipment_warehouse")
   shipment_container                          shipment_container[] 
   user_shipments                              user_shipments?
 
@@ -58,18 +58,20 @@ model shipment {
   @@index([customer_id], map: "fk_shipment_cust")
   @@index([issuer_id], map: "fk_shipment_issuer")
   @@index([port_id], map: "fk_shipment_port")
-  @@index([warehouse_id], map: "fk_shipment_warehouse")
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model shipment_container {
-  shipment_id  String   @db.VarChar(36)
-  container_id String   @db.VarChar(255)
-  storable     storable @relation(fields: [container_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_container")
-  shipment     shipment @relation(fields: [shipment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_shipment")
+  shipment_id                         String                 @db.VarChar(36)
+  container_id                        String                 @db.VarChar(255)
+  warehouse_id                        String?                @db.VarChar(255)
+  storable_container_idToshipment     storable               @relation("storable_container_idToshipment", fields: [container_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_container")
+storable_warehouse_idToshipment       storable?              @relation("storable_warehouse_idToshipment", fields: [container_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_warehouse")
+  shipment                            shipment               @relation(fields: [shipment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sc_shipment")
 
   @@id([shipment_id, container_id])
   @@index([container_id], map: "fk_sc_container")
+  @@index([warehouse_id], map: "fk_sc_warehouse")
   @@index([shipment_id], map: "fk_sc_shipment")
 }
 
@@ -121,13 +123,13 @@ model storable {
   description                              String?              @db.VarChar(255)
   id                                       String               @id @db.VarChar(255)
   type                                     String               @db.VarChar(255)
-  shipment_container                       shipment_container[] 
+  shipment_container_IdtoStorable          shipment_container[] @relation("storable_container_idToshipment")
+  shipment_warehouse_IdtoStorable          shipment_container[] @relation("storable_warehouse_idToshipment")
   user                                     User?                @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_storable_user")
   trip_trip_container_idTostorable         trip[]               @relation("trip_container_idTostorable")
   trip_trip_port_idTostorable              trip[]               @relation("trip_port_idTostorable")
   trip_trip_warehouse_idTostorable         trip[]               @relation("trip_warehouse_idTostorable")
   shipment_storable_port_idTostorable      shipment[]           @relation("shipment_port_idTostorable")
-  shipment_storable_warehouse_idTostorable shipment[]           @relation("shipment_warehouse_idTostorable")
 
 
   @@index([created_by], map: "fk_storable_user")
@@ -151,8 +153,8 @@ model storable_trucks {
 
 model trip {
   base_rate                            Decimal?  @db.Decimal(38, 2)
-  volumex                              Int?
-  volumey                              Int?
+  volumex                              String?   @db.VarChar(36)
+  volumey                              String?   @db.VarChar(36)
   date_created                         DateTime  @default(now()) @db.Timestamp(0)
   date_delivered                       DateTime? @db.DateTime(6)
   id                                   String    @id @db.VarChar(36)

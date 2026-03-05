@@ -6,6 +6,9 @@ import { UpdateTripInput } from './dto/update-trip.input.js';
 import { Storable } from '../storable/models/storable.model.js';
 import { ShipmentFinanceRow } from '../shipment/models/shipment-finance-row.model.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard.js';
+import { CurrentUser } from '../auth/current-user.decorator.js';
 
 @Resolver(() => Trip)
 export class TripResolver {
@@ -27,8 +30,12 @@ export class TripResolver {
   }
 
   @Mutation(() => Trip)
-  async createTrip(@Args('input') input: CreateTripInput) {
-    return this.tripService.create(input);
+  @UseGuards(AuthGuard)
+  async createTrip(
+    @Args('input') input: CreateTripInput,
+    @CurrentUser() user: any,
+  ) {
+    return this.tripService.create(input, user);
   }
 
   @Mutation(() => Trip)

@@ -27,16 +27,19 @@ export type AggregateShipment_container = {
 export type Shipment_containerMinAggregateOutputType = {
   shipment_id: string | null
   container_id: string | null
+  warehouse_id: string | null
 }
 
 export type Shipment_containerMaxAggregateOutputType = {
   shipment_id: string | null
   container_id: string | null
+  warehouse_id: string | null
 }
 
 export type Shipment_containerCountAggregateOutputType = {
   shipment_id: number
   container_id: number
+  warehouse_id: number
   _all: number
 }
 
@@ -44,16 +47,19 @@ export type Shipment_containerCountAggregateOutputType = {
 export type Shipment_containerMinAggregateInputType = {
   shipment_id?: true
   container_id?: true
+  warehouse_id?: true
 }
 
 export type Shipment_containerMaxAggregateInputType = {
   shipment_id?: true
   container_id?: true
+  warehouse_id?: true
 }
 
 export type Shipment_containerCountAggregateInputType = {
   shipment_id?: true
   container_id?: true
+  warehouse_id?: true
   _all?: true
 }
 
@@ -132,6 +138,7 @@ export type shipment_containerGroupByArgs<ExtArgs extends runtime.Types.Extensio
 export type Shipment_containerGroupByOutputType = {
   shipment_id: string
   container_id: string
+  warehouse_id: string | null
   _count: Shipment_containerCountAggregateOutputType | null
   _min: Shipment_containerMinAggregateOutputType | null
   _max: Shipment_containerMaxAggregateOutputType | null
@@ -158,14 +165,18 @@ export type shipment_containerWhereInput = {
   NOT?: Prisma.shipment_containerWhereInput | Prisma.shipment_containerWhereInput[]
   shipment_id?: Prisma.StringFilter<"shipment_container"> | string
   container_id?: Prisma.StringFilter<"shipment_container"> | string
-  storable?: Prisma.XOR<Prisma.StorableScalarRelationFilter, Prisma.storableWhereInput>
+  warehouse_id?: Prisma.StringNullableFilter<"shipment_container"> | string | null
+  storable_container_idToshipment?: Prisma.XOR<Prisma.StorableScalarRelationFilter, Prisma.storableWhereInput>
+  storable_warehouse_idToshipment?: Prisma.XOR<Prisma.StorableNullableScalarRelationFilter, Prisma.storableWhereInput> | null
   shipment?: Prisma.XOR<Prisma.ShipmentScalarRelationFilter, Prisma.shipmentWhereInput>
 }
 
 export type shipment_containerOrderByWithRelationInput = {
   shipment_id?: Prisma.SortOrder
   container_id?: Prisma.SortOrder
-  storable?: Prisma.storableOrderByWithRelationInput
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  storable_container_idToshipment?: Prisma.storableOrderByWithRelationInput
+  storable_warehouse_idToshipment?: Prisma.storableOrderByWithRelationInput
   shipment?: Prisma.shipmentOrderByWithRelationInput
   _relevance?: Prisma.shipment_containerOrderByRelevanceInput
 }
@@ -177,13 +188,16 @@ export type shipment_containerWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.shipment_containerWhereInput | Prisma.shipment_containerWhereInput[]
   shipment_id?: Prisma.StringFilter<"shipment_container"> | string
   container_id?: Prisma.StringFilter<"shipment_container"> | string
-  storable?: Prisma.XOR<Prisma.StorableScalarRelationFilter, Prisma.storableWhereInput>
+  warehouse_id?: Prisma.StringNullableFilter<"shipment_container"> | string | null
+  storable_container_idToshipment?: Prisma.XOR<Prisma.StorableScalarRelationFilter, Prisma.storableWhereInput>
+  storable_warehouse_idToshipment?: Prisma.XOR<Prisma.StorableNullableScalarRelationFilter, Prisma.storableWhereInput> | null
   shipment?: Prisma.XOR<Prisma.ShipmentScalarRelationFilter, Prisma.shipmentWhereInput>
 }, "shipment_id_container_id">
 
 export type shipment_containerOrderByWithAggregationInput = {
   shipment_id?: Prisma.SortOrder
   container_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.shipment_containerCountOrderByAggregateInput
   _max?: Prisma.shipment_containerMaxOrderByAggregateInput
   _min?: Prisma.shipment_containerMinOrderByAggregateInput
@@ -195,40 +209,49 @@ export type shipment_containerScalarWhereWithAggregatesInput = {
   NOT?: Prisma.shipment_containerScalarWhereWithAggregatesInput | Prisma.shipment_containerScalarWhereWithAggregatesInput[]
   shipment_id?: Prisma.StringWithAggregatesFilter<"shipment_container"> | string
   container_id?: Prisma.StringWithAggregatesFilter<"shipment_container"> | string
+  warehouse_id?: Prisma.StringNullableWithAggregatesFilter<"shipment_container"> | string | null
 }
 
 export type shipment_containerCreateInput = {
-  storable: Prisma.storableCreateNestedOneWithoutShipment_containerInput
+  warehouse_id?: string | null
+  storable_container_idToshipment: Prisma.storableCreateNestedOneWithoutShipment_container_IdtoStorableInput
+  storable_warehouse_idToshipment?: Prisma.storableCreateNestedOneWithoutShipment_warehouse_IdtoStorableInput
   shipment: Prisma.shipmentCreateNestedOneWithoutShipment_containerInput
 }
 
 export type shipment_containerUncheckedCreateInput = {
   shipment_id: string
   container_id: string
+  warehouse_id?: string | null
 }
 
 export type shipment_containerUpdateInput = {
-  storable?: Prisma.storableUpdateOneRequiredWithoutShipment_containerNestedInput
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storable_container_idToshipment?: Prisma.storableUpdateOneRequiredWithoutShipment_container_IdtoStorableNestedInput
+  storable_warehouse_idToshipment?: Prisma.storableUpdateOneWithoutShipment_warehouse_IdtoStorableNestedInput
   shipment?: Prisma.shipmentUpdateOneRequiredWithoutShipment_containerNestedInput
 }
 
 export type shipment_containerUncheckedUpdateInput = {
   shipment_id?: Prisma.StringFieldUpdateOperationsInput | string
   container_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_containerCreateManyInput = {
   shipment_id: string
   container_id: string
+  warehouse_id?: string | null
 }
 
 export type shipment_containerUpdateManyMutationInput = {
-
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_containerUncheckedUpdateManyInput = {
   shipment_id?: Prisma.StringFieldUpdateOperationsInput | string
   container_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Shipment_containerListRelationFilter = {
@@ -255,16 +278,19 @@ export type shipment_containerShipment_idContainer_idCompoundUniqueInput = {
 export type shipment_containerCountOrderByAggregateInput = {
   shipment_id?: Prisma.SortOrder
   container_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
 }
 
 export type shipment_containerMaxOrderByAggregateInput = {
   shipment_id?: Prisma.SortOrder
   container_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
 }
 
 export type shipment_containerMinOrderByAggregateInput = {
   shipment_id?: Prisma.SortOrder
   container_id?: Prisma.SortOrder
+  warehouse_id?: Prisma.SortOrder
 }
 
 export type shipment_containerCreateNestedManyWithoutShipmentInput = {
@@ -309,54 +335,99 @@ export type shipment_containerUncheckedUpdateManyWithoutShipmentNestedInput = {
   deleteMany?: Prisma.shipment_containerScalarWhereInput | Prisma.shipment_containerScalarWhereInput[]
 }
 
-export type shipment_containerCreateNestedManyWithoutStorableInput = {
-  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorableInput, Prisma.shipment_containerUncheckedCreateWithoutStorableInput> | Prisma.shipment_containerCreateWithoutStorableInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorableInput[]
-  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorableInput | Prisma.shipment_containerCreateOrConnectWithoutStorableInput[]
-  createMany?: Prisma.shipment_containerCreateManyStorableInputEnvelope
+export type shipment_containerCreateNestedManyWithoutStorable_container_idToshipmentInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_container_idToshipmentInputEnvelope
   connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
 }
 
-export type shipment_containerUncheckedCreateNestedManyWithoutStorableInput = {
-  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorableInput, Prisma.shipment_containerUncheckedCreateWithoutStorableInput> | Prisma.shipment_containerCreateWithoutStorableInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorableInput[]
-  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorableInput | Prisma.shipment_containerCreateOrConnectWithoutStorableInput[]
-  createMany?: Prisma.shipment_containerCreateManyStorableInputEnvelope
+export type shipment_containerCreateNestedManyWithoutStorable_warehouse_idToshipmentInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_warehouse_idToshipmentInputEnvelope
   connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
 }
 
-export type shipment_containerUpdateManyWithoutStorableNestedInput = {
-  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorableInput, Prisma.shipment_containerUncheckedCreateWithoutStorableInput> | Prisma.shipment_containerCreateWithoutStorableInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorableInput[]
-  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorableInput | Prisma.shipment_containerCreateOrConnectWithoutStorableInput[]
-  upsert?: Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorableInput | Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorableInput[]
-  createMany?: Prisma.shipment_containerCreateManyStorableInputEnvelope
+export type shipment_containerUncheckedCreateNestedManyWithoutStorable_container_idToshipmentInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_container_idToshipmentInputEnvelope
+  connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+}
+
+export type shipment_containerUncheckedCreateNestedManyWithoutStorable_warehouse_idToshipmentInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_warehouse_idToshipmentInputEnvelope
+  connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+}
+
+export type shipment_containerUpdateManyWithoutStorable_container_idToshipmentNestedInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput[]
+  upsert?: Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_container_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_container_idToshipmentInputEnvelope
   set?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
   disconnect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
   delete?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
   connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
-  update?: Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorableInput | Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorableInput[]
-  updateMany?: Prisma.shipment_containerUpdateManyWithWhereWithoutStorableInput | Prisma.shipment_containerUpdateManyWithWhereWithoutStorableInput[]
+  update?: Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_container_idToshipmentInput[]
+  updateMany?: Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_container_idToshipmentInput[]
   deleteMany?: Prisma.shipment_containerScalarWhereInput | Prisma.shipment_containerScalarWhereInput[]
 }
 
-export type shipment_containerUncheckedUpdateManyWithoutStorableNestedInput = {
-  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorableInput, Prisma.shipment_containerUncheckedCreateWithoutStorableInput> | Prisma.shipment_containerCreateWithoutStorableInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorableInput[]
-  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorableInput | Prisma.shipment_containerCreateOrConnectWithoutStorableInput[]
-  upsert?: Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorableInput | Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorableInput[]
-  createMany?: Prisma.shipment_containerCreateManyStorableInputEnvelope
+export type shipment_containerUpdateManyWithoutStorable_warehouse_idToshipmentNestedInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput[]
+  upsert?: Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_warehouse_idToshipmentInputEnvelope
   set?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
   disconnect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
   delete?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
   connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
-  update?: Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorableInput | Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorableInput[]
-  updateMany?: Prisma.shipment_containerUpdateManyWithWhereWithoutStorableInput | Prisma.shipment_containerUpdateManyWithWhereWithoutStorableInput[]
+  update?: Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput[]
+  updateMany?: Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_warehouse_idToshipmentInput[]
+  deleteMany?: Prisma.shipment_containerScalarWhereInput | Prisma.shipment_containerScalarWhereInput[]
+}
+
+export type shipment_containerUncheckedUpdateManyWithoutStorable_container_idToshipmentNestedInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput[]
+  upsert?: Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_container_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_container_idToshipmentInputEnvelope
+  set?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  disconnect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  delete?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  update?: Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_container_idToshipmentInput[]
+  updateMany?: Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_container_idToshipmentInput | Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_container_idToshipmentInput[]
+  deleteMany?: Prisma.shipment_containerScalarWhereInput | Prisma.shipment_containerScalarWhereInput[]
+}
+
+export type shipment_containerUncheckedUpdateManyWithoutStorable_warehouse_idToshipmentNestedInput = {
+  create?: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput> | Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput[] | Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput[]
+  connectOrCreate?: Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput[]
+  upsert?: Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerUpsertWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput[]
+  createMany?: Prisma.shipment_containerCreateManyStorable_warehouse_idToshipmentInputEnvelope
+  set?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  disconnect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  delete?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  connect?: Prisma.shipment_containerWhereUniqueInput | Prisma.shipment_containerWhereUniqueInput[]
+  update?: Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerUpdateWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput[]
+  updateMany?: Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_warehouse_idToshipmentInput | Prisma.shipment_containerUpdateManyWithWhereWithoutStorable_warehouse_idToshipmentInput[]
   deleteMany?: Prisma.shipment_containerScalarWhereInput | Prisma.shipment_containerScalarWhereInput[]
 }
 
 export type shipment_containerCreateWithoutShipmentInput = {
-  storable: Prisma.storableCreateNestedOneWithoutShipment_containerInput
+  warehouse_id?: string | null
+  storable_container_idToshipment: Prisma.storableCreateNestedOneWithoutShipment_container_IdtoStorableInput
+  storable_warehouse_idToshipment?: Prisma.storableCreateNestedOneWithoutShipment_warehouse_IdtoStorableInput
 }
 
 export type shipment_containerUncheckedCreateWithoutShipmentInput = {
   container_id: string
+  warehouse_id?: string | null
 }
 
 export type shipment_containerCreateOrConnectWithoutShipmentInput = {
@@ -391,72 +462,144 @@ export type shipment_containerScalarWhereInput = {
   NOT?: Prisma.shipment_containerScalarWhereInput | Prisma.shipment_containerScalarWhereInput[]
   shipment_id?: Prisma.StringFilter<"shipment_container"> | string
   container_id?: Prisma.StringFilter<"shipment_container"> | string
+  warehouse_id?: Prisma.StringNullableFilter<"shipment_container"> | string | null
 }
 
-export type shipment_containerCreateWithoutStorableInput = {
+export type shipment_containerCreateWithoutStorable_container_idToshipmentInput = {
+  warehouse_id?: string | null
+  storable_warehouse_idToshipment?: Prisma.storableCreateNestedOneWithoutShipment_warehouse_IdtoStorableInput
   shipment: Prisma.shipmentCreateNestedOneWithoutShipment_containerInput
 }
 
-export type shipment_containerUncheckedCreateWithoutStorableInput = {
+export type shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput = {
   shipment_id: string
+  warehouse_id?: string | null
 }
 
-export type shipment_containerCreateOrConnectWithoutStorableInput = {
+export type shipment_containerCreateOrConnectWithoutStorable_container_idToshipmentInput = {
   where: Prisma.shipment_containerWhereUniqueInput
-  create: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorableInput, Prisma.shipment_containerUncheckedCreateWithoutStorableInput>
+  create: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput>
 }
 
-export type shipment_containerCreateManyStorableInputEnvelope = {
-  data: Prisma.shipment_containerCreateManyStorableInput | Prisma.shipment_containerCreateManyStorableInput[]
+export type shipment_containerCreateManyStorable_container_idToshipmentInputEnvelope = {
+  data: Prisma.shipment_containerCreateManyStorable_container_idToshipmentInput | Prisma.shipment_containerCreateManyStorable_container_idToshipmentInput[]
   skipDuplicates?: boolean
 }
 
-export type shipment_containerUpsertWithWhereUniqueWithoutStorableInput = {
-  where: Prisma.shipment_containerWhereUniqueInput
-  update: Prisma.XOR<Prisma.shipment_containerUpdateWithoutStorableInput, Prisma.shipment_containerUncheckedUpdateWithoutStorableInput>
-  create: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorableInput, Prisma.shipment_containerUncheckedCreateWithoutStorableInput>
+export type shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput = {
+  warehouse_id?: string | null
+  storable_container_idToshipment: Prisma.storableCreateNestedOneWithoutShipment_container_IdtoStorableInput
+  shipment: Prisma.shipmentCreateNestedOneWithoutShipment_containerInput
 }
 
-export type shipment_containerUpdateWithWhereUniqueWithoutStorableInput = {
-  where: Prisma.shipment_containerWhereUniqueInput
-  data: Prisma.XOR<Prisma.shipment_containerUpdateWithoutStorableInput, Prisma.shipment_containerUncheckedUpdateWithoutStorableInput>
+export type shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput = {
+  shipment_id: string
+  warehouse_id?: string | null
 }
 
-export type shipment_containerUpdateManyWithWhereWithoutStorableInput = {
+export type shipment_containerCreateOrConnectWithoutStorable_warehouse_idToshipmentInput = {
+  where: Prisma.shipment_containerWhereUniqueInput
+  create: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput>
+}
+
+export type shipment_containerCreateManyStorable_warehouse_idToshipmentInputEnvelope = {
+  data: Prisma.shipment_containerCreateManyStorable_warehouse_idToshipmentInput | Prisma.shipment_containerCreateManyStorable_warehouse_idToshipmentInput[]
+  skipDuplicates?: boolean
+}
+
+export type shipment_containerUpsertWithWhereUniqueWithoutStorable_container_idToshipmentInput = {
+  where: Prisma.shipment_containerWhereUniqueInput
+  update: Prisma.XOR<Prisma.shipment_containerUpdateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedUpdateWithoutStorable_container_idToshipmentInput>
+  create: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_container_idToshipmentInput>
+}
+
+export type shipment_containerUpdateWithWhereUniqueWithoutStorable_container_idToshipmentInput = {
+  where: Prisma.shipment_containerWhereUniqueInput
+  data: Prisma.XOR<Prisma.shipment_containerUpdateWithoutStorable_container_idToshipmentInput, Prisma.shipment_containerUncheckedUpdateWithoutStorable_container_idToshipmentInput>
+}
+
+export type shipment_containerUpdateManyWithWhereWithoutStorable_container_idToshipmentInput = {
   where: Prisma.shipment_containerScalarWhereInput
-  data: Prisma.XOR<Prisma.shipment_containerUpdateManyMutationInput, Prisma.shipment_containerUncheckedUpdateManyWithoutStorableInput>
+  data: Prisma.XOR<Prisma.shipment_containerUpdateManyMutationInput, Prisma.shipment_containerUncheckedUpdateManyWithoutStorable_container_idToshipmentInput>
+}
+
+export type shipment_containerUpsertWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput = {
+  where: Prisma.shipment_containerWhereUniqueInput
+  update: Prisma.XOR<Prisma.shipment_containerUpdateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedUpdateWithoutStorable_warehouse_idToshipmentInput>
+  create: Prisma.XOR<Prisma.shipment_containerCreateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedCreateWithoutStorable_warehouse_idToshipmentInput>
+}
+
+export type shipment_containerUpdateWithWhereUniqueWithoutStorable_warehouse_idToshipmentInput = {
+  where: Prisma.shipment_containerWhereUniqueInput
+  data: Prisma.XOR<Prisma.shipment_containerUpdateWithoutStorable_warehouse_idToshipmentInput, Prisma.shipment_containerUncheckedUpdateWithoutStorable_warehouse_idToshipmentInput>
+}
+
+export type shipment_containerUpdateManyWithWhereWithoutStorable_warehouse_idToshipmentInput = {
+  where: Prisma.shipment_containerScalarWhereInput
+  data: Prisma.XOR<Prisma.shipment_containerUpdateManyMutationInput, Prisma.shipment_containerUncheckedUpdateManyWithoutStorable_warehouse_idToshipmentInput>
 }
 
 export type shipment_containerCreateManyShipmentInput = {
   container_id: string
+  warehouse_id?: string | null
 }
 
 export type shipment_containerUpdateWithoutShipmentInput = {
-  storable?: Prisma.storableUpdateOneRequiredWithoutShipment_containerNestedInput
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storable_container_idToshipment?: Prisma.storableUpdateOneRequiredWithoutShipment_container_IdtoStorableNestedInput
+  storable_warehouse_idToshipment?: Prisma.storableUpdateOneWithoutShipment_warehouse_IdtoStorableNestedInput
 }
 
 export type shipment_containerUncheckedUpdateWithoutShipmentInput = {
   container_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type shipment_containerUncheckedUpdateManyWithoutShipmentInput = {
   container_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type shipment_containerCreateManyStorableInput = {
+export type shipment_containerCreateManyStorable_container_idToshipmentInput = {
   shipment_id: string
+  warehouse_id?: string | null
 }
 
-export type shipment_containerUpdateWithoutStorableInput = {
+export type shipment_containerCreateManyStorable_warehouse_idToshipmentInput = {
+  shipment_id: string
+  warehouse_id?: string | null
+}
+
+export type shipment_containerUpdateWithoutStorable_container_idToshipmentInput = {
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storable_warehouse_idToshipment?: Prisma.storableUpdateOneWithoutShipment_warehouse_IdtoStorableNestedInput
   shipment?: Prisma.shipmentUpdateOneRequiredWithoutShipment_containerNestedInput
 }
 
-export type shipment_containerUncheckedUpdateWithoutStorableInput = {
+export type shipment_containerUncheckedUpdateWithoutStorable_container_idToshipmentInput = {
   shipment_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type shipment_containerUncheckedUpdateManyWithoutStorableInput = {
+export type shipment_containerUncheckedUpdateManyWithoutStorable_container_idToshipmentInput = {
   shipment_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type shipment_containerUpdateWithoutStorable_warehouse_idToshipmentInput = {
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  storable_container_idToshipment?: Prisma.storableUpdateOneRequiredWithoutShipment_container_IdtoStorableNestedInput
+  shipment?: Prisma.shipmentUpdateOneRequiredWithoutShipment_containerNestedInput
+}
+
+export type shipment_containerUncheckedUpdateWithoutStorable_warehouse_idToshipmentInput = {
+  shipment_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type shipment_containerUncheckedUpdateManyWithoutStorable_warehouse_idToshipmentInput = {
+  shipment_id?: Prisma.StringFieldUpdateOperationsInput | string
+  warehouse_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -464,7 +607,9 @@ export type shipment_containerUncheckedUpdateManyWithoutStorableInput = {
 export type shipment_containerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   shipment_id?: boolean
   container_id?: boolean
-  storable?: boolean | Prisma.storableDefaultArgs<ExtArgs>
+  warehouse_id?: boolean
+  storable_container_idToshipment?: boolean | Prisma.storableDefaultArgs<ExtArgs>
+  storable_warehouse_idToshipment?: boolean | Prisma.shipment_container$storable_warehouse_idToshipmentArgs<ExtArgs>
   shipment?: boolean | Prisma.shipmentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shipment_container"]>
 
@@ -473,23 +618,27 @@ export type shipment_containerSelect<ExtArgs extends runtime.Types.Extensions.In
 export type shipment_containerSelectScalar = {
   shipment_id?: boolean
   container_id?: boolean
+  warehouse_id?: boolean
 }
 
-export type shipment_containerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"shipment_id" | "container_id", ExtArgs["result"]["shipment_container"]>
+export type shipment_containerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"shipment_id" | "container_id" | "warehouse_id", ExtArgs["result"]["shipment_container"]>
 export type shipment_containerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  storable?: boolean | Prisma.storableDefaultArgs<ExtArgs>
+  storable_container_idToshipment?: boolean | Prisma.storableDefaultArgs<ExtArgs>
+  storable_warehouse_idToshipment?: boolean | Prisma.shipment_container$storable_warehouse_idToshipmentArgs<ExtArgs>
   shipment?: boolean | Prisma.shipmentDefaultArgs<ExtArgs>
 }
 
 export type $shipment_containerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "shipment_container"
   objects: {
-    storable: Prisma.$storablePayload<ExtArgs>
+    storable_container_idToshipment: Prisma.$storablePayload<ExtArgs>
+    storable_warehouse_idToshipment: Prisma.$storablePayload<ExtArgs> | null
     shipment: Prisma.$shipmentPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     shipment_id: string
     container_id: string
+    warehouse_id: string | null
   }, ExtArgs["result"]["shipment_container"]>
   composites: {}
 }
@@ -830,7 +979,8 @@ readonly fields: shipment_containerFieldRefs;
  */
 export interface Prisma__shipment_containerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  storable<T extends Prisma.storableDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storableDefaultArgs<ExtArgs>>): Prisma.Prisma__storableClient<runtime.Types.Result.GetResult<Prisma.$storablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  storable_container_idToshipment<T extends Prisma.storableDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.storableDefaultArgs<ExtArgs>>): Prisma.Prisma__storableClient<runtime.Types.Result.GetResult<Prisma.$storablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  storable_warehouse_idToshipment<T extends Prisma.shipment_container$storable_warehouse_idToshipmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipment_container$storable_warehouse_idToshipmentArgs<ExtArgs>>): Prisma.Prisma__storableClient<runtime.Types.Result.GetResult<Prisma.$storablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   shipment<T extends Prisma.shipmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.shipmentDefaultArgs<ExtArgs>>): Prisma.Prisma__shipmentClient<runtime.Types.Result.GetResult<Prisma.$shipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -863,6 +1013,7 @@ export interface Prisma__shipment_containerClient<T, Null = never, ExtArgs exten
 export interface shipment_containerFieldRefs {
   readonly shipment_id: Prisma.FieldRef<"shipment_container", 'String'>
   readonly container_id: Prisma.FieldRef<"shipment_container", 'String'>
+  readonly warehouse_id: Prisma.FieldRef<"shipment_container", 'String'>
 }
     
 
@@ -1203,6 +1354,25 @@ export type shipment_containerDeleteManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many shipment_containers to delete.
    */
   limit?: number
+}
+
+/**
+ * shipment_container.storable_warehouse_idToshipment
+ */
+export type shipment_container$storable_warehouse_idToshipmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the storable
+   */
+  select?: Prisma.storableSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the storable
+   */
+  omit?: Prisma.storableOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.storableInclude<ExtArgs> | null
+  where?: Prisma.storableWhereInput
 }
 
 /**

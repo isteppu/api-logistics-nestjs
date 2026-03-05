@@ -36,10 +36,10 @@ export class CreateShipmentInput {
   @IsNotEmpty()
   port_id: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
-  @IsNotEmpty()
-  warehouse_id: string;
+  @IsOptional()
+  warehouse_id?: string;
 
   @Field()
   @IsString()
@@ -55,19 +55,25 @@ export class CreateShipmentInput {
   @IsString()
   customer_username: string;
 
-  @Field()
+  @Field({ nullable: true })
+  @IsOptional()
   @IsString()
-  issuer_username: string;
+  issuer_username?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   @IsOptional()
-  @IsNumber()
-  volumex?: number;
+  @IsString()
+  volumex?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field({ nullable: true })
   @IsOptional()
-  @IsNumber()
-  volumey?: number;
+  @IsString()
+  volumey?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  commodity?: string;
 
   @Field({ nullable: true })
   @IsOptional()
@@ -85,8 +91,23 @@ export class CreateShipmentInput {
   @Type(() => FinanceRowInput)    
   finances?: FinanceRowInput[];
 
-  @Field(() => [String], { nullable: true })
+  @Field(() => [ContainersAndWarehouses], { nullable: true })
   @IsOptional()
   @IsArray()
-  containers?: string[];
+  @ValidateNested({ each: true }) 
+  @Type(() => ContainersAndWarehouses)    
+  containers?: ContainersAndWarehouses[];
+}
+
+@InputType()
+export class ContainersAndWarehouses {
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  container_id: string;
+
+  @Field({ nullable: true})
+  @IsString()
+  @IsOptional() 
+  warehouse_id: string;
 }

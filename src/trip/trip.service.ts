@@ -8,8 +8,33 @@ import { NotificationService } from '../notifications/notifications.service.js';
 export class TripService {
   constructor(private prisma: PrismaService, private notificationService: NotificationService) { }
 
-  async create(data: CreateTripInput) {
+  private async ensureStorable(
+    tx: any,
+    id: string,
+    type: 'PORT' | 'WAREHOUSE' | 'CONTAINER',
+    description: string,
+    createdBy?: string
+  ) {
+    if (!id) return undefined;
+
+    const existing = await tx.storable.findUnique({ where: { id } });
+    if (!existing) {
+      await tx.storable.create({
+        data: {
+          id,
+          type,
+          description,
+          created_by: createdBy,
+          date_created: new Date(),
+        },
+      });
+    }
+    return id;
+  }
+
+  async create(data: CreateTripInput, user: any) {
     const { finances, ...tripData } = data;
+    const currentUserId = user.sub || user.id;
 
     const trip = await this.prisma.$transaction(async (tx) => {
       await tx.truck.upsert({
@@ -21,6 +46,16 @@ export class TripService {
           is_archived: 0
         },
       });
+
+      if (data.port_id) {
+        await this.ensureStorable(tx, data.port_id, 'PORT', `Port ${data.port_id}`, currentUserId);
+      }
+      if (data.container_id) {
+        await this.ensureStorable(tx, data.container_id, 'CONTAINER', `Container ${data.container_id}`, currentUserId);
+      }
+      if (data.warehouse_id) {
+        await this.ensureStorable(tx, data.warehouse_id, 'WAREHOUSE', `Warehouse ${data.warehouse_id}`, currentUserId);
+      }
 
       const newTrip = await tx.trip.create({
         data: {
@@ -67,7 +102,7 @@ export class TripService {
         const notificationDetails = `New Trip: ${trip.id} was added using truck ${trip.truck_id}, operator: ${truck?.operator ?? 'Unknown'}`;
 
         await this.notificationService.sendAlert({
-          name: "TRIP",
+          name: "New Trip Created",
           id: trip.id,
           details: notificationDetails
         }, []);
@@ -81,27 +116,31 @@ export class TripService {
 
   async update(id: string, data: UpdateTripInput) {
     const { id: _ignored, finances, ...tripData } = data;
+    const currentUserId = _ignored;
 
     const updatedTrip = await this.prisma.$transaction(async (tx) => {
+      if (tripData.port_id) {
+        await this.ensureStorable(tx, tripData.port_id, 'PORT', `Port ${tripData.port_id}`, currentUserId);
+      }
+      if (tripData.container_id) {
+        await this.ensureStorable(tx, tripData.container_id, 'CONTAINER', `Container ${tripData.container_id}`, currentUserId);
+      }
+      if (tripData.warehouse_id) {
+        await this.ensureStorable(tx, tripData.warehouse_id, 'WAREHOUSE', `Warehouse ${tripData.warehouse_id}`, currentUserId);
+      }
+
       const trip = await tx.trip.update({
         where: { id },
         data: tripData,
-        include: {
-          truck: true,
-          storable_trip_port_idTostorable: true,
-          storable_trip_container_idTostorable: true,
-          storable_trip_warehouse_idTostorable: true,
-        },
+        include: { truck: true }
       });
 
       if (finances) {
-        await Promise.all([
-          tx.trip_revenue.deleteMany({ where: { trip_id: id } }),
-          tx.trip_expense.deleteMany({ where: { trip_id: id } }),
-        ]);
+        await tx.trip_revenue.deleteMany({ where: { trip_id: id } });
+        await tx.trip_expense.deleteMany({ where: { trip_id: id } });
 
         const revenueRows = finances
-          .filter(f => f.title?.toLowerCase() === 'tariff rate')
+          .filter(f => f.title?.toLowerCase().includes('tariff rate'))
           .map(r => ({
             trip_id: id,
             value: r.value,
@@ -110,7 +149,7 @@ export class TripService {
           }));
 
         const expenseRows = finances
-          .filter(f => f.title?.toLowerCase() !== 'tariff rate')
+          .filter(f => !f.title?.toLowerCase().includes('tariff rate'))
           .map(e => ({
             trip_id: id,
             value: e.value,
@@ -123,26 +162,24 @@ export class TripService {
       }
 
       return trip;
-    }, {
-      timeout: 1000, // Increase timeout slightly for TiDB/Serverless
-    });
+    }, { timeout: 15000 });
+
+    const details = updatedTrip.date_delivered
+      ? `Trip ${id} Delivered on ${updatedTrip.date_delivered.toLocaleDateString()}`
+      : `Trip ${id} has been updated.`;
 
     try {
-      await this.notificationService.sendAlert(
-        {
-          name: 'TRIP',
-          id,
-          details: `Update Trip: ${id} has new updates!`,
-        },
-        []
-      );
+      await this.notificationService.sendAlert({
+        name: 'Trip Updated',
+        id: id,
+        details: details,
+      }, []);
     } catch (err) {
-      console.error('Trip update notification failed:', err);
+      console.error('Notification failed:', err);
     }
 
     return updatedTrip;
   }
-
 
   async findAllPaginated(skip: number, take: number) {
     const [items, totalCount] = await Promise.all([

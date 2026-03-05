@@ -24,13 +24,13 @@ export class CreateTripInput {
 
   @Field({ nullable: true })
   @IsOptional()
-  @IsInt()
-  volumex?: number;
+  @IsString()
+  volumex?: string;
 
   @Field({ nullable: true })
   @IsOptional()
-  @IsInt()
-  volumey?: number;
+  @IsString()
+  volumey?: string;
 
   @Field({ nullable: true })
   @IsOptional()
