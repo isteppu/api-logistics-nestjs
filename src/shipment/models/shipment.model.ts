@@ -41,8 +41,8 @@ export class ShipmentStorable {
   @Field(() => ID)
   id: string;
 
-  @Field()
-  type: string;
+  @Field({ nullable: true })
+  type?: string;
 
   @Field({ nullable: true })
   description?: string;
