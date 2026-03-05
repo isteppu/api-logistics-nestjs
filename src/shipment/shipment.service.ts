@@ -206,7 +206,6 @@ export class ShipmentService extends Shipment {
         customer_username,
         issuer_username,
         port_id,
-        actual_time_arrival,
         containers,
         finances,
         ...scalarData
@@ -225,7 +224,6 @@ export class ShipmentService extends Shipment {
         where: { id },
         data: {
           ...scalarData,
-          status: actual_time_arrival?.toISOString() ? 'ARRIVED' : 'PENDING',
 
           ...(customerId && {
             user_shipment_customer_idTouser: {
