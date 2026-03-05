@@ -17,6 +17,7 @@ export class Shipment {
   @Field({ nullable: true }) status?: string;
   @Field({ nullable: true }) volumex?: string;
   @Field({ nullable: true }) volumey?: string;
+  @Field({ nullable: true }) commodity?: string;
   @Field({ nullable: true }) estimated_time_arrival?: Date;
   @Field({ nullable: true }) actual_time_arrival?: Date;
   @Field(() => User, { nullable: true }) customer?: User;
