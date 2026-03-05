@@ -83,6 +83,7 @@ export class ShipmentService extends Shipment {
           status: 'PENDING',
           volumex: data.volumex,
           volumey: data.volumey,
+          commodity: data.commodity,
           customer_id: customerId,
           issuer_id: user.sub || user.id,
           shipping_line: data.shipping_line,
@@ -402,6 +403,7 @@ export class ShipmentService extends Shipment {
       { shipping_line: { contains: query } },
       { status: { contains: query } },
       { contract_no: { contains: query } },
+      { commodity: { contains: query } },
       {
         user_shipment_customer_idTouser: {
           username: { contains: query },
