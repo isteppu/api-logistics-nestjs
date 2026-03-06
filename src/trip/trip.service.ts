@@ -9,32 +9,42 @@ export class TripService {
   constructor(private prisma: PrismaService, private notificationService: NotificationService) { }
 
   private async ensureStorable(
-    tx: any,
+    prisma: any,
     id: string,
     type: 'PORT' | 'WAREHOUSE' | 'CONTAINER',
     description: string,
     createdBy?: string
   ) {
-    if (!id) return undefined;
-
-    const existing = await tx.storable.findUnique({ where: { id } });
-    if (!existing) {
-      await tx.storable.create({
-        data: {
-          id,
-          type,
-          description,
-          created_by: createdBy,
-          date_created: new Date(),
-        },
-      });
-    }
-    return id;
+    if (!id) return;
+  
+    await prisma.storable.upsert({
+      where: { id },
+      update: {},
+      create: {
+        id,
+        type,
+        description,
+        created_by: createdBy,
+        date_created: new Date(),
+      },
+    });
   }
 
   async create(data: CreateTripInput, user: any) {
     const { finances, ...tripData } = data;
     const currentUserId = user.sub || user.id;
+
+    await Promise.all([
+      data.port_id
+        ? this.ensureStorable(this.prisma, data.port_id, 'PORT', `Port ${data.port_id}`, currentUserId)
+        : null,
+      data.container_id
+        ? this.ensureStorable(this.prisma, data.container_id, 'CONTAINER', `Container ${data.container_id}`, currentUserId)
+        : null,
+      data.warehouse_id
+        ? this.ensureStorable(this.prisma, data.warehouse_id, 'WAREHOUSE', `Warehouse ${data.warehouse_id}`, currentUserId)
+        : null,
+    ]);
 
     const trip = await this.prisma.$transaction(async (tx) => {
       await tx.truck.upsert({
@@ -46,17 +56,7 @@ export class TripService {
           is_archived: 0
         },
       });
-
-      if (data.port_id) {
-        await this.ensureStorable(tx, data.port_id, 'PORT', `Port ${data.port_id}`, currentUserId);
-      }
-      if (data.container_id) {
-        await this.ensureStorable(tx, data.container_id, 'CONTAINER', `Container ${data.container_id}`, currentUserId);
-      }
-      if (data.warehouse_id) {
-        await this.ensureStorable(tx, data.warehouse_id, 'WAREHOUSE', `Warehouse ${data.warehouse_id}`, currentUserId);
-      }
-
+      
       const newTrip = await tx.trip.create({
         data: {
           id: crypto.randomUUID(),
@@ -118,17 +118,19 @@ export class TripService {
     const { id: _ignored, finances, ...tripData } = data;
     const currentUserId = _ignored;
 
-    const updatedTrip = await this.prisma.$transaction(async (tx) => {
-      if (tripData.port_id) {
-        await this.ensureStorable(tx, tripData.port_id, 'PORT', `Port ${tripData.port_id}`, currentUserId);
-      }
-      if (tripData.container_id) {
-        await this.ensureStorable(tx, tripData.container_id, 'CONTAINER', `Container ${tripData.container_id}`, currentUserId);
-      }
-      if (tripData.warehouse_id) {
-        await this.ensureStorable(tx, tripData.warehouse_id, 'WAREHOUSE', `Warehouse ${tripData.warehouse_id}`, currentUserId);
-      }
+    await Promise.all([
+      data.port_id
+        ? this.ensureStorable(this.prisma, data.port_id, 'PORT', `Port ${data.port_id}`, currentUserId)
+        : null,
+      data.container_id
+        ? this.ensureStorable(this.prisma, data.container_id, 'CONTAINER', `Container ${data.container_id}`, currentUserId)
+        : null,
+      data.warehouse_id
+        ? this.ensureStorable(this.prisma, data.warehouse_id, 'WAREHOUSE', `Warehouse ${data.warehouse_id}`, currentUserId)
+        : null,
+    ]);
 
+    const updatedTrip = await this.prisma.$transaction(async (tx) => {
       const trip = await tx.trip.update({
         where: { id },
         data: tripData,
