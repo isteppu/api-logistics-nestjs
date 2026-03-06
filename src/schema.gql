@@ -50,6 +50,7 @@ type Shipment {
   status: String
   volumex: String
   volumey: String
+  commodity: String
   estimated_time_arrival: DateTime
   actual_time_arrival: DateTime
   customer: User
@@ -66,7 +67,7 @@ type ShipmentResponse {
 
 type ShipmentStorable {
   id: ID!
-  type: String!
+  type: String
   description: String
   warehouse_id: String
   date_created: DateTime!
@@ -109,8 +110,8 @@ type Trip {
   id: ID!
   commodity: String
   base_rate: Float
-  volumex: Float
-  volumey: Float
+  volumex: String
+  volumey: String
   truck: Truck
   port: Storable
   container: Storable
@@ -167,6 +168,7 @@ input CreateShipmentInput {
   issuer_username: String
   volumex: String
   volumey: String
+  commodity: String
   actual_time_arrival: DateTime
   status: String
   finances: [FinanceRowInput!]
@@ -198,6 +200,7 @@ input UpdateShipmentInput {
   issuer_username: String
   volumex: String
   volumey: String
+  commodity: String
   actual_time_arrival: DateTime
   status: String
   finances: [FinanceRowInput!]

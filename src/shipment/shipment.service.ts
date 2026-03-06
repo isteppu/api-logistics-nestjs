@@ -17,18 +17,18 @@ export class ShipmentService extends Shipment {
   ) {
     if (!id) return undefined;
 
-    const existing = await tx.storable.findUnique({ where: { id } });
-    if (!existing) {
-      await tx.storable.create({
-        data: {
-          id,
-          type,
-          description,
-          created_by: createdBy,
-          date_created: new Date(),
-        },
-      });
-    }
+    await tx.storable.upsert({
+      where: { id },
+      update: {}, // nothing if exists
+      create: {
+        id,
+        type,
+        description,
+        created_by: createdBy,
+        date_created: new Date(),
+      },
+    });
+
     return id;
   }
 
@@ -180,8 +180,8 @@ export class ShipmentService extends Shipment {
 
       return shipment;
     }, {
-        timeout: 30000,
-        maxWait: 5000,
+      timeout: 30000,
+      maxWait: 5000,
     })
 
     const usernames: string[] = [data.customer_username, data.issuer_username].filter(Boolean) as string[];
@@ -201,162 +201,215 @@ export class ShipmentService extends Shipment {
   }
 
   async update(id: string, data: UpdateShipmentInput, user: any) {
-    return this.prisma.$transaction(async (tx) => {
-      const {
-        customer_username,
-        issuer_username,
-        port_id,
-        containers,
-        finances,
-        ...scalarData
-      } = data;
+    const {
+      customer_username,
+      issuer_username,
+      port_id,
+      containers,
+      finances,
+      actual_time_arrival,
+      ...scalarData
+    } = data;
 
-      let customerId: string | undefined;
-      let issuerId = user.sub || user.id;
+    const issuerId = user.sub || user.id;
 
-      if (customer_username) {
-        const customer = await tx.user.findUnique({ where: { username: customer_username } });
-        if (!customer) throw new BadRequestException(`Customer '${customer_username}' not found`);
-        customerId = customer.id;
-      }
+    let customerId: string | undefined;
 
-      const shipment = await tx.shipment.update({
-        where: { id },
-        data: {
-          ...scalarData,
-
-          ...(customerId && {
-            user_shipment_customer_idTouser: {
-              connect: { id: customerId },
-            },
-          }),
-
-          ...(port_id && {
-            storable_shipment_port_idToStorable: {
-              connect: {
-                id: await this.ensureStorable(
-                  tx,
-                  port_id,
-                  'PORT',
-                  `${port_id} port`,
-                  issuerId
-                )
-              },
-            },
-          }),
-
-
-        },
+    if (customer_username) {
+      const customer = await this.prisma.user.findUnique({
+        where: { username: customer_username },
       });
 
-      if (containers) {
-        const incomingContainerIds = containers.map(c => c.container_id);
+      if (!customer) {
+        throw new BadRequestException(`Customer '${customer_username}' not found`);
+      }
 
-        for (const item of containers) {
-          await this.ensureStorable(tx, item.container_id, 'CONTAINER', `Container ${item.container_id}`, issuerId);
+      customerId = customer.id;
+    }
+
+    if (port_id) {
+      await this.ensureStorable(
+        this.prisma,
+        port_id,
+        'PORT',
+        `${port_id} port`,
+        issuerId
+      );
+    }
+
+    if (containers?.length) {
+      await Promise.all(
+        containers.flatMap((item) => {
+          const tasks: Promise<any>[] = [];
+
+          tasks.push(
+            this.ensureStorable(
+              this.prisma,
+              item.container_id,
+              'CONTAINER',
+              `Container ${item.container_id}`,
+              issuerId
+            )
+          );
+
           if (item.warehouse_id) {
-            await this.ensureStorable(tx, item.warehouse_id, 'WAREHOUSE', `Warehouse ${item.warehouse_id}`, issuerId);
+            tasks.push(
+              this.ensureStorable(
+                this.prisma,
+                item.warehouse_id,
+                'WAREHOUSE',
+                `Warehouse ${item.warehouse_id}`,
+                issuerId
+              )
+            );
           }
-        }
 
-        await tx.shipment_container.deleteMany({
-          where: {
-            shipment_id: id,
-            container_id: { notIn: incomingContainerIds },
+          return tasks;
+        })
+      );
+    }
+
+    return this.prisma.$transaction(
+      async (tx) => {
+        const shipment = await tx.shipment.update({
+          where: { id },
+          data: {
+            ...scalarData,
+
+            ...(customerId && {
+              user_shipment_customer_idTouser: {
+                connect: { id: customerId },
+              },
+            }),
+
+            actual_time_arrival: actual_time_arrival
+              ? new Date(actual_time_arrival)
+              : null,
+
+            ...(port_id && {
+              storable_shipment_port_idToStorable: {
+                connect: { id: port_id },
+              },
+            }),
           },
         });
 
-        for (const item of containers) {
-          await tx.shipment_container.upsert({
+
+        if (containers?.length) {
+          const incomingContainerIds = containers.map((c) => c.container_id);
+
+          await tx.shipment_container.deleteMany({
             where: {
-              shipment_id_container_id: {
-                shipment_id: id,
-                container_id: item.container_id,
-              },
-            },
-            update: { warehouse_id: item.warehouse_id || null },
-            create: {
               shipment_id: id,
-              container_id: item.container_id,
-              warehouse_id: item.warehouse_id || null,
+              container_id: { notIn: incomingContainerIds },
             },
           });
+
+          await Promise.all(
+            containers.map((item) =>
+              tx.shipment_container.upsert({
+                where: {
+                  shipment_id_container_id: {
+                    shipment_id: id,
+                    container_id: item.container_id,
+                  },
+                },
+                update: {
+                  warehouse_id: item.warehouse_id || null,
+                },
+                create: {
+                  shipment_id: id,
+                  container_id: item.container_id,
+                  warehouse_id: item.warehouse_id || null,
+                },
+              })
+            )
+          );
         }
-      }
 
-      if (finances?.length) {
-        for (const row of finances) {
-          const isRevenue = row.title.toLowerCase().includes('billing');
+        if (finances?.length) {
+          for (const row of finances) {
+            const isRevenue = row.title.toLowerCase().includes('billing');
 
-          if (isRevenue) {
-            const existing = await tx.shipment_revenues.findFirst({
-              where: {
-                shipment_id: shipment.id,
-                shipment_revenue: { revenue_map: row.title },
-              },
-              include: { shipment_revenue: true },
-            });
-
-            if (existing) {
-              await tx.shipment_revenue.update({
-                where: { id: existing.revenues_id },
-                data: { value: row.value, type: row.type },
-              });
-            } else {
-              const rev = await tx.shipment_revenue.create({
-                data: {
-                  value: row.value,
-                  revenue_map: row.title,
-                  type: row.type,
-                },
-              });
-
-              await tx.shipment_revenues.create({
-                data: {
+            if (isRevenue) {
+              const existing = await tx.shipment_revenues.findFirst({
+                where: {
                   shipment_id: shipment.id,
-                  revenues_id: rev.id,
+                  shipment_revenue: {
+                    revenue_map: row.title,
+                  },
                 },
               });
-            }
-          } else {
-            const existing = await tx.shipment_expenses.findFirst({
-              where: {
-                shipment_id: shipment.id,
-                shipment_expense: { expense_map: row.title },
-              },
-              include: { shipment_expense: true },
-            });
 
-            if (existing) {
-              await tx.shipment_expense.update({
-                where: { id: existing.expenses_id },
-                data: { value: row.value, type: row.type },
-              });
+              if (existing) {
+                await tx.shipment_revenue.update({
+                  where: { id: existing.revenues_id },
+                  data: {
+                    value: row.value,
+                    type: row.type,
+                  },
+                });
+              } else {
+                const rev = await tx.shipment_revenue.create({
+                  data: {
+                    value: row.value,
+                    revenue_map: row.title,
+                    type: row.type,
+                  },
+                });
+
+                await tx.shipment_revenues.create({
+                  data: {
+                    shipment_id: shipment.id,
+                    revenues_id: rev.id,
+                  },
+                });
+              }
             } else {
-              const exp = await tx.shipment_expense.create({
-                data: {
-                  value: row.value,
-                  expense_map: row.title,
-                  type: row.type,
+              const existing = await tx.shipment_expenses.findFirst({
+                where: {
+                  shipment_id: shipment.id,
+                  shipment_expense: {
+                    expense_map: row.title,
+                  },
                 },
               });
 
-              await tx.shipment_expenses.create({
-                data: {
-                  shipment_id: shipment.id,
-                  expenses_id: exp.id,
-                },
-              });
+              if (existing) {
+                await tx.shipment_expense.update({
+                  where: { id: existing.expenses_id },
+                  data: {
+                    value: row.value,
+                    type: row.type,
+                  },
+                });
+              } else {
+                const exp = await tx.shipment_expense.create({
+                  data: {
+                    value: row.value,
+                    expense_map: row.title,
+                    type: row.type,
+                  },
+                });
+
+                await tx.shipment_expenses.create({
+                  data: {
+                    shipment_id: shipment.id,
+                    expenses_id: exp.id,
+                  },
+                });
+              }
             }
           }
         }
-      }
 
-      return shipment;
-    },
+        return shipment;
+      },
       {
-        timeout: 15000,
-      });
+        maxWait: 20000,
+        timeout: 30000,
+      }
+    );
   }
 
   async findAll(skip: number, take: number) {

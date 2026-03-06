@@ -1,11 +1,12 @@
 import { InputType, Field, Float } from '@nestjs/graphql';
 import { IsString, IsNumber, IsArray, ValidateNested, IsIn } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 @InputType()
 export class FinanceRowInput {
   @Field()
   @IsString() // Add this
+  @Transform(({ value }) => value?.toUpperCase())
   title: string;
 
   @Field()

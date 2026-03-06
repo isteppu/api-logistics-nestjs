@@ -65,7 +65,7 @@ export class DownloadService {
                 );
 
                 const totalExpense = expenses
-                    .filter(e => e.shipment_expense?.expense_map?.toLowerCase().includes('truck'))
+                    // .filter(e => e.shipment_expense?.expense_map?.toLowerCase().includes('truck'))
                     .reduce((sum, e) =>
                         sum + Number(e.shipment_expense?.value || 0), 0
                     );
@@ -89,9 +89,8 @@ export class DownloadService {
                     'ATA': s.actual_time_arrival,
                     'Entry No': s.entry_no,
                     'Registry No.': s.registry_no,
-                    'Containers': containers.join(', '),
-                    'Warehouse': warehouses.join(', '),
-                    '': '',
+                    'Containers': containers.map(c => c.container_id).join(', '),
+                    'Warehouse': warehouses.map(w => w.warehouse_id).join(', '),
                     'Billing': totalIncome.toFixed(2),
                     ...expMap,
                     'Net': net.toFixed(2),
