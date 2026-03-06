@@ -21,12 +21,12 @@ export class AuditService {
             where: {
                 is_archived: 0,
                 OR: [
-                    { date_issued: { gte: yearStart, lt: yearEnd } },
+                    { estimated_time_arrival: { gte: yearStart, lt: yearEnd } },
                 ]
             },
             select: {
                 id: true,
-                date_issued: true
+                estimated_time_arrival: true
             }
         });
 
@@ -64,7 +64,7 @@ export class AuditService {
             });
 
             for (const shipment of shipments) {
-                const date = shipment.date_issued;
+                const date = shipment.estimated_time_arrival;
                 if (!date) continue;
 
                 const month = months[new Date(date).getMonth()];
