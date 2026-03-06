@@ -65,7 +65,7 @@ export class DownloadService {
                 );
 
                 const totalExpense = expenses
-                    .filter(e => e.shipment_expense?.expense_map?.toLowerCase() !== 'trucking (vat)')
+                    .filter(e => e.shipment_expense?.expense_map?.toLowerCase().includes('truck'))
                     .reduce((sum, e) =>
                         sum + Number(e.shipment_expense?.value || 0), 0
                     );
