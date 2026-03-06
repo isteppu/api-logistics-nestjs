@@ -21,19 +21,19 @@ export class DownloadService {
     async getShipmentCsvData(dateFrom: string, dateTo: string, consignee: string) {
         const shipments = await this.prisma.shipment.findMany({
             where: {
-                date_issued: {
+                estimated_time_arrival: {
                     gte: new Date(dateFrom),
                     lte: new Date(dateTo),
                 },
                 customer_id: consignee
             },
-            orderBy: { date_issued: 'desc' }
+            orderBy: { estimated_time_arrival: 'desc' }
         });
 
         const csvRows = await Promise.all(
             shipments.map(async (s) => {
 
-                const [revenues, expenses, containers] = await Promise.all([
+                const [revenues, expenses, containers, warehouses] = await Promise.all([
                     this.prisma.shipment_revenues.findMany({
                         where: { shipment_id: s.id },
                         include: { shipment_revenue: true }
@@ -49,6 +49,14 @@ export class DownloadService {
                         select: {
                             container_id: true,
                         }
+                    }),
+                    this.prisma.shipment_container.findMany({
+                        where: {
+                            shipment_id: s.id
+                        },
+                        select: {
+                            warehouse_id: true,
+                        }
                     })
                 ]);
 
@@ -56,12 +64,15 @@ export class DownloadService {
                     sum + Number(r.shipment_revenue?.value || 0), 0
                 );
 
-                const totalExpense = expenses.reduce((sum, e) =>
-                    sum + Number(e.shipment_expense?.value || 0), 0
-                );
+                const totalExpense = expenses
+                    .filter(e => e.shipment_expense?.expense_map?.toLowerCase() !== 'trucking (vat)')
+                    .reduce((sum, e) =>
+                        sum + Number(e.shipment_expense?.value || 0), 0
+                    );
 
                 const expMap = expenses.reduce((acc, e) => {
                     if (!e.shipment_expense) return acc;
+
 
                     acc[e.shipment_expense?.expense_map!] = (acc[e.shipment_expense?.expense_map!] || 0) + Number(e.shipment_expense?.value);
                     return acc;
@@ -78,8 +89,8 @@ export class DownloadService {
                     'ATA': s.actual_time_arrival,
                     'Entry No': s.entry_no,
                     'Registry No.': s.registry_no,
-                    'Containers': containers,
-                    'Warehouse': s.warehouse_id,
+                    'Containers': containers.join(', '),
+                    'Warehouse': warehouses.join(', '),
                     '': '',
                     'Billing': totalIncome.toFixed(2),
                     ...expMap,
@@ -208,7 +219,7 @@ export class DownloadService {
     formatMatrixToCsv(rows: string[][]) {
         return rows.map(r => r.map(cell => `"${cell || ''}"`).join(',')).join('\n');
     }
- 
+
 
     convertToCsv(data: any[]) {
         if (data.length === 0) return '';
